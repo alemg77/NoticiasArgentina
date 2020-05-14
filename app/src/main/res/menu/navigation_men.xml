@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigationMenuUltimasNoticias"
+            android:title="Ultimas Noticias"
+            />
+        <item
+            android:id="@+id/navigationMenuNoticiasBarriales"
+            android:title="Noticias Barriales"
+            />
+    </group>
+
+    <item android:title="Secciones">
+        <menu >
+            <item
+                android:id="@+id/navigationMenuNegocios"
+                android:title="Negocios"
+                android:icon="@drawable/ic_business_black_24dp"
+                />
+            <item
+                android:id="@+id/navigationMenuEntretenimiento"
+                android:title="Entretenimiento"
+                />
+            <item
+                android:id="@+id/navigationMenuSalud"
+                android:title="Salud"
+                />
+            <item
+                android:id="@+id/navigationMenuTecnologia"
+                android:title="Tecnología"
+                />
+            <item
+                android:id="@+id/navigationMenuCiencia"
+                android:title="Ciencia"
+                />
+        </menu>
+    </item>
+</menu>
