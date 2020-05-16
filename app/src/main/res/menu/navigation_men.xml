@@ -18,6 +18,12 @@
                 android:title="Negocios"
                 android:icon="@drawable/ic_business_black_24dp"
                 />
+
+            <item
+                android:id="@+id/navigationMenuDeportes"
+                android:title="Deportes"
+                />
+
             <item
                 android:id="@+id/navigationMenuEntretenimiento"
                 android:title="Entretenimiento"
@@ -37,3 +43,4 @@
         </menu>
     </item>
 </menu>
+

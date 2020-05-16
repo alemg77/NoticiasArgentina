@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -13,11 +14,20 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.Modelo.Noticia;
+import kalitero.software.noticiasargentinas.Vista.MainActivity;
+import kalitero.software.noticiasargentinas.Vista.NoticiaAdapter;
 
 public class BuscarNoticias extends AppCompatActivity {
 
@@ -66,9 +76,24 @@ public class BuscarNoticias extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        ArrayList<Noticia> listaDeNoticias = new ArrayList<>();
                         try {
-                            listener.llegoPaqueteDeNoticias(new JSONObject(response));
-                        } catch (JSONException e) {
+                            JSONObject jsonNoticias = new JSONObject(response);
+                            JSONArray jsonArticulos = jsonNoticias.getJSONArray("articles");
+                            for (int i = 0; i < jsonArticulos.length(); i++) {
+                                JSONObject jsonNoticia = (JSONObject) jsonArticulos.get(i);
+                                JSONObject jsonFuente = (JSONObject) jsonNoticia.get("source");
+                                String noticiaTitulo = jsonNoticia.getString("title");
+                                String noticiaAutor = jsonNoticia.getString("author");
+                                String noticiaFuente = jsonFuente.getString("name");
+                                String noticiaDescripcion = jsonNoticia.getString("description");
+                                String urlNoticia = jsonNoticia.getString("url");
+                                String urlToImage = jsonNoticia.getString("urlToImage");
+                                Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date());
+                                listaDeNoticias.add(noticia);
+                            }
+                            listener.llegoPaqueteDeNoticias(new ListaNoticias(listaDeNoticias));
+                        } catch (Exception e) {
                             e.printStackTrace();
                             listener.errorPedidoNoticia();
                         }
