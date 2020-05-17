@@ -8,32 +8,39 @@
     tools:context=".Vista.MainActivity"
     android:id="@+id/activityMainDrawerLayout">
 
-   <FrameLayout
+   <androidx.constraintlayout.widget.ConstraintLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:id="@+id/activityMainContenedorFragment"/>
+       android:background="#000000"
+       tools:context=".MainActivity">
 
-   <com.google.android.material.appbar.AppBarLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:background="@drawable/side_nav_bar">
+      <include
+          android:id="@+id/MainActivityToolbar"
+          layout = "@layout/toolbar"
+          app:layout_constraintTop_toTopOf="parent"
+          />
 
-      <androidx.appcompat.widget.Toolbar
-          android:layout_width="match_parent"
-          android:layout_height="?attr/actionBarSize"/>
-   </com.google.android.material.appbar.AppBarLayout>
+      <FrameLayout
+          android:id="@+id/activityMainContenedorFragment"
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/MainActivityToolbar" />
+
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
 
    <com.google.android.material.navigation.NavigationView
        android:id="@+id/activityMainNavigationView"
        android:layout_width="wrap_content"
        android:layout_height="match_parent"
-       android:layout_gravity="start"
+       android:layout_gravity="start|left"
        app:headerLayout="@layout/nav_header_main"
        android:background="@drawable/side_nav_bar"
-       app:menu="@menu/navigation_men">
-
-   </com.google.android.material.navigation.NavigationView>
-
+       app:menu="@menu/navigation_men" />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
+

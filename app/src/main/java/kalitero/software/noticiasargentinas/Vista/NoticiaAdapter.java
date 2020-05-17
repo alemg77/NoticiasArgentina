@@ -74,47 +74,46 @@ public class NoticiaAdapter extends RecyclerView.Adapter {
                 textViewTitulo.setText(titulo);
             }
             Picasso.get().load(unaNoticia.getUrlImagen()).into(imageView);
-            /*
             String fuente = unaNoticia.getFuente();
             switch (fuente ) {
                 case "La Nacion":
-                    Picasso.with((Context)listener).load(R.drawable.logo_lanacion).into(logo);
+                    Picasso.get().load(R.drawable.logo_lanacion).into(logo);
                     break;
 
                 case "Tntsports.com":
-                    Picasso.with((Context)listener).load(R.drawable.logo_tntsports).into(logo);
+                    Picasso.get().load(R.drawable.logo_tntsports).into(logo);
                     break;
 
                 case "Clarin.com":
-                    Picasso.with((Context)listener).load(R.drawable.logo_clarin).into(logo);
+                    Picasso.get().load(R.drawable.logo_clarin).into(logo);
                     break;
 
                 case "Eldia.com":
-                    Picasso.with((Context)listener).load(R.drawable.logo_eldia).into(logo);
+                    Picasso.get().load(R.drawable.logo_eldia).into(logo);
                     break;
 
                 case "Infobae":
-                    Picasso.with((Context)listener).load(R.drawable.logo_infobae).into(logo);
+                    Picasso.get().load(R.drawable.logo_infobae).into(logo);
                     break;
 
                 case "Tycsports.com":
-                    Picasso.with((Context)listener).load(R.drawable.logo_tycsports).into(logo);
+                    Picasso.get().load(R.drawable.logo_tycsports).into(logo);
                     break;
 
                 case "Ole.com.ar":
-                    Picasso.with((Context)listener).load(R.drawable.logo_ole).into(logo);
+                    Picasso.get().load(R.drawable.logo_ole).into(logo);
                     break;
 
                 case "Mdzol.com":
-                    Picasso.with((Context)listener).load(R.drawable.logo_mdzol).into(logo);
+                    Picasso.get().load(R.drawable.logo_mdzol).into(logo);
                     break;
 
                 case "Marca":
-                    Picasso.with((Context)listener).load(R.drawable.logo_marca).into(logo);
+                    Picasso.get().load(R.drawable.logo_marca).into(logo);
                     break;
 
                 case "El Mundo":
-                    Picasso.with((Context)listener).load(R.drawable.logo_elmundo).into(logo);
+                    Picasso.get().load(R.drawable.logo_elmundo).into(logo);
                     break;
 
                 default:
@@ -122,7 +121,6 @@ public class NoticiaAdapter extends RecyclerView.Adapter {
                     break;
             }
 
-             */
         }
     }
 
