@@ -1,5 +1,6 @@
 package kalitero.software.noticiasargentinas.Vista;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -169,6 +170,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void selleccion(Noticia noticia) {
         Log.d(TAG, "Selecciono una noticia");
         // TODO: URGENTE: HAY QUE MUESTRA LA NOTICIA COMPLETA EN EL FRAGMENT.
-        Toast.makeText(this, noticia.getDescripcion(),Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, noticia.getDescripcion(),Toast.LENGTH_LONG).show();
+        Intent unItent = new Intent(this,DetalleNoticiasActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(DetalleNoticiasFragment.NOTICIA,noticia);
+
+        unItent.putExtras(bundle);
+
+        startActivity(unItent);
+
     }
 }

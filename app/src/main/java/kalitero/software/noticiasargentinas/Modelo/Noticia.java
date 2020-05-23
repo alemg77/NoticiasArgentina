@@ -1,8 +1,9 @@
 package kalitero.software.noticiasargentinas.Modelo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Noticia {
+public class Noticia implements Serializable {
     private String fuente;
     private String autor;
     private String titulo;
