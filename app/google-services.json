@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "390501431539",
+    "firebase_url": "https://noticiasargentinas-1fa02.firebaseio.com",
+    "project_id": "noticiasargentinas-1fa02",
+    "storage_bucket": "noticiasargentinas-1fa02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390501431539:android:473558ab1857abe0be1f86",
+        "android_client_info": {
+          "package_name": "kalitero.software.noticiasargentinas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "390501431539-3b25lol4el3riil5084pf6pnafup59bt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kalitero.software.noticiasargentinas",
+            "certificate_hash": "05c676398281adc996b3d737e8ba4ccfec9efc9a"
+          }
+        },
+        {
+          "client_id": "390501431539-o1apv5bpk2nvg9juir4lfg7o6l41c4v2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB690zsdg3216C-SM58ts7KZkThyWL2Usw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "390501431539-o1apv5bpk2nvg9juir4lfg7o6l41c4v2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

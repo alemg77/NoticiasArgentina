@@ -1,7 +1,11 @@
-package kalitero.software.noticiasargentinas.Vista;
+package kalitero.software.noticiasargentinas;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -21,12 +25,17 @@ import com.google.android.material.navigation.NavigationView;
 
 
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticias;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
-import kalitero.software.noticiasargentinas.R;
+import kalitero.software.noticiasargentinas.Vista.DetalleNoticiasActivity;
+import kalitero.software.noticiasargentinas.Vista.DetalleNoticiasFragment;
+import kalitero.software.noticiasargentinas.Vista.FragmentListaNoticiasCompacto;
+import kalitero.software.noticiasargentinas.Vista.FragmentLogin;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, FragmentListaNoticiasCompacto.Aviso {
 
@@ -47,7 +56,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Rosario3.com
         Tn.com.ar
         Cadena3.com
+        Elintransigente.com
      */
+
+    void Borrar () {
+
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md;
+
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                Log.e(TAG, something);
+            }
+        }
+
+        catch (PackageManager.NameNotFoundException e1) {
+            // TODO Auto-generated catch block
+            Log.e(TAG, e1.toString());
+        }
+
+        catch (NoSuchAlgorithmException e) {
+            // TODO Auto-generated catch block
+            Log.e(TAG, e.toString());
+        }
+        catch (Exception e){
+            Log.e(TAG, e.toString());
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.MainActivityToolbar);
         setSupportActionBar(toolbar);
 
+        Borrar();
 
         Log.d(TAG, "*************** Inicio del programa Noticias Argentinas ********************************");
 
@@ -143,8 +182,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawerLayout.openDrawer(Gravity.LEFT);
                 break;
 
-            case R.id.actionbar_Item2:
-                Toast.makeText(this, "Toma por curioso!!", Toast.LENGTH_LONG).show();
+            case R.id.actionbar_usuario:
+                getSupportFragmentManager().beginTransaction().addToBackStack(null)
+                        .replace(R.id.activityMainContenedorFragment, new FragmentLogin()).commit();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -171,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "Selecciono una noticia");
         // TODO: URGENTE: HAY QUE MUESTRA LA NOTICIA COMPLETA EN EL FRAGMENT.
         //Toast.makeText(this, noticia.getDescripcion(),Toast.LENGTH_LONG).show();
-        Intent unItent = new Intent(this,DetalleNoticiasActivity.class);
+        Intent unItent = new Intent(this, DetalleNoticiasActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(DetalleNoticiasFragment.NOTICIA,noticia);
 

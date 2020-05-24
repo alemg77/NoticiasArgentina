@@ -6,4 +6,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="stringContactenos">Contáctenos</string>
+    <string name="ingresarConMail">Ingresar con Mail</string>
+    <string name="ingresarConFacebook">IngresarConFacebook</string>
+    <string name="facebook_app_id">261760201692288</string> <string name="fb_login_protocol_scheme">fb261760201692288</string>
 </resources>

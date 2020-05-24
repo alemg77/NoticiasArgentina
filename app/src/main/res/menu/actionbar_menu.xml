@@ -9,10 +9,14 @@
         app:showAsAction="always"
         />
 
+    <item android:id="@+id/actionbar_usuario"
+        android:title="Usuario"
+        app:showAsAction="never"
+        />
+
     <item
-        android:id="@+id/actionbar_Item2"
-        android:title="Item2"
-        android:icon="@drawable/ic_cloud_queue_black_24dp"
+        android:id="@+id/actionbar_contacto"
+        android:title="@string/stringContactenos"
         app:showAsAction="never"
         />
 
