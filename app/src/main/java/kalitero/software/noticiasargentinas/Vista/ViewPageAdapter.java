@@ -1,0 +1,41 @@
+package kalitero.software.noticiasargentinas.Vista;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import kalitero.software.noticiasargentinas.Modelo.Noticia;
+import kalitero.software.noticiasargentinas.databinding.FragmentNoticiasBarrialesBinding;
+
+public class ViewPageAdapter extends FragmentStatePagerAdapter {
+
+    //Lista de fragmentos
+    private List<DetalleNoticiasFragment> listaDeFragments;
+
+    public ViewPageAdapter(FragmentManager fm, List<Noticia> noticiasAMostrar) {
+        super(fm);
+        this.listaDeFragments = new ArrayList<>();
+
+        for (Noticia noticia : noticiasAMostrar) {
+            DetalleNoticiasFragment fragment = DetalleNoticiasFragment.dameUnFragment(noticia);
+            listaDeFragments.add(fragment);
+        }
+    }
+
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
+        return listaDeFragments.get(position);
+    }
+
+    @Override
+    public int getCount() {
+        return listaDeFragments.size();
+    }
+}
+
+
