@@ -28,7 +28,6 @@ public class FragmentListaNoticiasCompacto extends Fragment implements NoticiaAd
         // Required empty public constructor
     }
 
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -54,12 +53,12 @@ public class FragmentListaNoticiasCompacto extends Fragment implements NoticiaAd
     }
 
     @Override
-    public void recyclerViewClick(Noticia noticia) {
-        listener.selleccion(noticia);                   // Me llego del Recyclerview y se lo paso a la actividad.
+    public void recyclerViewClick(int posicion) {
+        listener.selleccion(posicion);                   // Me llego del Recyclerview y se lo paso a la actividad.
     }
 
     public interface Aviso {
-        void selleccion (Noticia noticia);
+        void selleccion (int posicion);
     }
 
 }

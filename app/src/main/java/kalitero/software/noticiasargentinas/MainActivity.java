@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String TAG = getClass().toString();
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private ListaNoticias listaNoticias; // La ultima lista de noticias que envie al Fragmente que tiene el Recycler view
 
     // TODO: Faltan estos logos:
     /*
@@ -196,9 +197,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
+
+
     @Override
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
+        this.listaNoticias = listaNoticias;
         pegarFragment(new FragmentListaNoticiasCompacto(), R.id.activityMainContenedorFragment, listaNoticias);
         //pegarFragment(new ViewPagerNoticiaFragment(), R.id.activityMainContenedorFragment, listaNoticias);
     }
@@ -209,17 +213,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void selleccion(Noticia noticia) {
+    public void selleccion(int posicion) {
         Log.d(TAG, "Selecciono una noticia");
-        // TODO: URGENTE: HAY QUE MUESTRA LA NOTICIA COMPLETA EN EL FRAGMENT.
+
+        listaNoticias.setPosicionInicial(posicion);
+        pegarFragment(new ViewPagerNoticiaFragment(), R.id.activityMainContenedorFragment, listaNoticias);
+
+        /*
         //Toast.makeText(this, noticia.getDescripcion(),Toast.LENGTH_LONG).show();
         Intent unItent = new Intent(this, DetalleNoticiasActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(DetalleNoticiasFragment.NOTICIA,noticia);
-
         unItent.putExtras(bundle);
-
         startActivity(unItent);
+         */
 
     }
 }

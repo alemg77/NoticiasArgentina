@@ -1,13 +1,12 @@
 package kalitero.software.noticiasargentinas.Vista;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.R;
@@ -26,8 +25,7 @@ public class ViewPagerNoticiaFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         View inflate = inflater.inflate(R.layout.fragment_view_pager_noticia, container, false);
@@ -38,6 +36,7 @@ public class ViewPagerNoticiaFragment extends Fragment {
         ListaNoticias listaNoticias = (ListaNoticias) bundle.getSerializable(ListaNoticias.class.toString());
         ViewPageAdapter adapter = new ViewPageAdapter(getActivity().getSupportFragmentManager(),listaNoticias.getArrayListNoticias());
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(listaNoticias.getPosicionInicial());
 
         return inflate;
 

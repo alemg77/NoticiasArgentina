@@ -61,7 +61,7 @@ public class NoticiaAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.recyclerViewClick(listaDeNoticias.get(getAdapterPosition()));
+                    listener.recyclerViewClick(getAdapterPosition());
                 }
             });
         }
@@ -125,7 +125,7 @@ public class NoticiaAdapter extends RecyclerView.Adapter {
     }
 
     public interface AvisoRecyclerView {
-        void recyclerViewClick (Noticia noticia);
+        void recyclerViewClick (int posicion);
     }
 }
 
