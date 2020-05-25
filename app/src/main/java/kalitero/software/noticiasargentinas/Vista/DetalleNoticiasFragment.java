@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
+
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.R;
 
@@ -22,8 +24,16 @@ public class DetalleNoticiasFragment extends Fragment {
 
     public static final String NOTICIA = "noticia";
 
-    public DetalleNoticiasFragment() {
-        // Required empty public constructor
+    //Fabrica el fragment
+    public static DetalleNoticiasFragment dameUnFragment(Noticia noticia){
+        // Crear el fragment
+        DetalleNoticiasFragment detalleNoticiasFragment = new DetalleNoticiasFragment();
+        // Pasar el bundle
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(NOTICIA,noticia);
+        detalleNoticiasFragment.setArguments(bundle);
+        //Hacer el return
+        return detalleNoticiasFragment;
     }
 
 
@@ -36,18 +46,20 @@ public class DetalleNoticiasFragment extends Fragment {
         Bundle bundle = getArguments();
         Noticia noticia = (Noticia) bundle.getSerializable(NOTICIA);
 
-
-
-
         ImageView imageViewNoticia = view.findViewById(R.id.fragmentDetalleNoticiasImageView);
         TextView textViewNoticia = view.findViewById(R.id.fragmentDetalleNoticiastextView);
+        TextView textViewTitulo = view.findViewById(R.id.fragmentTituloNoticiastextView);
 
         //imageViewNoticia.setImageResource(noticia.getUrlImagen());
 
         Picasso.get().load(noticia.getUrlImagen()).into(imageViewNoticia);
         textViewNoticia.setText(noticia.getDescripcion());
-
-
+        String titulo = noticia.getTitulo();
+        if ( titulo.contains("-") ) {
+            textViewTitulo.setText(titulo.substring(0,titulo.indexOf("-")-1));
+        } else {
+            textViewTitulo.setText(titulo);
+        }
 
         return view;
     }

@@ -17,10 +17,8 @@ public class DetalleNoticiasActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-
         DetalleNoticiasFragment detalleNoticiasFragment = new DetalleNoticiasFragment();
         detalleNoticiasFragment.setArguments(bundle);
-
 
         getSupportFragmentManager()
                 .beginTransaction()

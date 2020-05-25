@@ -36,6 +36,7 @@ import kalitero.software.noticiasargentinas.Vista.DetalleNoticiasActivity;
 import kalitero.software.noticiasargentinas.Vista.DetalleNoticiasFragment;
 import kalitero.software.noticiasargentinas.Vista.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.Vista.FragmentLogin;
+import kalitero.software.noticiasargentinas.Vista.ViewPagerNoticiaFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, FragmentListaNoticiasCompacto.Aviso {
 
@@ -199,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
         pegarFragment(new FragmentListaNoticiasCompacto(), R.id.activityMainContenedorFragment, listaNoticias);
+        //pegarFragment(new ViewPagerNoticiaFragment(), R.id.activityMainContenedorFragment, listaNoticias);
     }
 
     @Override
