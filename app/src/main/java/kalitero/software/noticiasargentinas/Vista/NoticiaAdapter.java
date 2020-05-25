@@ -1,6 +1,5 @@
 package kalitero.software.noticiasargentinas.Vista;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -73,7 +73,12 @@ public class NoticiaAdapter extends RecyclerView.Adapter {
             } else {
                 textViewTitulo.setText(titulo);
             }
-            Picasso.get().load(unaNoticia.getUrlImagen()).into(imageView);
+            String urlImagen = unaNoticia.getUrlImagen();
+            try {
+                Picasso.get().load(unaNoticia.getUrlImagen()).into(imageView);
+            } catch (Exception e) {
+                Log.d(TAG, "Problema al cargar imagen:"+ e.toString() );
+            }
             String fuente = unaNoticia.getFuente();
             switch (fuente ) {
                 case "La Nacion":
