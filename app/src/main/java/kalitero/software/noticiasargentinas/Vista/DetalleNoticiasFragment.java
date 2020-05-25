@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import kalitero.software.noticiasargentinas.R;
  * A simple {@link Fragment} subclass.
  */
 public class DetalleNoticiasFragment extends Fragment {
+    private String TAG = getClass().toString();
 
     public static final String NOTICIA = "noticia";
 
@@ -52,7 +54,12 @@ public class DetalleNoticiasFragment extends Fragment {
 
         //imageViewNoticia.setImageResource(noticia.getUrlImagen());
 
-        Picasso.get().load(noticia.getUrlImagen()).into(imageViewNoticia);
+        try {
+            Picasso.get().load(noticia.getUrlImagen()).into(imageViewNoticia);
+        } catch ( Exception e){
+            Log.d(TAG, "Error en la URL");
+        }
+
         textViewNoticia.setText(noticia.getDescripcion());
         String titulo = noticia.getTitulo();
         if ( titulo.contains("-") ) {

@@ -1,6 +1,5 @@
 package kalitero.software.noticiasargentinas;
 
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -31,9 +30,6 @@ import java.security.NoSuchAlgorithmException;
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticias;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
-import kalitero.software.noticiasargentinas.Vista.DetalleNoticiasActivity;
-import kalitero.software.noticiasargentinas.Vista.DetalleNoticiasFragment;
 import kalitero.software.noticiasargentinas.Vista.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.Vista.FragmentLogin;
 import kalitero.software.noticiasargentinas.Vista.ViewPagerNoticiaFragment;
