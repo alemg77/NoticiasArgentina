@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
@@ -109,5 +110,16 @@ public class BuscarNoticias extends AppCompatActivity {
             }
         };
         queue.add(getRequest);
+    }
+
+    public static List<String> crearLista() {
+        List<String> listeTemas = new ArrayList<>();
+        listeTemas.add(KEY_TEMA_CIENCIA);
+        listeTemas.add(KEY_TEMA_DEPORTES);
+        listeTemas.add(KEY_TEMA_ENTRETENIMIENTO);
+        listeTemas.add(KEY_TEMA_NEGOCIOS);
+        listeTemas.add(KEY_TEMA_SALUD);
+        listeTemas.add(KEY_TEMA_TECNOLOGIA);
+        return listeTemas;
     }
 }

@@ -19,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -32,14 +33,17 @@ import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Vista.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.Vista.FragmentLogin;
+import kalitero.software.noticiasargentinas.Vista.FragmentVPLista;
+import kalitero.software.noticiasargentinas.Vista.ListaNoticiasAdapterViewPager;
 import kalitero.software.noticiasargentinas.Vista.ViewPagerNoticiaFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, FragmentListaNoticiasCompacto.Aviso {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, FragmentListaNoticiasCompacto.Aviso, FragmentVPLista.SelleccionDos {
 
     // Para ver los logos hay que filtrar con: kalitero.software.noticiasargentinas.Vista
     private String TAG = getClass().toString();
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private ViewPager viewPager;
     private ListaNoticias listaNoticias; // La ultima lista de noticias que envie al Fragmente que tiene el Recycler view
 
     // TODO: Faltan estos logos:
@@ -91,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         navigationView = findViewById(R.id.activityMainNavigationView);
         drawerLayout = findViewById(R.id.activityMainDrawerLayout);
+
 
         Toolbar toolbar = findViewById(R.id.MainActivityToolbar);
         setSupportActionBar(toolbar);
@@ -199,8 +204,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
         this.listaNoticias = listaNoticias;
-        pegarFragment(new FragmentListaNoticiasCompacto(), R.id.activityMainContenedorFragment, listaNoticias);
+        pegarFragment(new FragmentVPLista(), R.id.activityMainContenedorFragment, listaNoticias);
         //pegarFragment(new ViewPagerNoticiaFragment(), R.id.activityMainContenedorFragment, listaNoticias);
+
+
+
+
     }
 
     @Override
@@ -224,5 +233,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(unItent);
          */
 
+    }
+
+    @Override
+    public void sellecionDos(ListaNoticias listaNoticias) {
+        Log.d(TAG,"Selecciono la noticia");
     }
 }
