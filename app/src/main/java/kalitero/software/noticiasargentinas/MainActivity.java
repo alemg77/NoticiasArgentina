@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.actionbar_usuario:
                 getSupportFragmentManager().beginTransaction().addToBackStack(null)
-                        .replace(R.id.activityMainContenedorFragment, new FragmentLogin()).commit();
+                        .add(R.id.activityMainContenedorFragment, new FragmentLogin()).commit();
                 break;
         }
         return super.onOptionsItemSelected(item);
