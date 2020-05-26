@@ -228,10 +228,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void selleccion(int posicion) {
+    public void selleccion(ListaNoticias listaNoticias) {
         Log.d(TAG, "Selecciono una noticia");
-
-        listaNoticias.setPosicionInicial(posicion);
         pegarFragment(new ViewPagerNoticia(), R.id.activityMainContenedorFragment, listaNoticias);
 
         /*

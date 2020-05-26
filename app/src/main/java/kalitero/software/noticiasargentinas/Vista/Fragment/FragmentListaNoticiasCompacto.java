@@ -21,6 +21,7 @@ public class FragmentListaNoticiasCompacto extends Fragment implements FragmentL
 
     private RecyclerView recyclerView;
     private FragmentListaNoticiasCompacto.Aviso listener;
+    private ListaNoticias listaNoticias;
     private TextView textViewCategoria;
     public static final String CLAVE_TEMA = "claveTema";
     public static final String LISTA_NOTICIAS = "listaNoticias";
@@ -60,7 +61,7 @@ public class FragmentListaNoticiasCompacto extends Fragment implements FragmentL
         textViewCategoria = inflate.findViewById(R.id.fragmentListaNoticiasTextViewcategoria);
         Bundle bundle = getArguments();
         String tema = bundle.getString(CLAVE_TEMA);
-        ListaNoticias listaNoticias = (ListaNoticias) bundle.getSerializable(LISTA_NOTICIAS);
+        listaNoticias = (ListaNoticias) bundle.getSerializable(LISTA_NOTICIAS);
         textViewCategoria.setText(tema);
         FragmentListaNoticiasCompactoAdapter noticiaAdapter = new FragmentListaNoticiasCompactoAdapter(listaNoticias.getArrayListNoticias(),this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -71,11 +72,12 @@ public class FragmentListaNoticiasCompacto extends Fragment implements FragmentL
 
     @Override
     public void recyclerViewClick(int posicion) {
-        listener.selleccion(posicion);                   // Me llego del Recyclerview y se lo paso a la actividad.
+        listaNoticias.setPosicionInicial(posicion);
+        listener.selleccion(listaNoticias);                   // Me llego del Recyclerview y se lo paso a la actividad.
     }
 
     public interface Aviso {
-        void selleccion (int posicion);
+        void selleccion (ListaNoticias listaNoticias);
     }
 
 }
