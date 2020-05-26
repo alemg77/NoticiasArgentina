@@ -43,7 +43,7 @@ public class ViewPagerListasNoticias extends Fragment {
         Bundle bundle = getArguments();
         ListaNoticias listaNoticias = (ListaNoticias) bundle.getSerializable(ListaNoticias.class.toString());
         //creo el adapter
-        ViewPagerListaNoticiasAdapter adapter = new ViewPagerListaNoticiasAdapter(getActivity().getSupportFragmentManager(), BuscarNoticias.crearLista(), listaNoticias);
+        ViewPagerListasNoticiasAdapter adapter = new ViewPagerListasNoticiasAdapter(getActivity().getSupportFragmentManager(), BuscarNoticias.crearLista(), listaNoticias);
         //le seteo el adapter al view pager
         viewPager.setAdapter(adapter);
 

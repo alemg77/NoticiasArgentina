@@ -34,7 +34,7 @@ public class ViewPagerNoticia extends Fragment {
 
         Bundle bundle = getArguments();
         ListaNoticias listaNoticias = (ListaNoticias) bundle.getSerializable(ListaNoticias.class.toString());
-        ViewPageNoticiaAdapter adapter = new ViewPageNoticiaAdapter(getActivity().getSupportFragmentManager(),listaNoticias.getArrayListNoticias());
+        ViewPagerNoticiaAdapter adapter = new ViewPagerNoticiaAdapter(getActivity().getSupportFragmentManager(),listaNoticias.getArrayListNoticias());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(listaNoticias.getPosicionInicial());
 

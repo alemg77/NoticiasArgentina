@@ -11,12 +11,12 @@ import java.util.List;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentDetalleNoticias;
 
-public class ViewPageNoticiaAdapter extends FragmentStatePagerAdapter {
+public class ViewPagerNoticiaAdapter extends FragmentStatePagerAdapter {
 
     //Lista de fragmentos
     private List<FragmentDetalleNoticias> listaDeFragments;
 
-    public ViewPageNoticiaAdapter(FragmentManager fm, List<Noticia> noticiasAMostrar) {
+    public ViewPagerNoticiaAdapter(FragmentManager fm, List<Noticia> noticiasAMostrar) {
         super(fm);
         this.listaDeFragments = new ArrayList<>();
 
