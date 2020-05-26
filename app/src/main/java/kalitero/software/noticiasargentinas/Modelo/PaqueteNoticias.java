@@ -20,7 +20,7 @@ public class PaqueteNoticias implements Serializable {
         this.paqueteCompleto = paqueteCompleto;
     }
 
-    public void agregar_lista_noticias (ListaNoticias listaNoticias){
+    public void agregarListaNoticias(ListaNoticias listaNoticias){
         paqueteCompleto.add(listaNoticias);
     }
 }

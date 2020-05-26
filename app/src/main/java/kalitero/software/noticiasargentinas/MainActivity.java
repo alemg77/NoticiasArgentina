@@ -1,10 +1,6 @@
 package kalitero.software.noticiasargentinas;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -19,14 +15,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
 
 
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticias;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
@@ -183,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
         this.listaNoticias = listaNoticias;
-        paqueteNoticias.agregar_lista_noticias(listaNoticias);
+        paqueteNoticias.agregarListaNoticias(listaNoticias);
         pedidos_api++;
         switch ( pedidos_api ){
             case 1:
