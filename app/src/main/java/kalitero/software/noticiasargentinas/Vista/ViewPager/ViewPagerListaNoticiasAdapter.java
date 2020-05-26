@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista;
+package kalitero.software.noticiasargentinas.Vista.ViewPager;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentListaNoticiasCompacto;
 
-public class ListaNoticiasAdapterViewPager extends FragmentStatePagerAdapter {
+public class ViewPagerListaNoticiasAdapter extends FragmentStatePagerAdapter {
 
     private List<FragmentListaNoticiasCompacto> listaDeFragments;
 
-    public ListaNoticiasAdapterViewPager(@NonNull FragmentManager fm, List<String> listaTema, ListaNoticias listaNoticias) {
+    public ViewPagerListaNoticiasAdapter(@NonNull FragmentManager fm, List<String> listaTema, ListaNoticias listaNoticias) {
         super(fm);
         listaDeFragments = new ArrayList<>();
         for (String tema : listaTema) {

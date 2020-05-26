@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista;
+package kalitero.software.noticiasargentinas.Vista.Fragment;
 
 import android.os.Bundle;
 
@@ -13,23 +13,21 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
-
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetalleNoticiasFragment extends Fragment {
+public class FragmentDetalleNoticias extends Fragment {
     private String TAG = getClass().toString();
 
     public static final String NOTICIA = "noticia";
 
     //Fabrica el fragment
-    public static DetalleNoticiasFragment dameUnFragment(Noticia noticia){
+    public static FragmentDetalleNoticias dameUnFragment(Noticia noticia){
         // Crear el fragment
-        DetalleNoticiasFragment detalleNoticiasFragment = new DetalleNoticiasFragment();
+        FragmentDetalleNoticias detalleNoticiasFragment = new FragmentDetalleNoticias();
         // Pasar el bundle
         Bundle bundle = new Bundle();
         bundle.putSerializable(NOTICIA,noticia);

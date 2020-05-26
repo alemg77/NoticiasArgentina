@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista;
+package kalitero.software.noticiasargentinas.Vista.Fragment;
 
 import android.content.Context;
 import android.content.Intent;

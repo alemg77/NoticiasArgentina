@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista;
+package kalitero.software.noticiasargentinas.Vista.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,14 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.R;
 
 
-public class FragmentListaNoticiasCompacto extends Fragment implements NoticiaAdapter.AvisoRecyclerView{
+public class FragmentListaNoticiasCompacto extends Fragment implements FragmentListaNoticiasCompactoAdapter.AvisoRecyclerView{
 
     private RecyclerView recyclerView;
     private FragmentListaNoticiasCompacto.Aviso listener;
@@ -28,9 +25,7 @@ public class FragmentListaNoticiasCompacto extends Fragment implements NoticiaAd
     public static final String CLAVE_TEMA = "claveTema";
     public static final String LISTA_NOTICIAS = "listaNoticias";
 
-    public FragmentListaNoticiasCompacto() {
-        // Required empty public constructor
-    }
+    public FragmentListaNoticiasCompacto() {   }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -38,7 +33,6 @@ public class FragmentListaNoticiasCompacto extends Fragment implements NoticiaAd
         this.listener = (Aviso) context;
     }
 
-    //fabrica de fragments
     //Fabrica el fragment
     public static FragmentListaNoticiasCompacto dameUnFragment(String tema, ListaNoticias listaNoticias){
         // Crear el fragment
@@ -59,9 +53,6 @@ public class FragmentListaNoticiasCompacto extends Fragment implements NoticiaAd
     }
 
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.fragment_lista_noticias_compacto, container, false);
@@ -71,7 +62,7 @@ public class FragmentListaNoticiasCompacto extends Fragment implements NoticiaAd
         String tema = bundle.getString(CLAVE_TEMA);
         ListaNoticias listaNoticias = (ListaNoticias) bundle.getSerializable(LISTA_NOTICIAS);
         textViewCategoria.setText(tema);
-        NoticiaAdapter noticiaAdapter = new NoticiaAdapter(listaNoticias.getArrayListNoticias(),this);
+        FragmentListaNoticiasCompactoAdapter noticiaAdapter = new FragmentListaNoticiasCompactoAdapter(listaNoticias.getArrayListNoticias(),this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(noticiaAdapter);

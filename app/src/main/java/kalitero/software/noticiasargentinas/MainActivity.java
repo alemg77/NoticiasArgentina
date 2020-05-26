@@ -31,13 +31,12 @@ import java.security.NoSuchAlgorithmException;
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticias;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
-import kalitero.software.noticiasargentinas.Vista.FragmentListaNoticiasCompacto;
-import kalitero.software.noticiasargentinas.Vista.FragmentLogin;
-import kalitero.software.noticiasargentinas.Vista.FragmentVPLista;
-import kalitero.software.noticiasargentinas.Vista.ListaNoticiasAdapterViewPager;
-import kalitero.software.noticiasargentinas.Vista.ViewPagerNoticiaFragment;
+import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentListaNoticiasCompacto;
+import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentLogin;
+import kalitero.software.noticiasargentinas.Vista.ViewPager.ViewPagerListasNoticias;
+import kalitero.software.noticiasargentinas.Vista.ViewPager.ViewPagerNoticia;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, FragmentListaNoticiasCompacto.Aviso, FragmentVPLista.SelleccionDos {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, FragmentListaNoticiasCompacto.Aviso, ViewPagerListasNoticias.SelleccionDos {
 
     // Para ver los logos hay que filtrar con: kalitero.software.noticiasargentinas.Vista
     private String TAG = getClass().toString();
@@ -204,8 +203,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
         this.listaNoticias = listaNoticias;
-        pegarFragment(new FragmentVPLista(), R.id.activityMainContenedorFragment, listaNoticias);
-        //pegarFragment(new ViewPagerNoticiaFragment(), R.id.activityMainContenedorFragment, listaNoticias);
+        pegarFragment(new ViewPagerListasNoticias(), R.id.activityMainContenedorFragment, listaNoticias);
+        //pegarFragment(new ViewPagerNoticia(), R.id.activityMainContenedorFragment, listaNoticias);
 
 
 
@@ -222,13 +221,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "Selecciono una noticia");
 
         listaNoticias.setPosicionInicial(posicion);
-        pegarFragment(new ViewPagerNoticiaFragment(), R.id.activityMainContenedorFragment, listaNoticias);
+        pegarFragment(new ViewPagerNoticia(), R.id.activityMainContenedorFragment, listaNoticias);
 
         /*
         //Toast.makeText(this, noticia.getDescripcion(),Toast.LENGTH_LONG).show();
         Intent unItent = new Intent(this, DetalleNoticiasActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(DetalleNoticiasFragment.NOTICIA,noticia);
+        bundle.putSerializable(FragmentDetalleNoticias.NOTICIA,noticia);
         unItent.putExtras(bundle);
         startActivity(unItent);
          */

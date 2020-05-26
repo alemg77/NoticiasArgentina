@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista;
+package kalitero.software.noticiasargentinas.Vista.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,13 +17,13 @@ import java.util.List;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.R;
 
-public class NoticiaAdapter extends RecyclerView.Adapter {
+public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
 
     private List<Noticia> listaDeNoticias;
     private AvisoRecyclerView listener;
     private String TAG = getClass().toString();
 
-    public NoticiaAdapter(List<Noticia> listaDeNoticias, AvisoRecyclerView listener) {
+    public FragmentListaNoticiasCompactoAdapter(List<Noticia> listaDeNoticias, AvisoRecyclerView listener) {
         this.listaDeNoticias = listaDeNoticias;
         this.listener = listener;
     }

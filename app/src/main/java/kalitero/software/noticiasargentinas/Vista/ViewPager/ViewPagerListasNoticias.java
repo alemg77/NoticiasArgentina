@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista;
+package kalitero.software.noticiasargentinas.Vista.ViewPager;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,16 +18,14 @@ import kalitero.software.noticiasargentinas.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentVPLista extends Fragment {
+public class ViewPagerListasNoticias extends Fragment {
 
     private ViewPager viewPager;
     private ListaNoticias listaNoticias;
-    private FragmentVPLista.SelleccionDos listener;
+    private ViewPagerListasNoticias.SelleccionDos listener;
 
 
-    public FragmentVPLista() {
-        // Required empty public constructor
-    }
+    public ViewPagerListasNoticias() {  }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -45,7 +43,7 @@ public class FragmentVPLista extends Fragment {
         Bundle bundle = getArguments();
         ListaNoticias listaNoticias = (ListaNoticias) bundle.getSerializable(ListaNoticias.class.toString());
         //creo el adapter
-        ListaNoticiasAdapterViewPager adapter = new ListaNoticiasAdapterViewPager(getActivity().getSupportFragmentManager(), BuscarNoticias.crearLista(), listaNoticias);
+        ViewPagerListaNoticiasAdapter adapter = new ViewPagerListaNoticiasAdapter(getActivity().getSupportFragmentManager(), BuscarNoticias.crearLista(), listaNoticias);
         //le seteo el adapter al view pager
         viewPager.setAdapter(adapter);
 

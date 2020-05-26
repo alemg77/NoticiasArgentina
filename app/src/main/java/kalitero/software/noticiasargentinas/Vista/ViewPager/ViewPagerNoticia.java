@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista;
+package kalitero.software.noticiasargentinas.Vista.ViewPager;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,12 +14,12 @@ import kalitero.software.noticiasargentinas.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ViewPagerNoticiaFragment extends Fragment {
+public class ViewPagerNoticia extends Fragment {
 
     private ViewPager viewPager;
 
 
-    public ViewPagerNoticiaFragment() {
+    public ViewPagerNoticia() {
         // Required empty public constructor
     }
 
@@ -34,7 +34,7 @@ public class ViewPagerNoticiaFragment extends Fragment {
 
         Bundle bundle = getArguments();
         ListaNoticias listaNoticias = (ListaNoticias) bundle.getSerializable(ListaNoticias.class.toString());
-        ViewPageAdapter adapter = new ViewPageAdapter(getActivity().getSupportFragmentManager(),listaNoticias.getArrayListNoticias());
+        ViewPageNoticiaAdapter adapter = new ViewPageNoticiaAdapter(getActivity().getSupportFragmentManager(),listaNoticias.getArrayListNoticias());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(listaNoticias.getPosicionInicial());
 
