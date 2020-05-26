@@ -31,6 +31,7 @@ import java.security.NoSuchAlgorithmException;
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticias;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentLogin;
 import kalitero.software.noticiasargentinas.Vista.ViewPager.ViewPagerListasNoticias;
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String TAG = getClass().toString();
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private ViewPager viewPager;
+    private PaqueteNoticias paqueteNoticias;
+    private BuscarNoticias buscarNoticias;
     private ListaNoticias listaNoticias; // La ultima lista de noticias que envie al Fragmente que tiene el Recycler view
 
     // TODO: Faltan estos logos:
@@ -60,52 +62,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Elintransigente.com
      */
 
-    void Borrar () {
-
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md;
-
-                md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                String something = new String(Base64.encode(md.digest(), 0));
-                Log.e(TAG, something);
-            }
-        }
-
-        catch (PackageManager.NameNotFoundException e1) {
-            // TODO Auto-generated catch block
-            Log.e(TAG, e1.toString());
-        }
-
-        catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
-            Log.e(TAG, e.toString());
-        }
-        catch (Exception e){
-            Log.e(TAG, e.toString());
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "*************** Inicio del programa Noticias Argentinas ********************************");
         navigationView = findViewById(R.id.activityMainNavigationView);
         drawerLayout = findViewById(R.id.activityMainDrawerLayout);
-
 
         Toolbar toolbar = findViewById(R.id.MainActivityToolbar);
         setSupportActionBar(toolbar);
 
-        Borrar();
-
-        Log.d(TAG, "*************** Inicio del programa Noticias Argentinas ********************************");
-
         // Pido noticias para tener algo que mostrar antes de empezar
-        final BuscarNoticias buscarNoticias = new BuscarNoticias(MainActivity.this);
-        buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA);
+        buscarNoticias = new BuscarNoticias(MainActivity.this);
+        buscarNoticias();
+
 
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -152,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
+
+
+
     }
 
     /**
@@ -167,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentAPegar.setArguments(bundle);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(containerViewId, fragmentAPegar).commit();
+        fragmentTransaction.add(containerViewId, fragmentAPegar).commit();
     }
 
     @Override
@@ -197,19 +171,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
+    private Integer pedidos_api;
 
+    void buscarNoticias (){
+        pedidos_api = 0;
+        paqueteNoticias =  new PaqueteNoticias();
+        buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA);
+    }
 
     @Override
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
         this.listaNoticias = listaNoticias;
-        pegarFragment(new ViewPagerListasNoticias(), R.id.activityMainContenedorFragment, listaNoticias);
-        //pegarFragment(new ViewPagerNoticia(), R.id.activityMainContenedorFragment, listaNoticias);
+        paqueteNoticias.agregar_lista_noticias(listaNoticias);
+        pedidos_api++;
+        switch ( pedidos_api ){
+            case 1:
+                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_CIENCIA);
+                break;
 
+            case 2:
+                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_ENTRETENIMIENTO);
+                break;
 
+            case 3:
+                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_SALUD);
+                break;
 
+            case 4:
+                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_NEGOCIOS);
+                break;
 
+            case 5:
+                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_DEPORTES);
+                break;
+
+            case 6:
+                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_TECNOLOGIA);
+                break;
+
+            default:
+                // TODO:  Enviar paquete de noticias en vez de lista de noticas
+                pegarFragment(new ViewPagerListasNoticias(), R.id.activityMainContenedorFragment, paqueteNoticias);
+                break;
+
+        }
     }
+
+
+
+
 
     @Override
     public void errorPedidoNoticia() {

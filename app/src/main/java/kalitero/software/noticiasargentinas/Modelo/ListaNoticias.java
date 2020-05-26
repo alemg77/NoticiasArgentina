@@ -6,6 +6,16 @@ import java.util.ArrayList;
 public class ListaNoticias implements Serializable {
 
     private int posicionInicial;
+    private String tema;
+
+    public String getTema() {
+        return tema;
+    }
+
+    public void setTema(String tema) {
+        this.tema = tema;
+    }
+
     private ArrayList<Noticia> arrayListNoticias;
 
     public ListaNoticias(ArrayList<Noticia> arrayListNoticias) {

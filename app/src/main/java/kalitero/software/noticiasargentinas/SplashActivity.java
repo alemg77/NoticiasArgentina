@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
 
         rotarAnimacion();
         escalaAnimacion();
-        YoYo.with(Techniques.FadeIn).duration(4000).playOn(noticiasArgentinas);
+        YoYo.with(Techniques.FadeIn).duration(2000).playOn(noticiasArgentinas);
 
         new Handler().postDelayed(new Runnable() {
 
@@ -45,19 +45,19 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 5000);
+        }, 2500);
 
     }
 
     private void rotarAnimacion(){
         animationGrupo = AnimationUtils.loadAnimation(this, R.anim.rotate);
-        animationGrupo.setDuration(6000);
+        animationGrupo.setDuration(3000);
         grupo.startAnimation(animationGrupo);
     }
 
     private  void escalaAnimacion(){
         animarionElipse= AnimationUtils.loadAnimation(this, R.anim.scale);
-        animarionElipse.setDuration(3500);
+        animarionElipse.setDuration(1500);
         elipse.startAnimation(animarionElipse);
     }
 

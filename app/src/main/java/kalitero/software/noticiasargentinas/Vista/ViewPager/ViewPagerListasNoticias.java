@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.R;
 
 /**
@@ -21,7 +22,6 @@ import kalitero.software.noticiasargentinas.R;
 public class ViewPagerListasNoticias extends Fragment {
 
     private ViewPager viewPager;
-    private ListaNoticias listaNoticias;
     private ViewPagerListasNoticias.SelleccionDos listener;
 
 
@@ -34,17 +34,13 @@ public class ViewPagerListasNoticias extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_v_p_lista, container, false);
 
         viewPager = view.findViewById(R.id.fragmentVPLista_viewPager);
         Bundle bundle = getArguments();
-        ListaNoticias listaNoticias = (ListaNoticias) bundle.getSerializable(ListaNoticias.class.toString());
-        //creo el adapter
-        ViewPagerListasNoticiasAdapter adapter = new ViewPagerListasNoticiasAdapter(getActivity().getSupportFragmentManager(), BuscarNoticias.crearLista(), listaNoticias);
-        //le seteo el adapter al view pager
+        PaqueteNoticias paqueteNoticias = (PaqueteNoticias) bundle.getSerializable(PaqueteNoticias.class.toString());
+        ViewPagerListasNoticiasAdapter adapter = new ViewPagerListasNoticiasAdapter(getActivity().getSupportFragmentManager(), BuscarNoticias.crearLista(), paqueteNoticias);
         viewPager.setAdapter(adapter);
 
         return view;

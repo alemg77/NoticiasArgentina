@@ -9,17 +9,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentListaNoticiasCompacto;
 
 public class ViewPagerListasNoticiasAdapter extends FragmentStatePagerAdapter {
 
     private List<FragmentListaNoticiasCompacto> listaDeFragments;
 
-    public ViewPagerListasNoticiasAdapter(@NonNull FragmentManager fm, List<String> listaTema, ListaNoticias listaNoticias) {
+    public ViewPagerListasNoticiasAdapter(@NonNull FragmentManager fm, List<String> listaTema, PaqueteNoticias paqueteNoticias) {
         super(fm);
+
+        List<ListaNoticias> ListaDeListasDeNoticia = paqueteNoticias.getPaqueteCompleto();
         listaDeFragments = new ArrayList<>();
-        for (String tema : listaTema) {
-            FragmentListaNoticiasCompacto fragment = FragmentListaNoticiasCompacto.dameUnFragment(tema, listaNoticias);
+        for (ListaNoticias listaNoticias : ListaDeListasDeNoticia) {
+            FragmentListaNoticiasCompacto fragment = FragmentListaNoticiasCompacto.dameUnFragment(listaNoticias);
             listaDeFragments.add(fragment);
         }
     }

@@ -34,13 +34,13 @@ public class FragmentListaNoticiasCompacto extends Fragment implements FragmentL
     }
 
     //Fabrica el fragment
-    public static FragmentListaNoticiasCompacto dameUnFragment(String tema, ListaNoticias listaNoticias){
+    public static FragmentListaNoticiasCompacto dameUnFragment(ListaNoticias listaNoticias){
         // Crear el fragment
         FragmentListaNoticiasCompacto fragmentListaNoticiasCompacto = new FragmentListaNoticiasCompacto();
         // Pasar el bundle
         Bundle bundle = new Bundle();
         bundle.putSerializable(LISTA_NOTICIAS,listaNoticias);
-        bundle.putString(CLAVE_TEMA, tema);
+        bundle.putString(CLAVE_TEMA, "tema");
         fragmentListaNoticiasCompacto.setArguments(bundle);
         //Hacer el return
         return fragmentListaNoticiasCompacto;
