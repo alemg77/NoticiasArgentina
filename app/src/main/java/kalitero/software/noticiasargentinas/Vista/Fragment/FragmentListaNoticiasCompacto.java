@@ -41,7 +41,7 @@ public class FragmentListaNoticiasCompacto extends Fragment implements FragmentL
         // Pasar el bundle
         Bundle bundle = new Bundle();
         bundle.putSerializable(LISTA_NOTICIAS,listaNoticias);
-        bundle.putString(CLAVE_TEMA, "tema");
+        bundle.putString(CLAVE_TEMA, listaNoticias.getTema());
         fragmentListaNoticiasCompacto.setArguments(bundle);
         //Hacer el return
         return fragmentListaNoticiasCompacto;

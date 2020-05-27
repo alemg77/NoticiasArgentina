@@ -62,8 +62,53 @@ public class BuscarNoticias extends AppCompatActivity {
     }
 
 
-    public void titularesNuevos(String pais, String tema) {
-        getRequest("https://newsapi.org/v2/top-headlines?country="+pais+"&category="+tema);
+    public void titularesNuevos(String pais, final String temadelPedido) {
+        String url = "https://newsapi.org/v2/top-headlines?country="+pais+"&category="+temadelPedido;
+        RequestQueue queue = Volley.newRequestQueue((Context)listener);
+        StringRequest getRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ArrayList<Noticia> listaDeNoticias = new ArrayList<>();
+                        try {
+                            JSONObject jsonNoticias = new JSONObject(response);
+                            JSONArray jsonArticulos = jsonNoticias.getJSONArray("articles");
+                            for (int i = 0; i < jsonArticulos.length(); i++) {
+                                JSONObject jsonNoticia = (JSONObject) jsonArticulos.get(i);
+                                JSONObject jsonFuente = (JSONObject) jsonNoticia.get("source");
+                                String noticiaTitulo = jsonNoticia.getString("title");
+                                String noticiaAutor = jsonNoticia.getString("author");
+                                String noticiaFuente = jsonFuente.getString("name");
+                                String noticiaDescripcion = jsonNoticia.getString("description");
+                                String urlNoticia = jsonNoticia.getString("url");
+                                String urlToImage = jsonNoticia.getString("urlToImage");
+                                Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date());
+                                listaDeNoticias.add(noticia);
+                            }
+                            ListaNoticias listaNoticias = new ListaNoticias(listaDeNoticias,temadelPedido);
+                            listener.llegoPaqueteDeNoticias(listaNoticias);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            listener.errorPedidoNoticia();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Error!!:" + error.toString());
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-Api-Key", KEY_API);
+                return params;
+            }
+        };
+        queue.add(getRequest);
+
     }
 
     private void getRequest ( String url){
@@ -88,7 +133,7 @@ public class BuscarNoticias extends AppCompatActivity {
                                 Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date());
                                 listaDeNoticias.add(noticia);
                             }
-                            listener.llegoPaqueteDeNoticias(new ListaNoticias(listaDeNoticias));
+                            listener.llegoPaqueteDeNoticias(new ListaNoticias(listaDeNoticias, "General"));
                         } catch (Exception e) {
                             e.printStackTrace();
                             listener.errorPedidoNoticia();

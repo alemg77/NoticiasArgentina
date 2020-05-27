@@ -18,8 +18,9 @@ public class ListaNoticias implements Serializable {
 
     private ArrayList<Noticia> arrayListNoticias;
 
-    public ListaNoticias(ArrayList<Noticia> arrayListNoticias) {
+    public ListaNoticias(ArrayList<Noticia> arrayListNoticias, String tema) {
         this.arrayListNoticias = arrayListNoticias;
+        this.tema = tema;
     }
 
     public ArrayList<Noticia> getArrayListNoticias() {
