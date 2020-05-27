@@ -24,7 +24,7 @@ public class FragmentListaNoticiasCompacto extends Fragment implements FragmentL
     private ListaNoticias listaNoticias;
     private TextView textViewCategoria;
     public static final String CLAVE_TEMA = "claveTema";
-    public static final String LISTA_NOTICIAS = "listaNoticias";
+    public static final String LISTA_NOTICIAS = ListaNoticias.class.toString();
 
     public FragmentListaNoticiasCompacto() {   }
 

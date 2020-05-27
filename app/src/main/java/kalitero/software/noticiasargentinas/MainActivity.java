@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private PaqueteNoticias paqueteNoticias;
     private BuscarNoticias buscarNoticias;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private Integer pedidos_api;
     private ListaNoticias listaNoticias; // La ultima lista de noticias que envie al Fragmente que tiene el Recycler view
 
     // TODO: Faltan estos logos:
@@ -72,11 +71,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.abrir_menu, R.string.cerrar_menu);
 
-
-        // Pido noticias para tener algo que mostrar antes de empezar
         buscarNoticias = new BuscarNoticias(MainActivity.this);
-        buscarNoticias();
 
+        Bundle bundle = this.getIntent().getExtras();
+        paqueteNoticias = (PaqueteNoticias)bundle.getSerializable(PaqueteNoticias.class.toString());
+        pegarFragment(new ViewPagerListasNoticias(), R.id.activityMainContenedorFragment, paqueteNoticias);
 
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -123,9 +122,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
-
-
-
     }
 
     /**
@@ -154,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                pedidos_api = 10;
                 paqueteNoticias =  new PaqueteNoticias();
                 buscarNoticias.porTema(query);
                 return false;
@@ -162,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                pedidos_api = 10;
                 paqueteNoticias =  new PaqueteNoticias();
                 buscarNoticias.porTema(newText);
                 return false;
@@ -180,7 +174,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-
             case R.id.actionbar_usuario:
                 getSupportFragmentManager().beginTransaction().addToBackStack(null)
                         .add(R.id.activityMainContenedorFragment, new FragmentLogin()).commit();
@@ -194,55 +187,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-
-    void buscarNoticias (){
-        pedidos_api = 0;
-        paqueteNoticias =  new PaqueteNoticias();
-        buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA);
-    }
-
     @Override
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
+        listaNoticias.setTema("General");
         this.listaNoticias = listaNoticias;
-        paqueteNoticias.agregarListaNoticias(listaNoticias);
-        pedidos_api++;
-        switch ( pedidos_api ){
-            case 1:
-                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_CIENCIA);
-                break;
-
-            case 2:
-                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_ENTRETENIMIENTO);
-                break;
-
-            case 3:
-                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_SALUD);
-                break;
-
-            case 4:
-                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_NEGOCIOS);
-                break;
-
-            case 5:
-                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_DEPORTES);
-                break;
-
-            case 6:
-                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_TECNOLOGIA);
-                break;
-
-            default:
-                // TODO:  Enviar paquete de noticias en vez de lista de noticas
-                pegarFragment(new ViewPagerListasNoticias(), R.id.activityMainContenedorFragment, paqueteNoticias);
-                break;
-
-        }
+        pegarFragment(new FragmentListaNoticiasCompacto(), R.id.activityMainContenedorFragment, listaNoticias);
     }
-
-
-
-
 
     @Override
     public void errorPedidoNoticia() {
