@@ -11,4 +11,6 @@
     <string name="ingresarConFacebook">IngresarConFacebook</string>
     <string name="facebook_app_id">261760201692288</string>
     <string name="fb_login_protocol_scheme">fb261760201692288</string>
+    <string name="abrir_menu">Desplegar menu de navegacion</string>
+    <string name="cerrar_menu">Cerrar menu de navegacion</string>
 </resources>

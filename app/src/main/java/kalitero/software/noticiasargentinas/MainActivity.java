@@ -6,10 +6,13 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -38,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private PaqueteNoticias paqueteNoticias;
     private BuscarNoticias buscarNoticias;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+    private Integer pedidos_api;
     private ListaNoticias listaNoticias; // La ultima lista de noticias que envie al Fragmente que tiene el Recycler view
 
     // TODO: Faltan estos logos:
@@ -65,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = findViewById(R.id.MainActivityToolbar);
         setSupportActionBar(toolbar);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.abrir_menu, R.string.cerrar_menu);
+
 
         // Pido noticias para tener algo que mostrar antes de empezar
         buscarNoticias = new BuscarNoticias(MainActivity.this);
@@ -141,15 +148,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionbar_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.app_bar_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Buscar aqui...");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                pedidos_api = 10;
+                paqueteNoticias =  new PaqueteNoticias();
+                buscarNoticias.porTema(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                pedidos_api = 10;
+                paqueteNoticias =  new PaqueteNoticias();
+                buscarNoticias.porTema(newText);
+                return false;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        actionBarDrawerToggle.syncState();
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.actionbar_Item1:
-                drawerLayout.openDrawer(Gravity.LEFT);
-                break;
 
             case R.id.actionbar_usuario:
                 getSupportFragmentManager().beginTransaction().addToBackStack(null)
@@ -164,7 +194,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    private Integer pedidos_api;
 
     void buscarNoticias (){
         pedidos_api = 0;
