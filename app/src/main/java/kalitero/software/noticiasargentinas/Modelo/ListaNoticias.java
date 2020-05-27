@@ -3,6 +3,8 @@ package kalitero.software.noticiasargentinas.Modelo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import kalitero.software.noticiasargentinas.Controlador.BuscarNoticias;
+
 public class ListaNoticias implements Serializable {
 
     private int posicionInicial;
@@ -13,14 +15,42 @@ public class ListaNoticias implements Serializable {
     }
 
     public void setTema(String tema) {
-        this.tema = tema;
+        switch ( tema ) {
+            case BuscarNoticias.KEY_TEMA_DEPORTES:
+                this.tema = "Deportes";
+                break;
+
+            case BuscarNoticias.KEY_TEMA_CIENCIA:
+                this.tema = "Ciencia";
+                break;
+
+            case BuscarNoticias.KEY_TEMA_ENTRETENIMIENTO:
+                this.tema = "Espectaculos";
+                break;
+
+            case BuscarNoticias.KEY_TEMA_NEGOCIOS:
+                this.tema = "Negocios";
+                break;
+
+            case BuscarNoticias.KEY_TEMA_SALUD:
+                this.tema = "Salud";
+                break;
+
+            case BuscarNoticias.KEY_TEMA_TECNOLOGIA:
+                this.tema = "Tecnologia";
+                break;
+
+            default:
+                this.tema = tema;
+                break;
+        }
     }
 
     private ArrayList<Noticia> arrayListNoticias;
 
     public ListaNoticias(ArrayList<Noticia> arrayListNoticias, String tema) {
         this.arrayListNoticias = arrayListNoticias;
-        this.tema = tema;
+        setTema(tema);
     }
 
     public ArrayList<Noticia> getArrayListNoticias() {
