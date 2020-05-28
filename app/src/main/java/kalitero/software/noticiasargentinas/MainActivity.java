@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,8 +19,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationView;
-
-
 import java.io.Serializable;
 
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticias;
@@ -42,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private PaqueteNoticias paqueteNoticias;
     private BuscarNoticias buscarNoticias;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private ListaNoticias listaNoticias; // La ultima lista de noticias que envie al Fragmente que tiene el Recycler view
 
     // TODO: Faltan estos logos:
     /*
@@ -63,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(TAG, "*************** Inicio del programa Noticias Argentinas ********************************");
+        Log.d(TAG, "*************** Inicio del Main programa Noticias Argentinas ********************************");
         navigationView = findViewById(R.id.activityMainNavigationView);
         drawerLayout = findViewById(R.id.activityMainDrawerLayout);
 
@@ -125,8 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     * Funcion para pegar un fragment enviandole un objeto serializable     *
-     *
+     * Funcion para pegar un fragment enviandole un objeto serializable
      * @param fragmentAPegar  :Fragment a pegar
      * @param containerViewId :Donde lo queres pegar
      * @param serializable    :Que objeto le vas a pasar
@@ -191,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
         listaNoticias.setTema("General");
-        this.listaNoticias = listaNoticias;
         pegarFragment(new FragmentListaNoticiasCompacto(), R.id.activityMainContenedorFragment, listaNoticias);
     }
 
@@ -204,20 +198,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void selleccion(ListaNoticias listaNoticias) {
         Log.d(TAG, "Selecciono una noticia");
         pegarFragment(new ViewPagerNoticia(), R.id.activityMainContenedorFragment, listaNoticias);
-
-        /*
-        //Toast.makeText(this, noticia.getDescripcion(),Toast.LENGTH_LONG).show();
-        Intent unItent = new Intent(this, DetalleNoticiasActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(FragmentDetalleNoticias.NOTICIA,noticia);
-        unItent.putExtras(bundle);
-        startActivity(unItent);
-         */
-
     }
 
     @Override
     public void sellecionDos(ListaNoticias listaNoticias) {
         Log.d(TAG,"Selecciono la noticia");
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(TAG, "onRestoreInstanceState");
     }
 }

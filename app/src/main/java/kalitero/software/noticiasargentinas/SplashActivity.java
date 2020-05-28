@@ -22,8 +22,8 @@ import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 
 public class SplashActivity extends AppCompatActivity implements RecepcionNoticias {
 
-    Animation animationGrupo;
-    Animation animarionElipse;
+    private Animation animationGrupo;
+    private Animation animarionElipse;
     private ImageView elipse;
     private ImageView grupo;
     private TextView noticiasArgentinas;

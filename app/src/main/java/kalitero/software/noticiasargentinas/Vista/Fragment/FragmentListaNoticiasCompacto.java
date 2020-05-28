@@ -36,7 +36,6 @@ public class FragmentListaNoticiasCompacto extends Fragment implements FragmentL
 
     //Fabrica el fragment
     public static FragmentListaNoticiasCompacto dameUnFragment(ListaNoticias listaNoticias){
-        // Crear el fragment
         FragmentListaNoticiasCompacto fragmentListaNoticiasCompacto = new FragmentListaNoticiasCompacto();
         // Pasar el bundle
         Bundle bundle = new Bundle();
@@ -47,12 +46,10 @@ public class FragmentListaNoticiasCompacto extends Fragment implements FragmentL
         return fragmentListaNoticiasCompacto;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
