@@ -22,6 +22,9 @@ public class Noticia implements Serializable {
         this.fecha = fecha;
     }
 
+    public Noticia() {
+    }
+
     public String getUrlNoticia() {
         return urlNoticia;
     }

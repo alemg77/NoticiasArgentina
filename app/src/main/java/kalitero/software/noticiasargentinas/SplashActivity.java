@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-import kalitero.software.noticiasargentinas.Controlador.BuscarNoticias;
+import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
     private ImageView elipse;
     private ImageView grupo;
     private TextView noticiasArgentinas;
-    private BuscarNoticias buscarNoticias;
+    private BuscarNoticiasAPI buscarNoticias;
     private PaqueteNoticias paqueteNoticias;
     private Integer pedidosApi;
     private String TAG = getClass().toString();
@@ -43,9 +43,9 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
         noticiasArgentinas = findViewById(R.id.textViewTitulo);
 
         paqueteNoticias = new PaqueteNoticias();
-        buscarNoticias = new BuscarNoticias(SplashActivity.this);
+        buscarNoticias = new BuscarNoticiasAPI(SplashActivity.this);
         pedidosApi = 0;
-        buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA);
+        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA);
 
         rotarAnimacion();
         escalaAnimacion();
@@ -100,27 +100,27 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
         pedidosApi++;
         switch (pedidosApi) {
             case 1:
-                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_CIENCIA);
+                buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_CIENCIA);
                 break;
 
             case 2:
-                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_ENTRETENIMIENTO);
+                buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_ENTRETENIMIENTO);
                 break;
 
             case 3:
-                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_SALUD);
+                buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_SALUD);
                 break;
 
             case 4:
-                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_NEGOCIOS);
+                buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_NEGOCIOS);
                 break;
 
             case 5:
-                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_DEPORTES);
+                buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_DEPORTES);
                 break;
 
             case 6:
-                buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_TECNOLOGIA);
+                buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_TECNOLOGIA);
                 break;
 
             case 7:

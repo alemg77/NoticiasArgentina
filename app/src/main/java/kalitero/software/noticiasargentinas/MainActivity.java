@@ -2,7 +2,6 @@ package kalitero.software.noticiasargentinas;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,17 +12,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationView;
-import java.io.Serializable;
+import com.google.firebase.auth.FirebaseAuth;
 
-import kalitero.software.noticiasargentinas.Controlador.BuscarNoticias;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
+import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasFirebase;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentLogin;
@@ -37,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private PaqueteNoticias paqueteNoticias;
-    private BuscarNoticias buscarNoticias;
+    private BuscarNoticiasAPI buscarNoticias;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     // TODO: Faltan estos logos:
@@ -51,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Motorsport.com
         Rosario3.com
         Tn.com.ar
-        Cadena3.com
+        Cadena3.com-
         Elintransigente.com
      */
 
@@ -67,43 +72,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.abrir_menu, R.string.cerrar_menu);
 
-        buscarNoticias = new BuscarNoticias(MainActivity.this);
+        buscarNoticias = new BuscarNoticiasAPI(MainActivity.this);
 
-        Bundle bundle = this.getIntent().getExtras();
-        paqueteNoticias = (PaqueteNoticias)bundle.getSerializable(PaqueteNoticias.class.toString());
-        pegarFragment(new ViewPagerListasNoticias(), R.id.activityMainContenedorFragment, paqueteNoticias);
+        if (savedInstanceState == null) {
+            // Si llega aca, es la primera vez que se carga la actividad
+            Bundle bundle = this.getIntent().getExtras();
+            paqueteNoticias = (PaqueteNoticias) bundle.getSerializable(PaqueteNoticias.class.toString());
+            pegarFragment(new ViewPagerListasNoticias(), R.id.activityMainContenedorFragment, paqueteNoticias);
+        } else {
+            Log.d(TAG, "Otra vez YO");
+        }
+
 
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.navigationMenuUltimasNoticias:
-                        buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA);
+                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA);
                         break;
 
                     case R.id.navigationMenuCiencia:
-                        buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_CIENCIA);
+                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_CIENCIA);
                         break;
 
                     case R.id.navigationMenuEntretenimiento:
-                        buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_ENTRETENIMIENTO);
+                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_ENTRETENIMIENTO);
                         break;
 
                     case R.id.navigationMenuSalud:
-                        buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_SALUD);
+                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_SALUD);
                         break;
 
                     case R.id.navigationMenuNegocios:
-                        buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_NEGOCIOS);
+                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_NEGOCIOS);
                         break;
 
                     case R.id.navigationMenuDeportes:
-                        buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_DEPORTES);
+                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_DEPORTES);
                         break;
 
                     case R.id.navigationMenuTecnologia:
-                        buscarNoticias.titularesNuevos(BuscarNoticias.KEY_PAIS_ARGENTINA, BuscarNoticias.KEY_TEMA_TECNOLOGIA);
+                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_TECNOLOGIA);
                         break;
 
                     case R.id.navigationMenuNoticiasBarriales:
@@ -122,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     /**
      * Funcion para pegar un fragment enviandole un objeto serializable
+     *
      * @param fragmentAPegar  :Fragment a pegar
      * @param containerViewId :Donde lo queres pegar
      * @param serializable    :Que objeto le vas a pasar
@@ -145,14 +157,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                paqueteNoticias =  new PaqueteNoticias();
+                paqueteNoticias = new PaqueteNoticias();
                 buscarNoticias.porTema(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                paqueteNoticias =  new PaqueteNoticias();
+                paqueteNoticias = new PaqueteNoticias();
                 buscarNoticias.porTema(newText);
                 return false;
             }
@@ -173,6 +185,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().addToBackStack(null)
                         .add(R.id.activityMainContenedorFragment, new FragmentLogin()).commit();
                 break;
+
+            case R.id.actionbar_firebase:
+                if (FirebaseAuth.getInstance() != null) {
+                    // Busco una noticia cualquier para verificar que funciona
+                    Noticia noticia2 = paqueteNoticias.getPaqueteCompleto().get(0).getNoticia(2);
+
+                    // Declaro el buscado en Firebase
+                    BuscarNoticiasFirebase noticiasFirebase = new BuscarNoticiasFirebase(this);
+
+                    // Guardo en Firebase
+                    noticiasFirebase.guargarNoticia(BuscarNoticiasAPI.KEY_TEMA_CIENCIA, noticia2);
+
+                } else {
+                    Toast.makeText(this, "Debes registrarte primero", Toast.LENGTH_LONG).show();
+                }
+                break;
+
+            case R.id.action_firebaseLeer:
+                if (FirebaseAuth.getInstance() != null) {
+                    BuscarNoticiasFirebase noticiasFirebase = new BuscarNoticiasFirebase(this);
+                    noticiasFirebase.porTema(BuscarNoticiasAPI.KEY_TEMA_CIENCIA);
+                } else {
+                    Toast.makeText(this, "Debes registrarte primero", Toast.LENGTH_LONG).show();
+                }
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -202,9 +240,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void sellecionDos(ListaNoticias listaNoticias) {
-        Log.d(TAG,"Selecciono la noticia");
+        Log.d(TAG, "Selecciono la noticia");
     }
-
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {

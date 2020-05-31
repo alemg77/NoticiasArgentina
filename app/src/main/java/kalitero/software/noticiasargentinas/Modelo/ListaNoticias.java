@@ -3,7 +3,7 @@ package kalitero.software.noticiasargentinas.Modelo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import kalitero.software.noticiasargentinas.Controlador.BuscarNoticias;
+import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
 
 public class ListaNoticias implements Serializable {
 
@@ -16,27 +16,27 @@ public class ListaNoticias implements Serializable {
 
     public void setTema(String tema) {
         switch ( tema ) {
-            case BuscarNoticias.KEY_TEMA_DEPORTES:
+            case BuscarNoticiasAPI.KEY_TEMA_DEPORTES:
                 this.tema = "Deportes";
                 break;
 
-            case BuscarNoticias.KEY_TEMA_CIENCIA:
+            case BuscarNoticiasAPI.KEY_TEMA_CIENCIA:
                 this.tema = "Ciencia";
                 break;
 
-            case BuscarNoticias.KEY_TEMA_ENTRETENIMIENTO:
+            case BuscarNoticiasAPI.KEY_TEMA_ENTRETENIMIENTO:
                 this.tema = "Espectaculos";
                 break;
 
-            case BuscarNoticias.KEY_TEMA_NEGOCIOS:
+            case BuscarNoticiasAPI.KEY_TEMA_NEGOCIOS:
                 this.tema = "Negocios";
                 break;
 
-            case BuscarNoticias.KEY_TEMA_SALUD:
+            case BuscarNoticiasAPI.KEY_TEMA_SALUD:
                 this.tema = "Salud";
                 break;
 
-            case BuscarNoticias.KEY_TEMA_TECNOLOGIA:
+            case BuscarNoticiasAPI.KEY_TEMA_TECNOLOGIA:
                 this.tema = "Tecnologia";
                 break;
 
@@ -53,12 +53,29 @@ public class ListaNoticias implements Serializable {
         setTema(tema);
     }
 
+    public ListaNoticias(String tema) {
+        this.arrayListNoticias = new ArrayList<>();
+        setTema(tema);
+    }
+
+    public ListaNoticias() {
+    }
+
+
+    public void agregar (Noticia unaNoticia){
+        arrayListNoticias.add(unaNoticia);
+    }
+
     public ArrayList<Noticia> getArrayListNoticias() {
         return arrayListNoticias;
     }
 
     public void setArrayListNoticias(ArrayList<Noticia> arrayListNoticias) {
         this.arrayListNoticias = arrayListNoticias;
+    }
+
+    public Noticia getNoticia (int posicion) {
+        return arrayListNoticias.get(posicion);
     }
 
     public int getPosicionInicial() {

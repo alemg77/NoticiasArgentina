@@ -25,7 +25,7 @@ import java.util.Map;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 
-public class BuscarNoticias extends AppCompatActivity {
+public class BuscarNoticiasAPI extends AppCompatActivity {
 
     public final static String KEY_PAIS_ARGENTINA = "ar";
     public final static String KEY_PAIS_USA = "us";
@@ -45,7 +45,7 @@ public class BuscarNoticias extends AppCompatActivity {
 
     private RecepcionNoticias listener;
 
-    public BuscarNoticias(RecepcionNoticias listener) {
+    public BuscarNoticiasAPI(RecepcionNoticias listener) {
         this.listener = listener;
     }
 
@@ -158,13 +158,13 @@ public class BuscarNoticias extends AppCompatActivity {
     }
 
     public static List<String> crearLista() {
-        List<String> listeTemas = new ArrayList<>();
-        listeTemas.add(KEY_TEMA_CIENCIA);
-        listeTemas.add(KEY_TEMA_DEPORTES);
-        listeTemas.add(KEY_TEMA_ENTRETENIMIENTO);
-        listeTemas.add(KEY_TEMA_NEGOCIOS);
-        listeTemas.add(KEY_TEMA_SALUD);
-        listeTemas.add(KEY_TEMA_TECNOLOGIA);
-        return listeTemas;
+        List<String> listaTemas = new ArrayList<>();
+        listaTemas.add(KEY_TEMA_CIENCIA);
+        listaTemas.add(KEY_TEMA_DEPORTES);
+        listaTemas.add(KEY_TEMA_ENTRETENIMIENTO);
+        listaTemas.add(KEY_TEMA_NEGOCIOS);
+        listaTemas.add(KEY_TEMA_SALUD);
+        listaTemas.add(KEY_TEMA_TECNOLOGIA);
+        return listaTemas;
     }
 }

@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import kalitero.software.noticiasargentinas.Controlador.BuscarNoticias;
+import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.R;
@@ -40,7 +40,7 @@ public class ViewPagerListasNoticias extends Fragment {
         viewPager = view.findViewById(R.id.fragmentVPLista_viewPager);
         Bundle bundle = getArguments();
         PaqueteNoticias paqueteNoticias = (PaqueteNoticias) bundle.getSerializable(PaqueteNoticias.class.toString());
-        ViewPagerListasNoticiasAdapter adapter = new ViewPagerListasNoticiasAdapter(getActivity().getSupportFragmentManager(), BuscarNoticias.crearLista(), paqueteNoticias);
+        ViewPagerListasNoticiasAdapter adapter = new ViewPagerListasNoticiasAdapter(getActivity().getSupportFragmentManager(), BuscarNoticiasAPI.crearLista(), paqueteNoticias);
         viewPager.setAdapter(adapter);
 
         return view;
