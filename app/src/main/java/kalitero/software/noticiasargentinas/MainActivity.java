@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -83,6 +85,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.d(TAG, "Otra vez YO");
         }
 
+
+        FloatingActionButton fab = findViewById(R.id.floating_action_button);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Hacer que vaya a un fragment que degenere una noticia.
+                Toast.makeText(MainActivity.this, "Toma por curioso", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

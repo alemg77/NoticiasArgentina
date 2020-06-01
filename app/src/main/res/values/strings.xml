@@ -13,4 +13,5 @@
     <string name="fb_login_protocol_scheme">fb261760201692288</string>
     <string name="abrir_menu">Desplegar menu de navegacion</string>
     <string name="cerrar_menu">Cerrar menu de navegacion</string>
+    <string name="fab_content_desc">Descripcion...</string>
 </resources>
