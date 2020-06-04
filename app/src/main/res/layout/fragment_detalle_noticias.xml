@@ -6,88 +6,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Vista.Fragment.FragmentDetalleNoticias"
     android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/fragmentDetalleNoticiasAPISeccionTextView"
-        android:gravity="center"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="2dp"
-        android:text="deportes"
-        android:textColor="#fff"
-        android:textSize="18dp"
-        android:textStyle="italic"
-        android:paddingVertical="5dp"
-        android:background="@drawable/fondoseccion"
-        />
-
     <TextView
         android:id="@+id/fragmentTituloNoticiastextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-
-        android:paddingVertical="6dp"
-        android:paddingHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:textSize="20dp"
-        android:textColor="#FFFFFF"
-        android:background="#B2000000"
-        android:text="TextView"
-        android:textAlignment="textEnd"/>
+        android:textColor="#04000C"
+        android:background="@color/RecyclerviewFondoNoticias"
+        android:text="TextView" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="340dp"
+        android:layout_width="280dp"
         android:layout_gravity="center"
         app:cardCornerRadius="18dp"
         android:layout_height="150dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
-        android:layout_marginBottom="10dp"
-        app:cardElevation="10dp">
+        android:layout_marginBottom="10dp">
 
         <ImageView
             android:id="@+id/fragmentDetalleNoticiasImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true" />
 
     </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        app:cardCornerRadius="18dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="10dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
         <TextView
             android:id="@+id/fragmentDetalleNoticiastextView"
-            android:layout_width="290dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:textColor="#04000C"
-            android:textAlignment="gravity"
             android:textSize="18dp"
+            android:background="@color/RecyclerviewFondoNoticias"
             android:text="TextView" />
-
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
 
 </LinearLayout>
