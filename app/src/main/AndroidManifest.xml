@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kalitero.software.noticiasargentinas">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -11,7 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity">
+        <activity android:name=".LogActivity"></activity>
+
+        <activity
+            android:name="SplashActivity"
+            android:label="SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,9 +47,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentLogin;
+import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentNuevaBarrial;
 import kalitero.software.noticiasargentinas.Vista.ViewPager.ViewPagerListasNoticias;
 import kalitero.software.noticiasargentinas.Vista.ViewPager.ViewPagerNoticia;
 
@@ -46,6 +48,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private PaqueteNoticias paqueteNoticias;
     private BuscarNoticiasAPI buscarNoticias;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private FragmentNuevaBarrial fragmentNuevaBarrial;
+    private FragmentLogin fragmentLogin;
+
+
 
     // TODO: Faltan estos logos:
     /*
@@ -63,6 +71,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -75,6 +90,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.abrir_menu, R.string.cerrar_menu);
 
         buscarNoticias = new BuscarNoticiasAPI(MainActivity.this);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        fragmentNuevaBarrial = new FragmentNuevaBarrial();
+        fragmentLogin = new FragmentLogin();
 
         if (savedInstanceState == null) {
             // Si llega aca, es la primera vez que se carga la actividad
@@ -91,8 +111,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                if (currentUser != null){
+                    pegarFragment(fragmentNuevaBarrial, R.id.activityMainContenedorFragment);
+                }
+                else {
+                    pegarFragment(fragmentLogin, R.id.activityMainContenedorFragment);
+                }
+
                 // TODO: Hacer que vaya a un fragment que degenere una noticia.
-                Toast.makeText(MainActivity.this, "Toma por curioso", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Toma por curioso", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -154,6 +183,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Bundle bundle = new Bundle();
         bundle.putSerializable(serializable.getClass().toString(), serializable);
         fragmentAPegar.setArguments(bundle);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.add(containerViewId, fragmentAPegar).commit();
+    }
+
+    private void pegarFragment(Fragment fragmentAPegar, int containerViewId) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.add(containerViewId, fragmentAPegar).commit();
@@ -266,4 +301,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onRestoreInstanceState(savedInstanceState);
         Log.d(TAG, "onRestoreInstanceState");
     }
+
+
 }
