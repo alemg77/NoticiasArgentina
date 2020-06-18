@@ -50,7 +50,7 @@ public class FragmentLoginMailRegister extends Fragment {
         binding.fragmentRegisterBotonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nombreUsuario = binding.fragmentRegisterNombreUsuario.getEditText().toString();
+                nombreUsuario = binding.fragmentRegisterNombreUsuario1.getText().toString();
                 email = binding.fragmentRegisterEMail.getEditText().toString();
                 password = binding.fragmentRegisterPassword.getEditText().toString();
                 crearUsuarioConMailYPassword(email, password);
