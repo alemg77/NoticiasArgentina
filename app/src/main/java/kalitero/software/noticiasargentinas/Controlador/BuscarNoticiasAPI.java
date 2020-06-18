@@ -82,7 +82,8 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
                                 String noticiaDescripcion = jsonNoticia.getString("description");
                                 String urlNoticia = jsonNoticia.getString("url");
                                 String urlToImage = jsonNoticia.getString("urlToImage");
-                                Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date());
+                                String noticiaTema = temadelPedido;
+                                Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema);
                                 listaDeNoticias.add(noticia);
                             }
                             ListaNoticias listaNoticias = new ListaNoticias(listaDeNoticias,temadelPedido);
@@ -130,7 +131,8 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
                                 String noticiaDescripcion = jsonNoticia.getString("description");
                                 String urlNoticia = jsonNoticia.getString("url");
                                 String urlToImage = jsonNoticia.getString("urlToImage");
-                                Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date());
+                                String noticiaTema = null;
+                                Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema);
                                 listaDeNoticias.add(noticia);
                             }
                             listener.llegoPaqueteDeNoticias(new ListaNoticias(listaDeNoticias, "General"));

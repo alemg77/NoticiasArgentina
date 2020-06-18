@@ -60,6 +60,7 @@ public class FragmentLogin extends Fragment {
     private String password;
     private FragmentLoginMailRegister fragmentLoginMailRegister;
     private LogActivity logActivity;
+    private FragmentIngresoBarrial fragmentIngresoBarrial;
 
 
     public FragmentLogin() {
@@ -84,6 +85,7 @@ public class FragmentLogin extends Fragment {
 
             Log.d(TAG, "Nos conectamos!!!");
             Snackbar.make(binding.getRoot(), "Nos conectamos!!!", BaseTransientBottomBar.LENGTH_SHORT).show();
+            pegarFragment(fragmentIngresoBarrial, R.id.activityMainContenedorFragment);
         }
     }
 
@@ -103,6 +105,7 @@ public class FragmentLogin extends Fragment {
         binding = FragmentLoginBinding.inflate(getLayoutInflater());
 
         fragmentLoginMailRegister = new FragmentLoginMailRegister();
+        fragmentIngresoBarrial = new FragmentIngresoBarrial();
         logActivity = new LogActivity();
 
         alphaOn = AnimationUtils.loadAnimation(getContext(), R.anim.alphaon);
@@ -119,6 +122,12 @@ public class FragmentLogin extends Fragment {
 
 
         return binding.getRoot();
+    }
+
+    private void pegarFragment(Fragment fragmentAPegar, int containerViewId) {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.add(containerViewId, fragmentAPegar).commit();
     }
 
     private void EscucharBotonMail() {

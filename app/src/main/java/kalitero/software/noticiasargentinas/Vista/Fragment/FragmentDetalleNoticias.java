@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.R;
+import kalitero.software.noticiasargentinas.databinding.FragmentDetalleNoticiasBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +24,8 @@ public class FragmentDetalleNoticias extends Fragment {
     private String TAG = getClass().toString();
 
     public static final String NOTICIA = "noticia";
+
+    private FragmentDetalleNoticiasBinding binding;
 
     //Fabrica el fragment
     public static FragmentDetalleNoticias dameUnFragment(Noticia noticia){
@@ -40,15 +43,15 @@ public class FragmentDetalleNoticias extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_detalle_noticias, container, false);
+        binding = FragmentDetalleNoticiasBinding.inflate(getLayoutInflater());
 
         Bundle bundle = getArguments();
         Noticia noticia = (Noticia) bundle.getSerializable(NOTICIA);
 
-        ImageView imageViewNoticia = view.findViewById(R.id.fragmentDetalleNoticiasImageView);
-        TextView textViewNoticia = view.findViewById(R.id.fragmentDetalleNoticiastextView);
-        TextView textViewTitulo = view.findViewById(R.id.fragmentTituloNoticiastextView);
+        ImageView imageViewNoticia = binding.fragmentDetalleNoticiasImageView;
+        TextView textViewNoticia = binding.fragmentDetalleNoticiastextView;
+        TextView textViewTitulo = binding.fragmentTituloNoticiastextView;
+        TextView textViewSeccion = binding.fragmentDetalleNoticiasAPISeccionTextView;
 
         //imageViewNoticia.setImageResource(noticia.getUrlImagen());
 
@@ -59,6 +62,7 @@ public class FragmentDetalleNoticias extends Fragment {
         }
 
         textViewNoticia.setText(noticia.getDescripcion());
+        textViewSeccion.setText(noticia.getTema());
         String titulo = noticia.getTitulo();
         if ( titulo.contains("-") ) {
             textViewTitulo.setText(titulo.substring(0,titulo.indexOf("-")-1));
@@ -66,6 +70,6 @@ public class FragmentDetalleNoticias extends Fragment {
             textViewTitulo.setText(titulo);
         }
 
-        return view;
+        return binding.getRoot();
     }
 }

@@ -33,6 +33,7 @@ import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
+import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentIngresoBarrial;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentLogin;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentNuevaBarrial;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseUser currentUser;
     private FragmentNuevaBarrial fragmentNuevaBarrial;
     private FragmentLogin fragmentLogin;
+    private FragmentIngresoBarrial fragmentIngresoBarrial;
 
 
 
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAuth = FirebaseAuth.getInstance();
 
         fragmentNuevaBarrial = new FragmentNuevaBarrial();
+        fragmentIngresoBarrial = new FragmentIngresoBarrial();
         fragmentLogin = new FragmentLogin();
 
         if (savedInstanceState == null) {
@@ -114,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
                 if (currentUser != null){
-                    pegarFragment(fragmentNuevaBarrial, R.id.activityMainContenedorFragment);
+                    pegarFragment(fragmentIngresoBarrial, R.id.activityMainContenedorFragment);
                 }
                 else {
                     pegarFragment(fragmentLogin, R.id.activityMainContenedorFragment);
@@ -191,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void pegarFragment(Fragment fragmentAPegar, int containerViewId) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.add(containerViewId, fragmentAPegar).commit();
+        fragmentTransaction.replace(containerViewId, fragmentAPegar).commit();
     }
 
     @Override

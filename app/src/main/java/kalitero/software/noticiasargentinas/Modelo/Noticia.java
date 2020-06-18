@@ -11,8 +11,9 @@ public class Noticia implements Serializable {
     private String urlNoticia;
     private String urlImagen;
     private Date fecha;
+    private String tema;
 
-    public Noticia(String fuente, String autor, String titulo, String descripcion, String urlNoticia, String urlImagen, Date fecha) {
+    public Noticia(String fuente, String autor, String titulo, String descripcion, String urlNoticia, String urlImagen, Date fecha, String tema) {
         this.fuente = fuente;
         this.autor = autor;
         this.urlNoticia = urlNoticia;
@@ -20,6 +21,7 @@ public class Noticia implements Serializable {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fecha = fecha;
+        this.tema = tema;
     }
 
     public Noticia() {
@@ -51,5 +53,11 @@ public class Noticia implements Serializable {
 
     public Date getFecha() {
         return fecha;
+    }
+
+   public String getTema() { return tema; }
+
+    public void setTema(String tema) {
+        this.tema = tema;
     }
 }

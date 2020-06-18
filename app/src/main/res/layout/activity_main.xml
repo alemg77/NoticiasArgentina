@@ -41,7 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             app:fabSize="auto"
-            android:layout_margin="16dp"
+            android:backgroundTint="#FF9800"
+            android:layout_margin="20dp"
             android:contentDescription="@string/fab_content_desc"
             app:srcCompat="@drawable/ic_baseline_add_circle_24" />
 
