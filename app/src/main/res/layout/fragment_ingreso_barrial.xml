@@ -1,74 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/RecyclerviewFondoNoticias"
     android:orientation="vertical"
     tools:context=".Vista.Fragment.FragmentIngresoBarrial">
 
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/fragmentIngresoBarrialScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
     <TextView
+        android:id="@+id/fragmentIngresoBarrialSeccionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/fragmentIngresoBarrialSeccionTextView"
-        android:gravity="center"
         android:layout_marginHorizontal="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="2dp"
+        android:background="@drawable/fondoseccion"
+        android:gravity="center"
+        android:paddingVertical="5dp"
         android:text="barriales"
         android:textColor="#fff"
         android:textSize="18dp"
         android:textStyle="italic"
-        android:paddingVertical="5dp"
-        android:background="@drawable/fondoseccion"
         />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fragmentDetalleIngresoBarrialFABubicacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/ic_baseline_location_on_24"
-            app:elevation="20dp"
-            android:id="@+id/fragmentDetalleIngresoBarrialFABubicacion"/>
+            app:elevation="20dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fragmentIngresoBarrialFABsubirFoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/ic_baseline_camera_alt_24"
-            app:elevation="20dp"
-            android:id="@+id/fragmentIngresoBarrialFABsubirFoto"/>
+            app:elevation="20dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fragmentIngresoBarrialFABsubirVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/ic_baseline_videocam_24"
-            app:elevation="20dp"
-            android:id="@+id/fragmentIngresoBarrialFABsubirVideo"/>
+            app:elevation="20dp"/>
 
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="340dp"
+        android:layout_height="90dp"
         android:layout_gravity="center"
-        app:cardCornerRadius="18dp"
-        android:layout_height="150dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="10dp"
-        app:cardElevation="10dp"
-        android:outlineSpotShadowColor="@color/colorPrimaryDark">
+        android:outlineSpotShadowColor="@color/colorPrimaryDark"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="10dp">
 
     <TextView
         android:id="@+id/fragmentDetalleBarrialTituloTextView"
@@ -76,19 +87,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
 
-        android:paddingVertical="6dp"
         android:paddingHorizontal="20dp"
-        android:textSize="14dp"
-        android:textColor="#9BA0BC"
+        android:paddingVertical="6dp"
         android:text="Escriba el Título"
         android:textAlignment="center"
+        android:textColor="#9BA0BC"
+        android:textSize="14dp"
         />
 
         <EditText
+            android:id="@+id/fragmentIngresoBarrialEditTextTitulo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:id="@+id/fragmentIngresoBarrialEditTextTitulo"/>
+            android:layout_margin="10dp"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -96,14 +107,14 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="340dp"
-        android:layout_gravity="center"
-        app:cardCornerRadius="18dp"
         android:layout_height="370dp"
+        android:layout_gravity="center"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="10dp"
-        android:outlineSpotShadowColor="@color/colorPrimaryDark">
+        android:outlineSpotShadowColor="@color/colorPrimaryDark"
+        app:cardCornerRadius="18dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -117,18 +128,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:paddingVertical="6dp"
                 android:paddingHorizontal="20dp"
-                android:textSize="14dp"
-                android:textColor="#9BA0BC"
+                android:paddingVertical="6dp"
                 android:text="Escriba el Texto"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="#9BA0BC"
+                android:textSize="14dp" />
 
             <EditText
+                android:id="@+id/fragmentIngresoBarrialEditTextTexto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:id="@+id/fragmentIngresoBarrialEditTextTexto"/>
+                android:layout_margin="10dp"/>
 
 
 
@@ -145,44 +156,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Imagen"
-        android:textSize="14dp"
-        android:textColor="#9BA0BC"/>
+        android:textColor="#9BA0BC"
+        android:textSize="14dp"/>
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="10dp"
             android:id="@+id/fragmentIngresoBarrialImageViewFoto1"
-            tools:src="@drawable/fondo"
-             android:scaleType="centerCrop"/>
-
-        <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginHorizontal="10dp"
+            android:scaleType="centerCrop"
+             tools:src="@drawable/fondo"/>
+
+        <ImageView
             android:id="@+id/fragmentIngresoBarrialImageViewFoto2"
-            tools:src="@drawable/fondo"
-            android:scaleType="centerCrop"/>
-
-        <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginHorizontal="10dp"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/fondo"/>
+
+        <ImageView
             android:id="@+id/fragmentIngresoBarrialImageViewFoto3"
-            tools:src="@drawable/fondo"
-            android:scaleType="centerCrop"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="10dp"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_baseline_camera_enhance_24"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginLeft="30dp"
-            android:src="@drawable/ic_baseline_play_arrow_24"
             android:backgroundTint="#FF9800"
+            android:src="@drawable/ic_baseline_play_arrow_24"
             app:elevation="20dp"
             />
 
     </LinearLayout>
 
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

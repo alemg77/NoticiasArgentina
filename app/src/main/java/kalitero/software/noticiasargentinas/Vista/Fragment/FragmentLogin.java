@@ -127,7 +127,7 @@ public class FragmentLogin extends Fragment {
     private void pegarFragment(Fragment fragmentAPegar, int containerViewId) {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.add(containerViewId, fragmentAPegar).commit();
+        fragmentTransaction.replace(containerViewId, fragmentAPegar).commit();
     }
 
     private void EscucharBotonMail() {
