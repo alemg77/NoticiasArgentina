@@ -141,8 +141,6 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"/>
 
-
-
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
@@ -165,7 +163,7 @@
             android:layout_height="50dp"
             android:layout_marginHorizontal="10dp"
             android:scaleType="centerCrop"
-             tools:src="@drawable/fondo"/>
+            android:src="@drawable/fondo"/>
 
         <ImageView
             android:id="@+id/fragmentIngresoBarrialImageViewFoto2"
@@ -173,7 +171,7 @@
             android:layout_height="50dp"
             android:layout_marginHorizontal="10dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/fondo"/>
+            android:src="@drawable/fondo"/>
 
         <ImageView
             android:id="@+id/fragmentIngresoBarrialImageViewFoto3"
@@ -181,7 +179,7 @@
             android:layout_height="50dp"
             android:layout_marginHorizontal="10dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/ic_baseline_camera_enhance_24"/>
+            android:src="@drawable/ic_baseline_camera_enhance_24"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
