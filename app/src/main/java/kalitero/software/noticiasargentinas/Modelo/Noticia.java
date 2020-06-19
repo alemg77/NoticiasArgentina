@@ -16,6 +16,19 @@ public class Noticia implements Serializable {
     private String latitud;
     private String longitud;
 
+    public Noticia(String fuente, String autor, String titulo, String descripcion, String urlNoticia, String urlImagen, Date fecha, String tema) {
+        this.fuente = fuente;
+        this.autor = autor;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.urlNoticia = urlNoticia;
+        this.urlImagen = urlImagen;
+        this.fecha = fecha;
+        this.tema = tema;
+        this.urlImagenStorage = null;
+        this.latitud = null;
+        this.longitud = null;
+    }
 
     public Noticia(String fuente, String autor, String titulo, String descripcion, String urlNoticia, String urlImagen, Date fecha, String tema, String urlImagenStorage, String latitud, String longitud) {
         this.fuente = fuente;
