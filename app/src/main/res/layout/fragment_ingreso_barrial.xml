@@ -59,12 +59,12 @@
             app:elevation="20dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fragmentIngresoBarrialFABsubirVideo"
+            android:id="@+id/fragmentIngresoBarrialFABcategoria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/ic_baseline_videocam_24"
+            android:src="@drawable/ic_baseline_category_24"
             app:elevation="20dp"/>
 
     </LinearLayout>
@@ -191,6 +191,7 @@
             android:backgroundTint="#FF9800"
             android:src="@drawable/ic_baseline_play_arrow_24"
             app:elevation="20dp"
+            android:id="@+id/fragmentIngresoBarrialFABagregaNoticia"
             />
 
     </LinearLayout>
