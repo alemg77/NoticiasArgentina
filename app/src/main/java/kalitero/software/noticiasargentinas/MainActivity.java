@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentLogin fragmentLogin;
     private FragmentIngresoBarrial fragmentIngresoBarrial;
 
-
-
     // TODO: Faltan estos logos:
     /*
         Ambito.com
@@ -75,8 +73,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
-
-
     }
 
     @Override
