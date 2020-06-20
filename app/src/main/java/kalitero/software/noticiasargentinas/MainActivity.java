@@ -1,5 +1,6 @@
 package kalitero.software.noticiasargentinas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -24,8 +25,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasFirebase;
@@ -33,10 +32,10 @@ import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
-import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentIngresoBarrial;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentLogin;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentNuevaBarrial;
+import kalitero.software.noticiasargentinas.Vista.SubirNoticias.SubirNoticias;
 import kalitero.software.noticiasargentinas.Vista.ViewPager.ViewPagerListasNoticias;
 import kalitero.software.noticiasargentinas.Vista.ViewPager.ViewPagerNoticia;
 
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseUser currentUser;
     private FragmentNuevaBarrial fragmentNuevaBarrial;
     private FragmentLogin fragmentLogin;
-    private FragmentIngresoBarrial fragmentIngresoBarrial;
 
     // TODO: Faltan estos logos:
     /*
@@ -92,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAuth = FirebaseAuth.getInstance();
 
         fragmentNuevaBarrial = new FragmentNuevaBarrial();
-        fragmentIngresoBarrial = new FragmentIngresoBarrial();
         fragmentLogin = new FragmentLogin();
 
         if (savedInstanceState == null) {
@@ -111,9 +108,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
                 if (currentUser != null){
-                    pegarFragment(fragmentIngresoBarrial, R.id.activityMainContenedorFragment);
+                    startActivity(new Intent(MainActivity.this, SubirNoticias.class));
                 }
                 else {
                     pegarFragment(fragmentLogin, R.id.activityMainContenedorFragment);

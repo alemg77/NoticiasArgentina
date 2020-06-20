@@ -51,7 +51,7 @@ public class FragmentDetalleNoticias extends Fragment {
         ImageView imageViewNoticia = binding.fragmentDetalleNoticiasImageView;
         TextView textViewNoticia = binding.fragmentDetalleNoticiastextView;
         TextView textViewTitulo = binding.fragmentTituloNoticiastextView;
-        TextView textViewSeccion = binding.fragmentDetalleNoticiasAPISeccionTextView;
+//        TextView textViewSeccion = binding.fragmentDetalleNot;
 
         //imageViewNoticia.setImageResource(noticia.getUrlImagen());
 
@@ -62,7 +62,7 @@ public class FragmentDetalleNoticias extends Fragment {
         }
 
         textViewNoticia.setText(noticia.getDescripcion());
-        textViewSeccion.setText(noticia.getTema());
+//        textViewSeccion.setText(noticia.getTema());
         String titulo = noticia.getTitulo();
         if ( titulo.contains("-") ) {
             textViewTitulo.setText(titulo.substring(0,titulo.indexOf("-")-1));

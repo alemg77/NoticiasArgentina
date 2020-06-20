@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/RecyclerviewFondoNoticias"
     android:orientation="vertical"
-    tools:context=".Vista.Fragment.FragmentIngresoBarrial">
+    tools:context=".Vista.SubirNoticias.FragmentIngresoBarrial">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/fragmentIngresoBarrialScrollView"

@@ -7,8 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import kalitero.software.noticiasargentinas.R;
+import pl.aprilapps.easyphotopicker.EasyImage;
 import kalitero.software.noticiasargentinas.databinding.FragmentDetalleBarrialBinding;
 
 public class FragmentDetalleBarrial extends Fragment {
@@ -23,14 +22,13 @@ public class FragmentDetalleBarrial extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        binding = FragmentDetalleBarrialBinding.inflate(getLayoutInflater());
-
-
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    binding = FragmentDetalleBarrialBinding.inflate(getLayoutInflater());
 
         return binding.getRoot();
     }
+
+
+
+
 }
