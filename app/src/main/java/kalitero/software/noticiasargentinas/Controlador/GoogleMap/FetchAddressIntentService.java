@@ -8,6 +8,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
+import android.view.View;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,6 +30,11 @@ public class FetchAddressIntentService extends IntentService {
         Bundle bundle = new Bundle();
         bundle.putParcelable(RESULT_DATA_KEY, address);
         receiver.send(resultCode, bundle);
+    }
+
+
+    private View getRootView() {
+
     }
 
     public FetchAddressIntentService() {

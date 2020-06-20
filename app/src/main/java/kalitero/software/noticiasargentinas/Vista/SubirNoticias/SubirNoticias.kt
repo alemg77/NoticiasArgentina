@@ -26,7 +26,6 @@ class SubirNoticias : AppCompatActivity(), FragmentIngresoBarrial.Aviso {
         }
     }
 
-
     private fun pegarFragment(fragmentAPegar: Fragment, containerViewId: Int) {
         if (fragmentAPegar is FragmentIngresoBarrial) {
             fragmentAPegar.fijarEschuchador(this)
@@ -53,6 +52,8 @@ class SubirNoticias : AppCompatActivity(), FragmentIngresoBarrial.Aviso {
         }
         startActivity(intent)
     }
+
+
 
 
 }

@@ -34,7 +34,6 @@ import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentLogin;
-import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentNuevaBarrial;
 import kalitero.software.noticiasargentinas.Vista.SubirNoticias.SubirNoticias;
 import kalitero.software.noticiasargentinas.Vista.ViewPager.ViewPagerListasNoticias;
 import kalitero.software.noticiasargentinas.Vista.ViewPager.ViewPagerNoticia;
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private FragmentNuevaBarrial fragmentNuevaBarrial;
     private FragmentLogin fragmentLogin;
 
     // TODO: Faltan estos logos:
@@ -89,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mAuth = FirebaseAuth.getInstance();
 
-        fragmentNuevaBarrial = new FragmentNuevaBarrial();
         fragmentLogin = new FragmentLogin();
 
         if (savedInstanceState == null) {
