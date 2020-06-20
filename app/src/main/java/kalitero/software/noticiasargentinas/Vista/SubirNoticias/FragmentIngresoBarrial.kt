@@ -21,6 +21,9 @@ import java.io.File
 class FragmentIngresoBarrial : Fragment() {
 
 
+    private val binding get() = _binding!!
+    var _binding: FragmentIngresoBarrialBinding? = null
+
     internal lateinit var callback: Aviso
 
     fun fijarEschuchador(callback: Aviso) {
@@ -28,32 +31,25 @@ class FragmentIngresoBarrial : Fragment() {
     }
 
     companion object {
-        var binding: FragmentIngresoBarrialBinding? = null
         val TAG = javaClass.toString()
         private const val PERMISO_FINE_LOCATION = 69
-
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentIngresoBarrialBinding.inflate(layoutInflater)
+        _binding = FragmentIngresoBarrialBinding.inflate(inflater, container, false)
         escucharBotonBuscarImagen()
         escucharBotonBuscarMapa()
-        return binding!!.root
+        return binding.root
     }
 
     private fun escucharBotonBuscarMapa() {
-        binding!!.fragmentDetalleIngresoBarrialFABubicacion.setOnClickListener{
+        binding.fragmentDetalleIngresoBarrialFABubicacion.setOnClickListener {
             callback.mostrarMapa()
         }
     }
 
     private fun escucharBotonBuscarImagen() {
-        binding!!.fragmentIngresoBarrialFABsubirFoto.setOnClickListener {
+        binding.fragmentIngresoBarrialFABsubirFoto.setOnClickListener {
             EasyImage.openChooserWithGallery(this@FragmentIngresoBarrial, "Elige una foto", 1)
         }
     }
@@ -63,7 +59,7 @@ class FragmentIngresoBarrial : Fragment() {
         EasyImage.handleActivityResult(requestCode, resultCode, data, activity, object : DefaultCallback() {
             override fun onImagesPicked(imageFiles: List<File>, source: ImageSource, type: Int) {
                 val imagenPublicacion1 = BitmapFactory.decodeFile(imageFiles[0].absolutePath)
-                binding!!.fragmentIngresoBarrialImageViewFoto1.setImageBitmap(imagenPublicacion1)
+                binding.fragmentIngresoBarrialImageViewFoto1.setImageBitmap(imagenPublicacion1)
             }
 
             override fun onCanceled(source: ImageSource, type: Int) {
@@ -86,6 +82,11 @@ class FragmentIngresoBarrial : Fragment() {
         val byteArrayOutputStream = ByteArrayOutputStream()
         scaledBitmap!!.compress(Bitmap.CompressFormat.JPEG, calidad, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 
