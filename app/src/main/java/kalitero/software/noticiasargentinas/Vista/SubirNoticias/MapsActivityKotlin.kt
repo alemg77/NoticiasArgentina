@@ -19,11 +19,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import kalitero.software.noticiasargentinas.R
-import kalitero.software.noticiasargentinas.Vista.SubirNoticias.SubirNoticias.Companion.binding
-import kalitero.software.noticiasargentinas.databinding.ActivityMapsKotlinBinding
 
 class MapsActivityKotlin : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener {
 
@@ -41,15 +38,19 @@ class MapsActivityKotlin : AppCompatActivity(), OnMapReadyCallback, OnMarkerClic
     private var hasGps = false
     private var hasNetwork = false
     private var coordenadasUsuario: Location? = null
+    private var localNetworkLocation: Location? = null
+    private var localGpsLocation: Location? = null
+    private lateinit var latLng: LatLng
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps_kotlin)
 
-        if (checkPermission(permissions)){
+
+        if (checkPermission(permissions)) {
             Log.d(TAG, "Tenemos permisos para usar el GPS, vamos a buscar la posicion")
-            getLocation()
+            verificarSiTenemosCoordenadas()
         } else {
             Log.d(TAG, "No tenemos permisos para el GPS, vamos a pedirlos")
             requestPermissions(permissions, PERMISSION_REQUEST)
@@ -67,14 +68,22 @@ class MapsActivityKotlin : AppCompatActivity(), OnMapReadyCallback, OnMarkerClic
             }
             if (allSuccess) {
                 Log.d(TAG, "Acaban de darnos permisos, vamos a buscar la posicion")
-                getLocation()
+                verificarSiTenemosCoordenadas()
             } else {
                 // TODO: Decidir que hacer si no tenemos permisos
             }
         }
     }
 
-    private fun iniciarMapa() {
+    fun verificarSiTenemosCoordenadas(){
+        coordenadasUsuario = getLocation()
+        if ( coordenadasUsuario!=null ){
+            iniciarMapa(coordenadasUsuario)
+        }
+    }
+
+    private fun iniciarMapa(coordenadasUsuario: Location?) {
+        latLng = LatLng(coordenadasUsuario!!.latitude, coordenadasUsuario!!.longitude)
         Log.d(TAG, "Iniciando mapa.....")
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -101,21 +110,19 @@ class MapsActivityKotlin : AppCompatActivity(), OnMapReadyCallback, OnMarkerClic
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
         mMap.setOnMarkerClickListener(this)
         mMap.setOnMapClickListener(this)
-
-        var latLngUsuario = LatLng(coordenadasUsuario!!.latitude, coordenadasUsuario!!.longitude)
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngUsuario, 15f))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+        Log.d(TAG, "Mapa listo!!")
     }
 
     override fun onMapClick(p0: LatLng?) {
-        Log.d(TAG, "onMapClick!!!!")
+        Log.d(TAG, "onMapClick: "+ latLng.latitude + " " + latLng.longitude)
         Snackbar.make(window.decorView.rootView, "Guardar posicion?", Snackbar.LENGTH_SHORT)
                 .setAction("SI", View.OnClickListener {
+                    // FIXME: esto no funciona!!!
                     Log.d(TAG, "Falta guardar las coordenadas");
                 }).show()
-
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
@@ -124,36 +131,38 @@ class MapsActivityKotlin : AppCompatActivity(), OnMapReadyCallback, OnMarkerClic
     }
 
     @SuppressLint("MissingPermission")
-    private fun getLocation() {
+    private fun getLocation(): Location? {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        localGpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
+        // Si tengo una coordenada de GPS vieja, es suficiente.
+        if (localGpsLocation != null) {
+            return localGpsLocation
+        }
+        localNetworkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        if (localNetworkLocation != null) {
+            return localNetworkLocation
+        }
+
         hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
         if (hasGps || hasNetwork) {
             if (hasGps) {
-                Log.d(TAG, "hasGps")
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0F, object : LocationListener {
                     override fun onLocationChanged(location: Location?) {
                         Log.d(TAG, "Tenemos coordenadas por GPS")
-                        if (coordenadasUsuario == null) {
-                            iniciarMapa()
+                        if ( coordenadasUsuario == null) {
+                            coordenadasUsuario = location
+                            iniciarMapa(coordenadasUsuario)
                         }
-                        coordenadasUsuario = location
                     }
-
-                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-
-                    }
-
-                    override fun onProviderEnabled(provider: String?) {
-
-                    }
-
-                    override fun onProviderDisabled(provider: String?) {
-
-                    }
-
+                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+                    override fun onProviderEnabled(provider: String?) {}
+                    override fun onProviderDisabled(provider: String?) {}
                 })
-                val localGpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            } else {
+                Log.d(TAG, "No hay GPS")
             }
 
             if (hasNetwork) {
@@ -161,35 +170,29 @@ class MapsActivityKotlin : AppCompatActivity(), OnMapReadyCallback, OnMarkerClic
                     override fun onLocationChanged(location: Location?) {
                         if (location != null) {
                             Log.d(TAG, "Tenemos coordenadas por red")
-                            if (coordenadasUsuario == null) {
-                                iniciarMapa()
+                            if ( coordenadasUsuario == null) {
+                                coordenadasUsuario = location
+                                iniciarMapa(coordenadasUsuario)
                             }
-                            coordenadasUsuario = location
-
                         }
                     }
-
-                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-
-                    }
-
-                    override fun onProviderEnabled(provider: String?) {
-
-                    }
-
-                    override fun onProviderDisabled(provider: String?) {
-
-                    }
-
+                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+                    override fun onProviderEnabled(provider: String?) {}
+                    override fun onProviderDisabled(provider: String?) {}
                 })
-                val localNetworkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            } else {
+                Log.d(TAG, "No hay red")
             }
+
         } else {
-            // TODO: No tenemos GPS ni RED, ¿Que hacemos?
+            Snackbar.make(window.decorView.rootView, "Active el GPS para continuar", Snackbar.LENGTH_INDEFINITE).show()
+            // TODO: Reaccionar a la activacion del GPS. Ni idea como se hace...
             //startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
         }
-    }
 
+        // No tenemos nada
+        return null
+    }
 
 
 }
