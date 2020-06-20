@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentLogin fragmentLogin;
 
     // TODO: Faltan estos logos:
-    /*
+    /**********************
         Ambito.com
         Pagina12.com.ar
         Perfil.com
