@@ -2,6 +2,7 @@ package kalitero.software.noticiasargentinas.Controlador.Dao
 
 import android.content.ContentValues
 import android.graphics.Bitmap
+import android.provider.Settings
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.OnFailureListener
@@ -9,13 +10,19 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias
 import kalitero.software.noticiasargentinas.Modelo.Noticia
 import kalitero.software.noticiasargentinas.util.ResultListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import java.util.*
+import kotlin.collections.ArrayList
 
 class NoticiaDaoFirebase {
 
@@ -48,30 +55,40 @@ class NoticiaDaoFirebase {
         return progreso!!
     }
 
-    fun guardarNoticia(noticia: Noticia) {
-        referenciaColeccion.document().set(noticia)
-                .addOnSuccessListener {
-                    Log.d(TAG, "Guardamos una noticia")
-                }
+    suspend fun guardarNoticia(noticia: Noticia) {
+        GlobalScope.launch {
+            try {
+                val await = referenciaColeccion.document().set(noticia).await()
+                Log.d(TAG, "Guardamos una noticia")
+            } catch (e: FirebaseFirestoreException) {
+                Log.d(TAG, "Error guardando noticia:$e")
+            }
+        }
     }
 
     fun guardarNoticia(noticia: Noticia, imagen: Bitmap) {
-        val fechayHora = Calendar.getInstance().time.toString()
-        val uid = FirebaseAuth.getInstance().uid
-        val riversRef = storage.reference.child(uid + fechayHora)
-        val imagenComprimida = comprimir_imagen(imagen, 1024, 70)
-        val uploadTask = riversRef.putBytes(imagenComprimida)
-        uploadTask.addOnFailureListener { Log.d(ContentValues.TAG, "Fallo al subir archivo en FireStore") }.addOnSuccessListener { taskSnapshot ->
-            Log.d(ContentValues.TAG, "Subio archivo en Firestore")
-            val storage = taskSnapshot.storage
-            val path = taskSnapshot.metadata!!.path
-            noticia.urlImagenStorage = path
+        GlobalScope.launch(Dispatchers.IO) {
+            val usuarioFirebase = FirebaseAuth.getInstance().uid
+            val fechaHora = Calendar.getInstance().time.toString()
+            val pathImagen = usuarioFirebase + fechaHora
+            val imagenComprimida = comprimir_imagen(imagen, 1024, 70)
+            subirArchivo(imagenComprimida,pathImagen )
+            noticia.urlImagen = pathImagen
             guardarNoticia(noticia)
-        }.addOnProgressListener { taskSnapshot ->
-            val aux = taskSnapshot.bytesTransferred * 100 / taskSnapshot.totalByteCount
-//            progreso!!.setValue(aux.toInt())
         }
     }
+
+    fun subirArchivo(archivo: ByteArray, pathArchivo:String) {
+        GlobalScope.launch {
+            val riversRef = storage.reference.child(pathArchivo)
+            try {
+                val uploadTask = riversRef.putBytes(archivo).await()
+            } catch (e: FirebaseFirestoreException) {
+                Log.d(TAG, "Error subiendo archivo a firebase: $e")
+            }
+        }
+    }
+
 
     fun comprimir_imagen(bitmap: Bitmap, anchoMaximo: Int, calidad: Int): ByteArray {
         val width = bitmap.width
@@ -98,13 +115,10 @@ class NoticiaDaoFirebase {
     }
      */
 
-    /*************************
-     * Busca en la collection de animales todos los animales
-     * @param resultListener
-     *********/
     fun buscarNoticias(resultListener: ResultListener<ListaNoticias>) {
         referenciaColeccion.get()
                 .addOnSuccessListener(OnSuccessListener<QuerySnapshot> { queryDocumentSnapshots ->
+                    // TODO: ESTO ROMPE CUANDO HAY UNA LISTA EN EL DOCUMENTO DE FIREBASE
                     val listNoticia = queryDocumentSnapshots.toObjects(Noticia::class.java)
                     val listaNoticias = ListaNoticias(listNoticia, "Firebase")
                     resultListener.onFinish(listaNoticias)

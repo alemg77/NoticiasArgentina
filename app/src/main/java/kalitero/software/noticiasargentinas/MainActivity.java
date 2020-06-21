@@ -51,18 +51,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentLogin fragmentLogin;
 
     // TODO: Faltan estos logos:
+
     /**********************
-        Ambito.com
-        Pagina12.com.ar
-        Perfil.com
-        Cienradios.com
-        ElTerritorio.com.ar
-        Depo.com.ar
-        Motorsport.com
-        Rosario3.com
-        Tn.com.ar
-        Cadena3.com-
-        Elintransigente.com
+     Ambito.com
+     Pagina12.com.ar
+     Perfil.com
+     Cienradios.com
+     ElTerritorio.com.ar
+     Depo.com.ar
+     Motorsport.com
+     Rosario3.com
+     Tn.com.ar
+     Cadena3.com-
+     Elintransigente.com
      */
 
     @Override
@@ -101,15 +102,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                if (currentUser != null){
+                if (currentUser != null) {
                     startActivity(new Intent(MainActivity.this, SubirNoticias.class));
-                }
-                else {
+                } else {
                     pegarFragment(fragmentLogin, R.id.activityMainContenedorFragment);
                 }
-
-                // TODO: Hacer que vaya a un fragment que degenere una noticia.
-                //Toast.makeText(MainActivity.this, "Toma por curioso", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -228,13 +225,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     NoticiaDaoFirebase.Companion.getIntancia().buscarNoticias(new ResultListener<ListaNoticias>() {
                         @Override
                         public void onFinish(ListaNoticias result) {
-                            Log.d(TAG, "Que llego?");
+                            llegoPaqueteDeNoticias(result);
                         }
-
                         @Override
-                        public void onError(String message) {
-
-                        }
+                        public void onError(String message) {        }
                     });
                 } else {
                     Toast.makeText(this, "Debes registrarte primero", Toast.LENGTH_LONG).show();
@@ -253,7 +247,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
-        listaNoticias.setTema("General");
+        if ( listaNoticias.getTema() == null) {
+            listaNoticias.setTema("General");
+        }
         pegarFragment(new FragmentListaNoticiasCompacto(), R.id.activityMainContenedorFragment, listaNoticias);
     }
 
