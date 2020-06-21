@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
@@ -40,8 +43,7 @@ public class FragmentDetalleNoticias extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDetalleNoticiasBinding.inflate(getLayoutInflater());
 
         Bundle bundle = getArguments();
@@ -50,18 +52,24 @@ public class FragmentDetalleNoticias extends Fragment {
         ImageView imageViewNoticia = binding.fragmentDetalleNoticiasImageView;
         TextView textViewNoticia = binding.fragmentDetalleNoticiastextView;
         TextView textViewTitulo = binding.fragmentTituloNoticiastextView;
-//        TextView textViewSeccion = binding.fragmentDetalleNot;
+        // TextView textViewSeccion = binding.fragmentDetalleNot;
+        // imageViewNoticia.setImageResource(noticia.getUrlImagen());
 
-        //imageViewNoticia.setImageResource(noticia.getUrlImagen());
 
-        try {
-            Picasso.get().load(noticia.getUrlImagen()).into(imageViewNoticia);
-        } catch ( Exception e){
-            Log.d(TAG, "Error en la URL");
+        String urlImagenStorage = noticia.getUrlImagenStorage();
+        if (urlImagenStorage != null) {
+            StorageReference child = FirebaseStorage.getInstance().getReference().child(urlImagenStorage);
+            Glide.with(binding.getRoot()).load(child).into(binding.fragmentDetalleNoticiasImageView);
+        } else if (noticia.getUrlImagen() != null) {
+            try {
+                Glide.with(binding.getRoot()).load(noticia.getUrlImagen()).into(binding.fragmentDetalleNoticiasImageView);
+            } catch (Exception e) {
+                Log.d(TAG, "Problema al cargar imagen:" + e.toString());
+            }
         }
 
         textViewNoticia.setText(noticia.getDescripcion());
-//        textViewSeccion.setText(noticia.getTema());
+        // textViewSeccion.setText(noticia.getTema());
         String titulo = noticia.getTitulo();
         if ( titulo.contains("-") ) {
             textViewTitulo.setText(titulo.substring(0,titulo.indexOf("-")-1));
