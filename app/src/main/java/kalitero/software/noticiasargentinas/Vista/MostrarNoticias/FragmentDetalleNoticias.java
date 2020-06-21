@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista.Fragment;
+package kalitero.software.noticiasargentinas.Vista.MostrarNoticias;
 
 import android.os.Bundle;
 
@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
-import kalitero.software.noticiasargentinas.R;
 import kalitero.software.noticiasargentinas.databinding.FragmentDetalleNoticiasBinding;
 
 /**

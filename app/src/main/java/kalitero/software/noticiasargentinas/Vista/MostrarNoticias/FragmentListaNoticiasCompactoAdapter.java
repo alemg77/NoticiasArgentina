@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista.Fragment;
+package kalitero.software.noticiasargentinas.Vista.MostrarNoticias;
 
 import android.util.Log;
 import android.view.LayoutInflater;

@@ -47,6 +47,30 @@ public class Noticia implements Serializable {
     public Noticia() {
     }
 
+    public void setFuente(String fuente) {
+        this.fuente = fuente;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setUrlNoticia(String urlNoticia) {
+        this.urlNoticia = urlNoticia;
+    }
+
+    public void setUrlImagen(String urlImagen) {
+        this.urlImagen = urlImagen;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
     public String getUrlNoticia() {
         return urlNoticia;
     }
@@ -61,6 +85,10 @@ public class Noticia implements Serializable {
 
     public String getAutor() {
         return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
     }
 
     public String getTitulo() {

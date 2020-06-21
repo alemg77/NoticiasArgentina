@@ -6,12 +6,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
-import android.view.View;
 import android.widget.FrameLayout;
 
-import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentLogin;
-import kalitero.software.noticiasargentinas.databinding.FragmentLoginBinding;
+import kalitero.software.noticiasargentinas.Vista.Login.FragmentLogin;
 
 public class LogActivity extends AppCompatActivity {
 

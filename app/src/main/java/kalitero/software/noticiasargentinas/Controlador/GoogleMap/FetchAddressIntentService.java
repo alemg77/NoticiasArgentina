@@ -32,11 +32,6 @@ public class FetchAddressIntentService extends IntentService {
         receiver.send(resultCode, bundle);
     }
 
-
-    private View getRootView() {
-
-    }
-
     public FetchAddressIntentService() {
         super("FetchAddressIntentService");
     }

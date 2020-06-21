@@ -96,7 +96,7 @@
         />
 
         <EditText
-            android:id="@+id/fragmentIngresoBarrialEditTextTitulo"
+            android:id="@+id/editTextTituloNoticia"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"/>
@@ -136,7 +136,7 @@
                 android:textSize="14dp" />
 
             <EditText
-                android:id="@+id/fragmentIngresoBarrialEditTextTexto"
+                android:id="@+id/editTextTextoNoticia"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"/>
@@ -189,7 +189,7 @@
             android:backgroundTint="#FF9800"
             android:src="@drawable/ic_baseline_play_arrow_24"
             app:elevation="20dp"
-            android:id="@+id/fragmentIngresoBarrialFABagregaNoticia"
+            android:id="@+id/botonPublicar"
             />
 
     </LinearLayout>

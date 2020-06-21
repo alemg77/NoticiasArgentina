@@ -32,11 +32,11 @@ import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
-import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentListaNoticiasCompacto;
-import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentLogin;
+import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.FragmentListaNoticiasCompacto;
+import kalitero.software.noticiasargentinas.Vista.Login.FragmentLogin;
 import kalitero.software.noticiasargentinas.Vista.SubirNoticias.SubirNoticias;
-import kalitero.software.noticiasargentinas.Vista.ViewPager.ViewPagerListasNoticias;
-import kalitero.software.noticiasargentinas.Vista.ViewPager.ViewPagerNoticia;
+import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager.ViewPagerListasNoticias;
+import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager.ViewPagerNoticia;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, FragmentListaNoticiasCompacto.Aviso, ViewPagerListasNoticias.SelleccionDos {
 
@@ -84,9 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.abrir_menu, R.string.cerrar_menu);
 
         buscarNoticias = new BuscarNoticiasAPI(MainActivity.this);
-
         mAuth = FirebaseAuth.getInstance();
-
         fragmentLogin = new FragmentLogin();
 
         if (savedInstanceState == null) {
@@ -194,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Buscar aqui...");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 paqueteNoticias = new PaqueteNoticias();
@@ -219,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         switch (item.getItemId()) {
             case R.id.actionbar_usuario:
                 getSupportFragmentManager().beginTransaction().addToBackStack(null)
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.actionbar_firebase:
-                if (FirebaseAuth.getInstance() != null) {
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     // Busco una noticia cualquier para verificar que funciona
                     Noticia noticia2 = paqueteNoticias.getPaqueteCompleto().get(0).getNoticia(2);
 
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.action_firebaseLeer:
-                if (FirebaseAuth.getInstance() != null) {
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     BuscarNoticiasFirebase noticiasFirebase = new BuscarNoticiasFirebase(this);
                     noticiasFirebase.porTema(BuscarNoticiasAPI.KEY_TEMA_CIENCIA);
                 } else {

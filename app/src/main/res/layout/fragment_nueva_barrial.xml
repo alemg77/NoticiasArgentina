@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    tools:context=".Vista.Fragment.FragmentNuevaBarrial">
+    tools:context=".Vista.MostrarNoticias.FragmentNuevaBarrial">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

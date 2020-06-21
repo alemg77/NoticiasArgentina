@@ -1,6 +1,5 @@
 package kalitero.software.noticiasargentinas.Vista.SubirNoticias
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -10,17 +9,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase
+import kalitero.software.noticiasargentinas.Modelo.Noticia
 import kalitero.software.noticiasargentinas.databinding.FragmentIngresoBarrialBinding
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import pl.aprilapps.easyphotopicker.EasyImage.ImageSource
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.util.*
 
 
 class FragmentIngresoBarrial : Fragment() {
 
-
+    private var imagen1: Bitmap? = null
     private val binding get() = _binding!!
     var _binding: FragmentIngresoBarrialBinding? = null
 
@@ -39,7 +43,37 @@ class FragmentIngresoBarrial : Fragment() {
         _binding = FragmentIngresoBarrialBinding.inflate(inflater, container, false)
         escucharBotonBuscarImagen()
         escucharBotonBuscarMapa()
+        escucharBotonPublicar()
         return binding.root
+    }
+
+    private fun escucharBotonPublicar() {
+        binding.botonPublicar.setOnClickListener {
+            val tituloNoticia = binding.editTextTituloNoticia.text.toString()
+            if ( tituloNoticia.length < 6 ) {
+                Snackbar.make(binding.root, "El titulo debe ser mas largo", Snackbar.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            val descripcionNoticia = binding.editTextTextoNoticia.text.toString()
+            if ( descripcionNoticia.length < 10 ){
+                Snackbar.make(binding.root, "La descripcion debe ser mas larga", Snackbar.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            if ( imagen1 == null ) {
+                Snackbar.make(binding.root, "Es necesario una imagen", Snackbar.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            var usuarioFirebase = FirebaseAuth.getInstance().currentUser
+            var mailusuario = usuarioFirebase!!.email
+            var noticia = Noticia()
+            noticia.autor=mailusuario
+            noticia.titulo = tituloNoticia
+            noticia.descripcion = descripcionNoticia
+            noticia.fecha = Date()
+            noticia.fuente = "Usuario"
+            NoticiaDaoFirebase.getIntancia().guardarNoticia(noticia, imagen1!!)
+            Snackbar.make(binding.root, "Tenemos todo?", Snackbar.LENGTH_LONG).show()
+        }
     }
 
     private fun escucharBotonBuscarMapa() {
@@ -58,8 +92,9 @@ class FragmentIngresoBarrial : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         EasyImage.handleActivityResult(requestCode, resultCode, data, activity, object : DefaultCallback() {
             override fun onImagesPicked(imageFiles: List<File>, source: ImageSource, type: Int) {
-                val imagenPublicacion1 = BitmapFactory.decodeFile(imageFiles[0].absolutePath)
-                binding.fragmentIngresoBarrialImageViewFoto1.setImageBitmap(imagenPublicacion1)
+
+                imagen1 = BitmapFactory.decodeFile(imageFiles[0].absolutePath)
+                binding.fragmentIngresoBarrialImageViewFoto1.setImageBitmap(imagen1)
             }
 
             override fun onCanceled(source: ImageSource, type: Int) {
@@ -67,21 +102,6 @@ class FragmentIngresoBarrial : Fragment() {
                 Log.d(TAG, "Cancelo el usuario")
             }
         })
-    }
-
-    fun comprimir_imagen(bitmap: Bitmap, anchoMaximo: Int, calidad: Int): ByteArray? {
-        var scaledBitmap: Bitmap? = null
-        val width = bitmap.width
-        scaledBitmap = if (width > anchoMaximo) {
-            val escala = bitmap.width.toFloat() / anchoMaximo.toFloat()
-            val alto = (bitmap.height / escala).toInt()
-            Bitmap.createScaledBitmap(bitmap, anchoMaximo, alto, true)
-        } else {
-            bitmap
-        }
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        scaledBitmap!!.compress(Bitmap.CompressFormat.JPEG, calidad, byteArrayOutputStream)
-        return byteArrayOutputStream.toByteArray()
     }
 
     override fun onDestroyView() {

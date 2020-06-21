@@ -35,11 +35,9 @@ class SubirNoticias : AppCompatActivity(), FragmentIngresoBarrial.Aviso {
         fragmentTransaction.replace(containerViewId, fragmentAPegar).commit()
     }
 
-
     fun mensajito(mensaje: String) {
         Snackbar.make(binding!!.root, mensaje, Snackbar.LENGTH_SHORT).show();
     }
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -52,8 +50,5 @@ class SubirNoticias : AppCompatActivity(), FragmentIngresoBarrial.Aviso {
         }
         startActivity(intent)
     }
-
-
-
 
 }

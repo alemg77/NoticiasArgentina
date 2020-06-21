@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista.Fragment;
+package kalitero.software.noticiasargentinas.Vista.Login;
 
 import android.os.Bundle;
 
