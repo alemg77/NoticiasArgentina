@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase
+import kalitero.software.noticiasargentinas.Modelo.Comentario
 import kalitero.software.noticiasargentinas.Modelo.Noticia
 import kalitero.software.noticiasargentinas.databinding.FragmentIngresoBarrialBinding
 import pl.aprilapps.easyphotopicker.DefaultCallback
@@ -71,8 +72,14 @@ class FragmentIngresoBarrial : Fragment() {
             noticia.descripcion = descripcionNoticia
             noticia.fecha = Date()
             noticia.fuente = "Usuario"
+            val comentario = Comentario("Usuario1", "Comentario1")
+            noticia.agregarComentario(comentario)
+            val comentario2 = Comentario("Usuario2", "Comentario2")
+            noticia.agregarComentario(comentario2)
             NoticiaDaoFirebase.getIntancia().guardarNoticia(noticia, imagen1!!)
             Snackbar.make(binding.root, "Tenemos todo?", Snackbar.LENGTH_LONG).show()
+            // TODO: Hacer que muestre el progreso de suvir la foto
+            // TODO: Al terminar de subir deberia agradecer y salir.
         }
     }
 
