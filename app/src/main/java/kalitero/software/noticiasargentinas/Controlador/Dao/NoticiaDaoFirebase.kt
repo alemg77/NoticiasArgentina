@@ -4,11 +4,16 @@ import android.content.ContentValues
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
+import kalitero.software.noticiasargentinas.Modelo.ListaNoticias
 import kalitero.software.noticiasargentinas.Modelo.Noticia
+import kalitero.software.noticiasargentinas.util.ResultListener
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -81,5 +86,32 @@ class NoticiaDaoFirebase {
         scaledBitmap.compress(Bitmap.CompressFormat.JPEG, calidad, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
     }
+
+    /*
+    fun buscarNoticias() {
+        referenciaColeccion.get()
+                .addOnSuccessListener { queryDocumentSnapshots ->
+                    val listNoticia = queryDocumentSnapshots.toObjects(Noticia::class.java)
+                    val listaNoticias = ListaNoticias(listNoticia, "Firebase")
+                    Log.d(TAG, "Que paso?")
+                }
+    }
+     */
+
+    /*************************
+     * Busca en la collection de animales todos los animales
+     * @param resultListener
+     *********/
+    fun buscarNoticias(resultListener: ResultListener<ListaNoticias>) {
+        referenciaColeccion.get()
+                .addOnSuccessListener(OnSuccessListener<QuerySnapshot> { queryDocumentSnapshots ->
+                    val listNoticia = queryDocumentSnapshots.toObjects(Noticia::class.java)
+                    val listaNoticias = ListaNoticias(listNoticia, "Firebase")
+                    resultListener.onFinish(listaNoticias)
+                }).addOnFailureListener(OnFailureListener { e ->
+                    resultListener.onError("Ha ocurrido un error al obtener los animales " + e.message)
+                })
+    }
+
 
 }

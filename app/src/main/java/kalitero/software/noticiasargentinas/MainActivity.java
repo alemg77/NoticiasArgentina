@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.io.Serializable;
 
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
-import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasFirebase;
+import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
@@ -37,6 +37,7 @@ import kalitero.software.noticiasargentinas.Vista.Login.FragmentLogin;
 import kalitero.software.noticiasargentinas.Vista.SubirNoticias.SubirNoticias;
 import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager.ViewPagerListasNoticias;
 import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager.ViewPagerNoticia;
+import kalitero.software.noticiasargentinas.util.ResultListener;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, FragmentListaNoticiasCompacto.Aviso, ViewPagerListasNoticias.SelleccionDos {
 
@@ -47,8 +48,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private PaqueteNoticias paqueteNoticias;
     private BuscarNoticiasAPI buscarNoticias;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
     private FragmentLogin fragmentLogin;
 
     // TODO: Faltan estos logos:
@@ -84,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.abrir_menu, R.string.cerrar_menu);
 
         buscarNoticias = new BuscarNoticiasAPI(MainActivity.this);
-        mAuth = FirebaseAuth.getInstance();
         fragmentLogin = new FragmentLogin();
 
         if (savedInstanceState == null) {
@@ -162,13 +160,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    /**
+    /*****************
      * Funcion para pegar un fragment enviandole un objeto serializable
      *
      * @param fragmentAPegar  :Fragment a pegar
      * @param containerViewId :Donde lo queres pegar
      * @param serializable    :Que objeto le vas a pasar
-     */
+     **********/
     private void pegarFragment(Fragment fragmentAPegar, int containerViewId, Serializable serializable) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(serializable.getClass().toString(), serializable);
@@ -225,26 +223,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .add(R.id.activityMainContenedorFragment, new FragmentLogin()).commit();
                 break;
 
-            case R.id.actionbar_firebase:
-                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                    // Busco una noticia cualquier para verificar que funciona
-                    Noticia noticia2 = paqueteNoticias.getPaqueteCompleto().get(0).getNoticia(2);
-
-                    // Declaro el buscado en Firebase
-                    BuscarNoticiasFirebase noticiasFirebase = new BuscarNoticiasFirebase(this);
-
-                    // Guardo en Firebase
-                    noticiasFirebase.guargarNoticia(BuscarNoticiasAPI.KEY_TEMA_CIENCIA, noticia2);
-
-                } else {
-                    Toast.makeText(this, "Debes registrarte primero", Toast.LENGTH_LONG).show();
-                }
-                break;
-
             case R.id.action_firebaseLeer:
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                    BuscarNoticiasFirebase noticiasFirebase = new BuscarNoticiasFirebase(this);
-                    noticiasFirebase.porTema(BuscarNoticiasAPI.KEY_TEMA_CIENCIA);
+                    NoticiaDaoFirebase.Companion.getIntancia().buscarNoticias(new ResultListener<ListaNoticias>() {
+                        @Override
+                        public void onFinish(ListaNoticias result) {
+                            Log.d(TAG, "Que llego?");
+                        }
+
+                        @Override
+                        public void onError(String message) {
+
+                        }
+                    });
                 } else {
                     Toast.makeText(this, "Debes registrarte primero", Toast.LENGTH_LONG).show();
                 }

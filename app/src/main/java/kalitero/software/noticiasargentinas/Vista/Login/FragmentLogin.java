@@ -37,7 +37,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import kalitero.software.noticiasargentinas.LogActivity;
 import kalitero.software.noticiasargentinas.R;
 import kalitero.software.noticiasargentinas.Vista.SubirNoticias.FragmentIngresoBarrial;
 import kalitero.software.noticiasargentinas.databinding.FragmentLoginBinding;

@@ -21,12 +21,6 @@
         />
 
     <item
-        android:id="@+id/actionbar_firebase"
-        android:title="Ensayo Guardar Firebase"
-        app:showAsAction="never"
-        />
-
-    <item
         android:id="@+id/action_firebaseLeer"
         android:title="Ensayo Leer Firebase"
         app:showAsAction="never"
