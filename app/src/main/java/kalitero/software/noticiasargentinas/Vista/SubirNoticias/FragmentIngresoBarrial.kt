@@ -72,14 +72,13 @@ class FragmentIngresoBarrial : Fragment() {
             noticia.descripcion = descripcionNoticia
             noticia.fecha = Date()
             noticia.fuente = "Usuario"
-            val comentario = Comentario("Usuario1", "Comentario1")
-            noticia.agregarComentario(comentario)
-            val comentario2 = Comentario("Usuario2", "Comentario2")
-            noticia.agregarComentario(comentario2)
             NoticiaDaoFirebase.getIntancia().guardarNoticia(noticia, imagen1!!)
             Snackbar.make(binding.root, "Tenemos todo?", Snackbar.LENGTH_LONG).show()
             // TODO: Hacer que muestre el progreso de suvir la foto
             // TODO: Al terminar de subir deberia agradecer y salir.
+            binding.editTextTextoNoticia.text = null
+            binding.editTextTituloNoticia.text = null
+
         }
     }
 

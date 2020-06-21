@@ -1,8 +1,6 @@
 package kalitero.software.noticiasargentinas.Controlador.Dao
 
-import android.content.ContentValues
 import android.graphics.Bitmap
-import android.provider.Settings
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.OnFailureListener
@@ -22,7 +20,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import java.util.*
-import kotlin.collections.ArrayList
 
 class NoticiaDaoFirebase {
 
@@ -45,7 +42,6 @@ class NoticiaDaoFirebase {
             }
             return instancia!!
         }
-
     }
 
     fun getProgreso(): MutableLiveData<Int> {
@@ -55,7 +51,7 @@ class NoticiaDaoFirebase {
         return progreso!!
     }
 
-    suspend fun guardarNoticia(noticia: Noticia) {
+    fun guardarNoticia(noticia: Noticia) {
         GlobalScope.launch {
             try {
                 val await = referenciaColeccion.document().set(noticia).await()
@@ -73,7 +69,7 @@ class NoticiaDaoFirebase {
             val pathImagen = usuarioFirebase + fechaHora
             val imagenComprimida = comprimir_imagen(imagen, 1024, 70)
             subirArchivo(imagenComprimida,pathImagen )
-            noticia.urlImagen = pathImagen
+            noticia.urlImagenStorage = pathImagen
             guardarNoticia(noticia)
         }
     }
@@ -89,7 +85,6 @@ class NoticiaDaoFirebase {
         }
     }
 
-
     fun comprimir_imagen(bitmap: Bitmap, anchoMaximo: Int, calidad: Int): ByteArray {
         val width = bitmap.width
         val scaledBitmap = if (width > anchoMaximo) {
@@ -104,16 +99,14 @@ class NoticiaDaoFirebase {
         return byteArrayOutputStream.toByteArray()
     }
 
-    /*
     fun buscarNoticias() {
-        referenciaColeccion.get()
-                .addOnSuccessListener { queryDocumentSnapshots ->
-                    val listNoticia = queryDocumentSnapshots.toObjects(Noticia::class.java)
-                    val listaNoticias = ListaNoticias(listNoticia, "Firebase")
-                    Log.d(TAG, "Que paso?")
-                }
+        GlobalScope.launch {
+            val resultado = referenciaColeccion.get().await()
+            val toObjects = resultado.toObjects(Noticia::class.java)
+            val documents = resultado.documents
+            Log.d(TAG, "Que paso?")
+        }
     }
-     */
 
     fun buscarNoticias(resultListener: ResultListener<ListaNoticias>) {
         referenciaColeccion.get()
