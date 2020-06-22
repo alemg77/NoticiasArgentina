@@ -69,6 +69,36 @@
 
     </LinearLayout>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="340dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:outlineSpotShadowColor="@color/colorPrimaryDark"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="10dp">
+
+                <TextView
+                    android:id="@+id/fragmentDetalleBarrialCategoriaTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="6dp"
+                    android:text="Categoría"
+                    android:textAlignment="center"
+                    android:textColor="#9BA0BC"
+                    android:textSize="14dp"
+                    />
+
+
+            </androidx.cardview.widget.CardView>
+
+
     <androidx.cardview.widget.CardView
         android:layout_width="340dp"
         android:layout_height="90dp"
@@ -107,7 +137,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="340dp"
-        android:layout_height="370dp"
+        android:layout_height="330dp"
         android:layout_gravity="center"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"

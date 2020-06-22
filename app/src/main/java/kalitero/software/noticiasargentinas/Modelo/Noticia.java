@@ -34,6 +34,17 @@ public class Noticia implements Serializable {
     public Noticia() {
     }
 
+    public Noticia(String fuente, String autor, String titulo, String descripcion, String urlNoticia, String urlImagen, Date fecha, String tema) {
+        this.fuente = fuente;
+        this.autor = autor;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.urlNoticia = urlNoticia;
+        this.urlImagen = urlImagen;
+        this.fecha = fecha;
+        this.tema = tema;
+    }
+
     public String getUrlNoticia() {
         return urlNoticia;
     }

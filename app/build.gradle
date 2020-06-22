@@ -55,4 +55,5 @@ dependencies {
     implementation 'com.daimajia.easing:library:2.0@aar'
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
     compileOnly 'com.google.android.wearable:wearable:2.5.0'
+    implementation 'com.github.jkwiecien:EasyImage:2.1.1'
 }
