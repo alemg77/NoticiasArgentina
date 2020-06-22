@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista.ViewPager;
+package kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,11 +18,9 @@ public class ViewPagerNoticia extends Fragment {
 
     private ViewPager viewPager;
 
-
     public ViewPagerNoticia() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,8 +37,6 @@ public class ViewPagerNoticia extends Fragment {
         viewPager.setCurrentItem(listaNoticias.getPosicionInicial());
 
         return inflate;
-
-
 
     }
 }

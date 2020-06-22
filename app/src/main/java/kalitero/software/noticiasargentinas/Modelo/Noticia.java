@@ -1,7 +1,9 @@
 package kalitero.software.noticiasargentinas.Modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Noticia implements Serializable {
     private String fuente;
@@ -16,6 +18,22 @@ public class Noticia implements Serializable {
     private String latitud;
     private String longitud;
 
+    public Noticia() {
+    }
+
+    public Noticia(String fuente, String autor, String titulo, String descripcion, String urlNoticia, String urlImagen, Date fecha, String tema) {
+        this.fuente = fuente;
+        this.autor = autor;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.urlNoticia = urlNoticia;
+        this.urlImagen = urlImagen;
+        this.fecha = fecha;
+        this.tema = tema;
+        this.urlImagenStorage = null;
+        this.latitud = null;
+        this.longitud = null;
+    }
 
     public Noticia(String fuente, String autor, String titulo, String descripcion, String urlNoticia, String urlImagen, Date fecha, String tema, String urlImagenStorage, String latitud, String longitud) {
         this.fuente = fuente;
@@ -31,18 +49,28 @@ public class Noticia implements Serializable {
         this.longitud = longitud;
     }
 
-    public Noticia() {
+    public void setFuente(String fuente) {
+        this.fuente = fuente;
     }
 
-    public Noticia(String fuente, String autor, String titulo, String descripcion, String urlNoticia, String urlImagen, Date fecha, String tema) {
-        this.fuente = fuente;
-        this.autor = autor;
+    public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public void setUrlNoticia(String urlNoticia) {
         this.urlNoticia = urlNoticia;
+    }
+
+    public void setUrlImagen(String urlImagen) {
         this.urlImagen = urlImagen;
+    }
+
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
-        this.tema = tema;
     }
 
     public String getUrlNoticia() {
@@ -59,6 +87,10 @@ public class Noticia implements Serializable {
 
     public String getAutor() {
         return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
     }
 
     public String getTitulo() {

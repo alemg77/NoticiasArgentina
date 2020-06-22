@@ -61,7 +61,6 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
         getRequest("https://newsapi.org/v2/everything?domains=cnnespanol.cnn.com,elmundo.es,news.google.com,lagaceta.com.ar,lanacion.com.ar,marca.com&q="+tema);
     }
 
-
     public void titularesNuevos(String pais, final String temadelPedido) {
         String url = "https://newsapi.org/v2/top-headlines?country="+pais+"&category="+temadelPedido;
         RequestQueue queue = Volley.newRequestQueue((Context)listener);

@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista.Fragment;
+package kalitero.software.noticiasargentinas.Vista.MostrarNoticias;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,14 +10,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.R;
+import kalitero.software.noticiasargentinas.databinding.CeldaNoticiaBinding;
 
 public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
+
 
     private List<Noticia> listaDeNoticias;
     private AvisoRecyclerView listener;
@@ -32,8 +38,9 @@ public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View viewcelda = layoutInflater.inflate(R.layout.celda_noticia, parent, false);
-        return new NoticiaViewHolder(viewcelda);
+        CeldaNoticiaBinding celdaNoticiaBinding = CeldaNoticiaBinding.inflate(layoutInflater, parent, false);
+        FragmentListaNoticiasCompactoAdapter.NoticiaViewHolder viewHolder = new FragmentListaNoticiasCompactoAdapter.NoticiaViewHolder(celdaNoticiaBinding);
+        return viewHolder;
     }
 
     @Override
@@ -48,14 +55,13 @@ public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
 
     private class NoticiaViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView textViewTitulo;
-        private ImageView imageView;
+        private CeldaNoticiaBinding binding;
         private ImageView logo;
 
-        private NoticiaViewHolder(@NonNull View itemView) {
-            super(itemView);
-            textViewTitulo = itemView.findViewById(R.id.CeldaNoticiaTitulo);
-            imageView = itemView.findViewById(R.id.CeldaNoticiaImagen);
+        private NoticiaViewHolder(@NonNull CeldaNoticiaBinding celdaNoticiaBinding) {
+            super(celdaNoticiaBinding.getRoot());
+            binding = celdaNoticiaBinding;
+
             logo = itemView.findViewById(R.id.CeladaNoticiaimageViewLogo);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -68,19 +74,26 @@ public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
 
         private void cargarNoticia(Noticia unaNoticia) {
             String titulo = unaNoticia.getTitulo();
-            if ( titulo.contains("-") ) {
-                textViewTitulo.setText(titulo.substring(0,titulo.indexOf("-")-1));
+            if (titulo.contains("-")) {
+                binding.CeldaNoticiaTitulo.setText(titulo.substring(0, titulo.indexOf("-") - 1));
             } else {
-                textViewTitulo.setText(titulo);
+                binding.CeldaNoticiaTitulo.setText(titulo);
             }
-            String urlImagen = unaNoticia.getUrlImagen();
-            try {
-                Picasso.get().load(unaNoticia.getUrlImagen()).into(imageView);
-            } catch (Exception e) {
-                Log.d(TAG, "Problema al cargar imagen:"+ e.toString() );
+
+            String urlImagenStorage = unaNoticia.getUrlImagenStorage();
+            if (urlImagenStorage != null) {
+                StorageReference child = FirebaseStorage.getInstance().getReference().child(urlImagenStorage);
+                Glide.with(binding.getRoot()).load(child).into(binding.CeldaNoticiaImagen);
+            } else if (unaNoticia.getUrlImagen() != null) {
+                try {
+                    Glide.with(binding.getRoot()).load(unaNoticia.getUrlImagen()).into(binding.CeldaNoticiaImagen);
+                } catch (Exception e) {
+                    Log.d(TAG, "Problema al cargar imagen:" + e.toString());
+                }
             }
+
             String fuente = unaNoticia.getFuente();
-            switch (fuente ) {
+            switch (fuente) {
                 case "La Nacion":
                     Picasso.get().load(R.drawable.logo_lanacion).into(logo);
                     break;
@@ -122,7 +135,7 @@ public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
                     break;
 
                 default:
-                    Log.d(TAG,"****** FALTA AGREGAR EL LOGO DE:"+fuente+"*****************");
+                    Log.d(TAG, "****** FALTA AGREGAR EL LOGO DE:" + fuente + "*****************");
                     break;
             }
 
@@ -130,7 +143,7 @@ public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
     }
 
     public interface AvisoRecyclerView {
-        void recyclerViewClick (int posicion);
+        void recyclerViewClick(int posicion);
     }
 }
 

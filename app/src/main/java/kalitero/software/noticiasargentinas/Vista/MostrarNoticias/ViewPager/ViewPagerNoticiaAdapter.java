@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista.ViewPager;
+package kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
-import kalitero.software.noticiasargentinas.Vista.Fragment.FragmentDetalleNoticias;
+import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.FragmentDetalleNoticias;
 
 public class ViewPagerNoticiaAdapter extends FragmentStatePagerAdapter {
 

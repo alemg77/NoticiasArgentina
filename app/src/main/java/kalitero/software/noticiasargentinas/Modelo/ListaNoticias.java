@@ -2,6 +2,7 @@ package kalitero.software.noticiasargentinas.Modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
 
@@ -52,6 +53,12 @@ public class ListaNoticias implements Serializable {
         this.arrayListNoticias = arrayListNoticias;
         setTema(tema);
     }
+
+    public ListaNoticias(List<Noticia> arrayListNoticias, String tema) {
+        this.arrayListNoticias = (ArrayList<Noticia>) arrayListNoticias;
+        setTema(tema);
+    }
+
 
     public ListaNoticias(String tema) {
         this.arrayListNoticias = new ArrayList<>();

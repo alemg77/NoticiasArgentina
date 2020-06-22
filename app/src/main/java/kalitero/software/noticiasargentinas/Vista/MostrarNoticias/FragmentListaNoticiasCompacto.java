@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista.Fragment;
+package kalitero.software.noticiasargentinas.Vista.MostrarNoticias;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,14 +15,15 @@ import android.widget.TextView;
 
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.R;
+import kalitero.software.noticiasargentinas.databinding.FragmentListaNoticiasCompactoBinding;
 
 
 public class FragmentListaNoticiasCompacto extends Fragment implements FragmentListaNoticiasCompactoAdapter.AvisoRecyclerView{
 
-    private RecyclerView recyclerView;
+
+    private FragmentListaNoticiasCompactoBinding binding;
     private FragmentListaNoticiasCompacto.Aviso listener;
     private ListaNoticias listaNoticias;
-    private TextView textViewCategoria;
     public static final String CLAVE_TEMA = "claveTema";
     public static final String LISTA_NOTICIAS = ListaNoticias.class.toString();
 
@@ -53,18 +54,17 @@ public class FragmentListaNoticiasCompacto extends Fragment implements FragmentL
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
+        binding = FragmentListaNoticiasCompactoBinding.inflate(inflater, container, false);
         View inflate = inflater.inflate(R.layout.fragment_lista_noticias_compacto, container, false);
-        recyclerView = inflate.findViewById(R.id.FragmentRecyclerViewNoticiasCompactas);
-        textViewCategoria = inflate.findViewById(R.id.fragmentListaNoticiasTextViewcategoria);
         Bundle bundle = getArguments();
         String tema = bundle.getString(CLAVE_TEMA);
         listaNoticias = (ListaNoticias) bundle.getSerializable(LISTA_NOTICIAS);
-        textViewCategoria.setText(tema);
+        binding.fragmentListaNoticiasTextViewcategoria.setText(tema);
         FragmentListaNoticiasCompactoAdapter noticiaAdapter = new FragmentListaNoticiasCompactoAdapter(listaNoticias.getArrayListNoticias(),this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(noticiaAdapter);
-        return inflate;
+        binding.FragmentRecyclerViewNoticiasCompactas.setLayoutManager(layoutManager);
+        binding.FragmentRecyclerViewNoticiasCompactas.setAdapter(noticiaAdapter);
+        return binding.getRoot();
     }
 
     @Override

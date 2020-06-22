@@ -4,7 +4,6 @@
     <string name="nav_header_subtitle">losdelspa@noticiasargentinas.com</string>
     <string name="nav_header_desc">Navigation header</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="stringContactenos">Contáctenos</string>
     <string name="ingresarConMail">Ingresar con Mail</string>
@@ -15,10 +14,8 @@
     <string name="cerrar_menu">Cerrar menu de navegacion</string>
     <string name="fab_content_desc">Descripcion...</string>
     <string name="title_activity_login">LoginActivity</string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
+
     <string name="hello_world">Hello Square World!</string>
     <string name="title_activity_logueo">ActivityLogueo</string>
+    <string name="title_activity_maps_kotlin">Map</string>
 </resources>
