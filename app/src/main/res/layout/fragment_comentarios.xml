@@ -30,35 +30,12 @@
                 android:textSize="14dp"
                 />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:text="BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    BORRAR ESTE TEXT VIEW
-                    "
-                android:background="#fff"
-                android:layout_margin="20dp"
-                android:padding="10dp"/>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/FragmentComentariosRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="340dp"

@@ -3,6 +3,7 @@ package kalitero.software.noticiasargentinas.Vista;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,9 +24,9 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
     private List<Comentario> listaComentarios;
     private ComentarioAdapterListener comentarioAdapterListener;
 
-    public ComentarioAdapter(List<Comentario> listaComentarios, ComentarioAdapterListener comentarioAdapterListener) {
+    public ComentarioAdapter(List<Comentario> listaComentarios) {
         this.listaComentarios = listaComentarios;
-        this.comentarioAdapterListener = comentarioAdapterListener;
+      //  this.comentarioAdapterListener = comentarioAdapterListener;
     }
 
     @NonNull
@@ -58,16 +59,28 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
         private TextView dislike;
         private TextView celdaComentariosTextViewEmail;
         private TextView fecha;
+        private Button botonLike;
+        private Button botonDislike;
+
+
 
 
         public ViewHolderComentario(@NonNull View itemView) {
             super(itemView);
+
+            celdaComentariosTextViewComentario = itemView.findViewById(R.id.celdaComentariosTextViewComentario);
+            likes = itemView.findViewById(R.id.celdaComentariosTextViewLike);
+            dislike = itemView.findViewById(R.id.celdaComentariosTextViewDislike);
+            celdaComentariosTextViewEmail = itemView.findViewById(R.id.celdaComentariosTextViewEmail);
+            fecha = itemView.findViewById(R.id.celdaComentariosTextViewFecha);
+            botonLike = itemView.findViewById(R.id.celdaComentariosBotonLike);
+            botonDislike = itemView.findViewById(R.id.celdaComentariosBotonDislike);
         }
 
         public void onBind(Comentario comentario) {
             celdaComentariosTextViewComentario.setText(comentario.getOpinion());
-            likes.setText(comentario.getPositivos());
-            dislike.setText(comentario.getNegativos());
+            likes.setText(comentario.getPositivos().toString());
+            dislike.setText(comentario.getNegativos().toString());
             celdaComentariosTextViewEmail.setText(comentario.getUsuario());
             fecha.setText(comentario.getFecha().toString());
         }

@@ -49,6 +49,11 @@ public class FragmentComentarios extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentComentariosBinding.inflate(getLayoutInflater());
+
+        Bundle bundle = getArguments();
+        noticia = (Noticia) bundle.getSerializable(Noticia.class.toString());
+        String documentoFirebase = noticia.getDocumentoFirebase();
+
         recyclerViewComentarios = binding.FragmentComentariosRecyclerView;
         ComentariosController comentariosController = new ComentariosController(getContext());
         comentariosController.getComentarios(new ResultListener<List<Comentario>>() {
@@ -62,12 +67,11 @@ public class FragmentComentarios extends Fragment {
             public void onError(@NotNull String message) {
 
             }
-        });
+        }, documentoFirebase);
 
         escucharBotonComentar();
-        Bundle bundle = getArguments();
-        noticia = (Noticia) bundle.getSerializable(Noticia.class.toString());
-        NoticiaDaoFirebase.Companion.getIntancia().buscarComentarios(noticia.getDocumentoFirebase(),
+
+        NoticiaDaoFirebase.Companion.getIntancia().buscarComentarios(documentoFirebase,
                 new ResultListener<List<Comentario>>() {
                     @Override
                     public void onFinish(List<Comentario> result) {
@@ -87,7 +91,7 @@ public class FragmentComentarios extends Fragment {
             @Override
             public void onClick(View v) {
                 String texto = binding.fragmentComentarioEditTextComentarioNuevo.getText().toString();
-                if ( texto.length() < 2 ) {
+                if (texto.length() < 2) {
                     Snackbar.make(binding.getRoot(), "Comentario muy corto", BaseTransientBottomBar.LENGTH_LONG).show();
                     return;
                 }
@@ -102,9 +106,10 @@ public class FragmentComentarios extends Fragment {
     }
 
     private void cargarRecycler(List<Comentario> comentarioList) {
-        ComentarioAdapter animalAdapter = new ComentarioAdapter();
+        ComentarioAdapter animalAdapter = new ComentarioAdapter(comentarioList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         recyclerViewComentarios.setLayoutManager(linearLayoutManager);
         recyclerViewComentarios.setAdapter(animalAdapter);
+    }
 }

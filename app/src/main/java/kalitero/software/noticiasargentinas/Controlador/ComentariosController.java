@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
@@ -21,28 +23,25 @@ public class ComentariosController {
         this.context = context;
     }
 
-    public void getComentarios(ResultListener<List<Comentario>> resultListenerDeLaView){
+    public void getComentarios(ResultListener<List<Comentario>> resultListenerDeLaView, String documentoFirebase) {
 
-        if (hayInternet()){
-            noticiaDaoFirebase.buscarComentarios(new ResultListener<List<Comentario>>(), ){
+        if (hayInternet()) {
+            NoticiaDaoFirebase.Companion.getIntancia().buscarComentarios(documentoFirebase, new ResultListener<List<Comentario>>() {
                 @Override
                 public void onFinish(List<Comentario> result) {
                     resultListenerDeLaView.onFinish(result);
                 }
 
                 @Override
-                public void onError(String message) {
+                public void onError(@NotNull String message) {
                     resultListenerDeLaView.onError(message);
                 }
             });
-
-        } else {
-            Toast.makeText(context, "No hay Internet", Toast.LENGTH_SHORT).show();
         }
 
-    }
 
-    public boolean hayInternet() {
+    }
+    public boolean hayInternet () {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
