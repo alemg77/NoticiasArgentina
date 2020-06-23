@@ -18,6 +18,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
+
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.R;
 import kalitero.software.noticiasargentinas.databinding.FragmentDetalleNoticiasBinding;
@@ -28,8 +30,6 @@ import kalitero.software.noticiasargentinas.databinding.FragmentDetalleNoticiasB
 public class FragmentDetalleNoticias extends Fragment {
     private String TAG = getClass().toString();
 
-    public static final String NOTICIA = "noticia";
-
     private FragmentDetalleNoticiasBinding binding;
     private FragmentComentarios fragmentComentarios;
 
@@ -39,7 +39,7 @@ public class FragmentDetalleNoticias extends Fragment {
         FragmentDetalleNoticias detalleNoticiasFragment = new FragmentDetalleNoticias();
         // Pasar el bundle
         Bundle bundle = new Bundle();
-        bundle.putSerializable(NOTICIA,noticia);
+        bundle.putSerializable(Noticia.class.toString(),noticia);
         detalleNoticiasFragment.setArguments(bundle);
         //Hacer el return
         return detalleNoticiasFragment;
@@ -51,7 +51,7 @@ public class FragmentDetalleNoticias extends Fragment {
         binding = FragmentDetalleNoticiasBinding.inflate(getLayoutInflater());
 
         Bundle bundle = getArguments();
-        Noticia noticia = (Noticia) bundle.getSerializable(NOTICIA);
+        Noticia noticia = (Noticia) bundle.getSerializable(Noticia.class.toString());
 
         ImageView imageViewNoticia = binding.fragmentDetalleNoticiasImageView;
         TextView textViewNoticia = binding.fragmentDetalleNoticiastextView;
@@ -64,7 +64,7 @@ public class FragmentDetalleNoticias extends Fragment {
         botonComentarios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pegarFragment(fragmentComentarios, R.id.fragmentDetalleNoticiasContenedorComentarios);
+                pegarFragment(fragmentComentarios, R.id.fragmentDetalleNoticiasContenedorComentarios,noticia);
             }
         });
 
@@ -93,9 +93,13 @@ public class FragmentDetalleNoticias extends Fragment {
         return binding.getRoot();
     }
 
-    private void pegarFragment(Fragment fragmentAPegar, int containerViewId) {
+    private void pegarFragment(Fragment fragmentAPegar, int containerViewId, Serializable serializable) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(serializable.getClass().toString(), serializable);
+        fragmentAPegar.setArguments(bundle);
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(containerViewId, fragmentAPegar).commit();
+        fragmentTransaction.add(containerViewId, fragmentAPegar).commit();
     }
+
 }

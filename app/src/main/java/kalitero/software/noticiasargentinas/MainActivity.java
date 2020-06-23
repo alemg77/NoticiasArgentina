@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void pegarFragment(Fragment fragmentAPegar, int containerViewId) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(containerViewId, fragmentAPegar).commit();
+        fragmentTransaction.add(containerViewId, fragmentAPegar).commit();
     }
 
     @Override
