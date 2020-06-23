@@ -25,7 +25,10 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
@@ -216,7 +219,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         switch (item.getItemId()) {
             case R.id.actionbar_usuario:
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
@@ -231,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     NoticiaDaoFirebase.Companion.getIntancia().buscarNoticias(new ResultListener<ListaNoticias>() {
                         @Override
-                        public void onFinish(ListaNoticias result) {
+                        public void onFinish(@NotNull ListaNoticias result) {
                             llegoPaqueteDeNoticias(result);
                         }
 

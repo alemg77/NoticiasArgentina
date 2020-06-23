@@ -3,13 +3,10 @@ package kalitero.software.noticiasargentinas.Controlador.Dao
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias
 import kalitero.software.noticiasargentinas.Modelo.Noticia
@@ -20,6 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import java.util.*
+import kotlin.collections.ArrayList
 
 class NoticiaDaoFirebase {
 
@@ -110,14 +108,20 @@ class NoticiaDaoFirebase {
 
     fun buscarNoticias(resultListener: ResultListener<ListaNoticias>) {
         referenciaColeccion.get()
-                .addOnSuccessListener(OnSuccessListener<QuerySnapshot> { queryDocumentSnapshots ->
-                    // TODO: ESTO ROMPE CUANDO HAY UNA LISTA EN EL DOCUMENTO DE FIREBASE
-                    val listNoticia = queryDocumentSnapshots.toObjects(Noticia::class.java)
-                    val listaNoticias = ListaNoticias(listNoticia, "Firebase")
-                    resultListener.onFinish(listaNoticias)
-                }).addOnFailureListener(OnFailureListener { e ->
+                .addOnSuccessListener { result ->
+                    var listNoticias: ArrayList<Noticia> = ArrayList()
+                    for (document in result) {
+                        var noticia: Noticia = document.toObject(Noticia::class.java)
+                        noticia.documentoFirebase = document.id
+                        listNoticias.add(noticia)
+                    }
+                    val listaDeNoticias:ListaNoticias = ListaNoticias(listNoticias, "Firebase")
+                    resultListener.onFinish(listaDeNoticias)
+                }
+                .addOnFailureListener { e ->
                     resultListener.onError("Ha ocurrido un error al obtener los animales " + e.message)
-                })
+                }
+
     }
 
 

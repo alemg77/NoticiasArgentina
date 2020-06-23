@@ -17,6 +17,15 @@ public class Noticia implements Serializable {
     private String urlImagenStorage;
     private String latitud;
     private String longitud;
+    private String documentoFirebase;
+
+    public String getDocumentoFirebase() {
+        return documentoFirebase;
+    }
+
+    public void setDocumentoFirebase(String documentoFirebase) {
+        this.documentoFirebase = documentoFirebase;
+    }
 
     public Noticia() {
     }
