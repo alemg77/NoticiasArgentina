@@ -60,18 +60,19 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginHorizontal="10dp">
 
-                <Button
-                    android:layout_width="wrap_content"
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
                     android:layout_height="30dp"
                     app:icon="@drawable/ic_baseline_thumb_up_24"
                     style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:layout_weight="1"
                     android:backgroundTint="#fff"
+
                     android:id="@+id/celdaComentariosBotonLike"/>
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="55"
                     android:textSize="12dp"
@@ -80,8 +81,8 @@
                     android:layout_weight="1"
                     android:id="@+id/celdaComentariosTextViewLike"/>
 
-                <Button
-                    android:layout_width="30dp"
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     android:backgroundTint="#fff"
@@ -91,7 +92,7 @@
                     android:id="@+id/celdaComentariosBotonDislike"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:textSize="12dp"
