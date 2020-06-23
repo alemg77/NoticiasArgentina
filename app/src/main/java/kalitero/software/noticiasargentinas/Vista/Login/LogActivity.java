@@ -27,6 +27,15 @@ public class LogActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FragmentManager supportFragmentManager = this.getSupportFragmentManager();
+        if (supportFragmentManager.getBackStackEntryCount() == 0) {
+            finish();
+        }
+    }
+
     public void pegarFragment(Fragment fragment) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();

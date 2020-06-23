@@ -44,6 +44,14 @@ class SubirNoticias : AppCompatActivity(), FragmentIngresoBarrial.Aviso {
         outState.putString(KEY_LOCAL, "Esto ya esta echo")
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val supportFragmentManager = this.supportFragmentManager
+        if (supportFragmentManager.backStackEntryCount == 0) {
+            finish()
+        }
+    }
+
     override fun mostrarMapa() {
         val intent = Intent(this, MapsActivityKotlin::class.java).apply {
             //putExtra(EXTRA_MESSAGE, message)
