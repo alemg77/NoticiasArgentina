@@ -32,7 +32,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="250dp"
                 android:text="BORRAR ESTE TEXT VIEW
                     BORRAR ESTE TEXT VIEW
                     BORRAR ESTE TEXT VIEW
@@ -92,7 +92,18 @@
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"/>
 
+
             </androidx.cardview.widget.CardView>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                app:strokeColor="#fff"
+                android:outlineAmbientShadowColor="#fff"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:text="ENVIAR"
+                android:id="@+id/fragmentComentariosBotonEnviar"
+                android:layout_gravity="center"/>
 
         </LinearLayout>
 
