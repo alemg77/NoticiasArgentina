@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,14 +33,16 @@ import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
+import kalitero.software.noticiasargentinas.Vista.Login.FragmentVerUsuario;
 import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.Vista.Login.FragmentLogin;
+import kalitero.software.noticiasargentinas.Vista.Regresar;
 import kalitero.software.noticiasargentinas.Vista.SubirNoticias.SubirNoticias;
 import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager.ViewPagerListasNoticias;
 import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager.ViewPagerNoticia;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, FragmentListaNoticiasCompacto.Aviso, ViewPagerListasNoticias.SelleccionDos {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, FragmentListaNoticiasCompacto.Aviso, ViewPagerListasNoticias.SelleccionDos, Regresar {
 
     // Para ver los logos hay que filtrar con: kalitero.software.noticiasargentinas.Vista
     private String TAG = getClass().toString();
@@ -216,8 +219,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         switch (item.getItemId()) {
             case R.id.actionbar_usuario:
-                getSupportFragmentManager().beginTransaction().addToBackStack(null)
-                        .add(R.id.activityMainContenedorFragment, new FragmentLogin()).commit();
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    pegarFragment(new FragmentVerUsuario(), R.id.activityMainContenedorFragment);
+
+                } else {
+                    pegarFragment(new FragmentLogin(), R.id.activityMainContenedorFragment);
+                }
                 break;
 
             case R.id.action_firebaseLeer:
@@ -227,8 +234,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         public void onFinish(ListaNoticias result) {
                             llegoPaqueteDeNoticias(result);
                         }
+
                         @Override
-                        public void onError(String message) {        }
+                        public void onError(String message) {
+                        }
                     });
                 } else {
                     Toast.makeText(this, "Debes registrarte primero", Toast.LENGTH_LONG).show();
@@ -240,6 +249,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FragmentManager supportFragmentManager = this.getSupportFragmentManager();
+        if (supportFragmentManager.getBackStackEntryCount() == 0) {
+            finish();
+        }
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
@@ -247,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
-        if ( listaNoticias.getTema() == null) {
+        if (listaNoticias.getTema() == null) {
             listaNoticias.setTema("General");
         }
         pegarFragment(new FragmentListaNoticiasCompacto(), R.id.activityMainContenedorFragment, listaNoticias);
@@ -281,5 +299,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "onRestoreInstanceState");
     }
 
-
+    @Override
+    public void regresarAFragmentAnterior() {
+        FragmentManager supportFragmentManager = this.getSupportFragmentManager();
+        supportFragmentManager.popBackStack();
+    }
 }
