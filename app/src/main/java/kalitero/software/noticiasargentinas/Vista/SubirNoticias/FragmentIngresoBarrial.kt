@@ -1,5 +1,8 @@
 package kalitero.software.noticiasargentinas.Vista.SubirNoticias
 
+import android.app.Dialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -8,18 +11,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase
 import kalitero.software.noticiasargentinas.Modelo.Noticia
+import kalitero.software.noticiasargentinas.R
 import kalitero.software.noticiasargentinas.databinding.FragmentIngresoBarrialBinding
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import pl.aprilapps.easyphotopicker.EasyImage.ImageSource
 import java.io.File
 import java.util.*
+import kotlin.math.sign
+import com.bumptech.glide.util.Util as Util
 
 
 class FragmentIngresoBarrial : Fragment() {
@@ -27,6 +36,7 @@ class FragmentIngresoBarrial : Fragment() {
     private var imagen1: Bitmap? = null
     private val binding get() = _binding!!
     var _binding: FragmentIngresoBarrialBinding? = null
+
 
     internal lateinit var callback: Aviso
 
@@ -51,23 +61,23 @@ class FragmentIngresoBarrial : Fragment() {
     private fun escucharBotonPublicar() {
         binding.botonPublicar.setOnClickListener {
             val tituloNoticia = binding.editTextTituloNoticia.text.toString()
-            if ( tituloNoticia.length < 6 ) {
+            if (tituloNoticia.length < 6) {
                 Snackbar.make(binding.root, "El titulo debe ser mas largo", Snackbar.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             val descripcionNoticia = binding.editTextTextoNoticia.text.toString()
-            if ( descripcionNoticia.length < 10 ){
+            if (descripcionNoticia.length < 10) {
                 Snackbar.make(binding.root, "La descripcion debe ser mas larga", Snackbar.LENGTH_LONG).show()
                 return@setOnClickListener
             }
-            if ( imagen1 == null ) {
+            if (imagen1 == null) {
                 Snackbar.make(binding.root, "Es necesario una imagen", Snackbar.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             var usuarioFirebase = FirebaseAuth.getInstance().currentUser
             var mailusuario = usuarioFirebase!!.email
             var noticia = Noticia()
-            noticia.autor=mailusuario
+            noticia.autor = mailusuario
             noticia.titulo = tituloNoticia
             noticia.descripcion = descripcionNoticia
             noticia.fecha = Date()
@@ -94,7 +104,25 @@ class FragmentIngresoBarrial : Fragment() {
         }
     }
 
-    private fun escucharBotonCategoria(){
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        EasyImage.handleActivityResult(requestCode, resultCode, data, activity, object : DefaultCallback() {
+            override fun onImagesPicked(imageFiles: List<File>, source: ImageSource, type: Int) {
+
+                imagen1 = BitmapFactory.decodeFile(imageFiles[0].absolutePath)
+                binding.fragmentIngresoBarrialImageViewFoto1.setImageBitmap(imagen1)
+                escucharImagenIngresada(imagen1!!)
+
+            }
+
+            override fun onCanceled(source: ImageSource, type: Int) {
+                super.onCanceled(source, type)
+                Log.d(TAG, "Cancelo el usuario")
+            }
+        })
+    }
+
+    private fun escucharBotonCategoria() {
         binding.fragmentIngresoBarrialFABcategoria.setOnClickListener {
             val builder = AlertDialog.Builder(context!!)
 
@@ -137,20 +165,70 @@ class FragmentIngresoBarrial : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        EasyImage.handleActivityResult(requestCode, resultCode, data, activity, object : DefaultCallback() {
-            override fun onImagesPicked(imageFiles: List<File>, source: ImageSource, type: Int) {
+    private fun escucharImagenIngresada(imagen1: Bitmap) {
 
-                imagen1 = BitmapFactory.decodeFile(imageFiles[0].absolutePath)
-                binding.fragmentIngresoBarrialImageViewFoto1.setImageBitmap(imagen1)
+        val signDialog = dialogSignature(context)
+
+
+        binding.fragmentIngresoBarrialImageViewFoto1.setOnClickListener {
+
+            signDialog.show()
+            if (imagen1 != null) {
+               // signDialog.imagenIngresadaGrande.addView(imagen1)
+                val imgSignature = signDialog.findViewById<ImageView>(R.id.imagenIngresadaGrande)
+                Glide.with(context!!)
+                        .load(imagen1)
+                        .into(imgSignature)
             }
 
-            override fun onCanceled(source: ImageSource, type: Int) {
-                super.onCanceled(source, type)
-                Log.d(TAG, "Cancelo el usuario")
-            }
-        })
+
+
+//                val dialogBuilder = AlertDialog.Builder(context!!)
+//                val inflater = this.layoutInflater
+//                val dialogView = inflater.inflate(R.layout.fragment_imagen_grande, null)
+//                dialogBuilder.setView(dialogView)
+//                dialogBuilder.setPositiveButton("OK") { dialogInterface, i -> // Just dismiss the alert dialog after selection
+//                    // Or do something now
+//                    dialogInterface.dismiss()
+//
+//                }
+//                dialogBuilder.setNegativeButton("Borrar"){ dialogInterface, i ->
+//                    binding.fragmentIngresoBarrialImageViewFoto1.setImageResource(R.drawable.ic_baseline_camera_alt_24)
+//                    imagen1 == null
+//                    dialogInterface.dismiss()
+//
+//                }
+//
+//                val alertDialog = dialogBuilder.create()
+//                alertDialog.show()
+//
+//                   alertDialog.setOnShowListener(){
+//                       alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//                       alertDialog.setContentView(R.layout.fragment_imagen_grande)
+//                       alertDialog.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
+//
+//                       Glide.with(dialogView)
+//                               .load(imagen1)
+//                               .into(alertDialog.binding.imagenIngresadaGrande)
+//                   }
+//
+//
+//
+//            }
+        }
+
+
+    }
+
+
+    fun dialogSignature(context: Context?): Dialog {
+
+        var dialog = Dialog(context!!)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.fragment_imagen_grande)
+        dialog.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        return dialog
+
     }
 
     override fun onDestroyView() {
@@ -162,6 +240,4 @@ class FragmentIngresoBarrial : Fragment() {
     interface Aviso {
         fun mostrarMapa()
     }
-
-
 }
