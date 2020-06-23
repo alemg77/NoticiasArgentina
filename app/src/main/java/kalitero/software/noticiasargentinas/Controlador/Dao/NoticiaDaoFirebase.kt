@@ -8,6 +8,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.storage.FirebaseStorage
+import kalitero.software.noticiasargentinas.Modelo.Comentario
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias
 import kalitero.software.noticiasargentinas.Modelo.Noticia
 import kalitero.software.noticiasargentinas.util.ResultListener
@@ -23,6 +24,7 @@ class NoticiaDaoFirebase {
 
 
     private val TAG = javaClass.toString()
+    private val COMENTARIOS = "Comentarios"
 
     companion object {
         private var progreso: MutableLiveData<Int>? = null
@@ -97,6 +99,7 @@ class NoticiaDaoFirebase {
         return byteArrayOutputStream.toByteArray()
     }
 
+    /*
     fun buscarNoticias() {
         GlobalScope.launch {
             val resultado = referenciaColeccion.get().await()
@@ -105,6 +108,39 @@ class NoticiaDaoFirebase {
             Log.d(TAG, "Que paso?")
         }
     }
+     */
+
+    fun agregarComentario(documento: String, comentario: Comentario){
+        GlobalScope.launch {
+            try {
+                val await = referenciaColeccion
+                        .document(documento)
+                        .collection(COMENTARIOS)
+                        .add(comentario).await()
+            } catch (e: FirebaseFirestoreException) {
+                Log.d(TAG, "Error guardando comentario:$e")
+            }
+        }
+    }
+
+    fun buscarComentarios ( documento: String, resultListener: ResultListener<List<Comentario>>) {
+        referenciaColeccion
+                .document(documento)
+                .collection(COMENTARIOS)
+                .get()
+                .addOnSuccessListener { result ->
+                    var listaComentarios: ArrayList<Comentario> = ArrayList()
+                    for ( document in result ) {
+                        var comentario: Comentario = document.toObject(Comentario::class.java)
+                        listaComentarios.add(comentario)
+                    }
+                    resultListener.onFinish(listaComentarios)
+                }
+                .addOnFailureListener{ e->
+                    resultListener.onError("Error en la lectura de los comentarios"+e.message)
+                }
+    }
+
 
     fun buscarNoticias(resultListener: ResultListener<ListaNoticias>) {
         referenciaColeccion.get()
@@ -119,7 +155,7 @@ class NoticiaDaoFirebase {
                     resultListener.onFinish(listaDeNoticias)
                 }
                 .addOnFailureListener { e ->
-                    resultListener.onError("Ha ocurrido un error al obtener los animales " + e.message)
+                    resultListener.onError("Error en la lectura de noticias " + e.message)
                 }
 
     }

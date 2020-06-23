@@ -150,7 +150,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
 
                     case R.id.navigationMenuNoticiasBarriales:
-                        Toast.makeText(MainActivity.this, "Noticias Barriales", Toast.LENGTH_SHORT).show();
+                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                            NoticiaDaoFirebase.Companion.getIntancia().buscarNoticias(new ResultListener<ListaNoticias>() {
+                                @Override
+                                public void onFinish(@NotNull ListaNoticias result) {
+                                    llegoPaqueteDeNoticias(result);
+                                }
+
+                                @Override
+                                public void onError(String message) {
+                                }
+                            });
+                        } else {
+                            Toast.makeText(MainActivity.this, "Debes registrarte primero", Toast.LENGTH_LONG).show();
+                        }
                         break;
 
                     default:

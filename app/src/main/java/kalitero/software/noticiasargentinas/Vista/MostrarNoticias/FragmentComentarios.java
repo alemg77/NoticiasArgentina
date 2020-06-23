@@ -9,11 +9,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.FileReader;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.FileReader;
+import java.util.List;
+
+import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
+import kalitero.software.noticiasargentinas.Modelo.Comentario;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.R;
 import kalitero.software.noticiasargentinas.databinding.FragmentComentariosBinding;
+import kalitero.software.noticiasargentinas.util.ResultListener;
 
 public class FragmentComentarios extends Fragment {
 
@@ -37,6 +47,18 @@ public class FragmentComentarios extends Fragment {
         escucharBotonComentar();
         Bundle bundle = getArguments();
         noticia = (Noticia) bundle.getSerializable(Noticia.class.toString());
+        NoticiaDaoFirebase.Companion.getIntancia().buscarComentarios(noticia.getDocumentoFirebase(),
+                new ResultListener<List<Comentario>>() {
+                    @Override
+                    public void onFinish(List<Comentario> result) {
+                        Log.d(TAG, "Ver aqui que paso?");
+                    }
+
+                    @Override
+                    public void onError(@NotNull String message) {
+                        Log.d(TAG, "QUe paso?");
+                    }
+                });
         return binding.getRoot();
     }
 
@@ -45,7 +67,16 @@ public class FragmentComentarios extends Fragment {
             @Override
             public void onClick(View v) {
                 String texto = binding.fragmentComentarioEditTextComentarioNuevo.getText().toString();
-                Log.d(TAG, "Quiero opinar:" + texto);
+                if ( texto.length() < 2 ) {
+                    Snackbar.make(binding.getRoot(), "Comentario muy corto", BaseTransientBottomBar.LENGTH_LONG).show();
+                    return;
+                }
+                Comentario comentario = new Comentario();
+                comentario.setOpinion(texto);
+                comentario.setUsuario(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                NoticiaDaoFirebase.Companion.getIntancia().agregarComentario(noticia.getDocumentoFirebase(), comentario);
+                Snackbar.make(binding.getRoot(), "Gracias por su comentario", BaseTransientBottomBar.LENGTH_LONG).show();
+                binding.fragmentComentarioEditTextComentarioNuevo.setText(" ");
             }
         });
     }
