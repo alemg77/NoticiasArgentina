@@ -8,17 +8,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase
-import kalitero.software.noticiasargentinas.Modelo.Comentario
 import kalitero.software.noticiasargentinas.Modelo.Noticia
 import kalitero.software.noticiasargentinas.databinding.FragmentIngresoBarrialBinding
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import pl.aprilapps.easyphotopicker.EasyImage.ImageSource
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
 
@@ -45,6 +44,7 @@ class FragmentIngresoBarrial : Fragment() {
         escucharBotonBuscarImagen()
         escucharBotonBuscarMapa()
         escucharBotonPublicar()
+        escucharBotonCategoria()
         return binding.root
     }
 
@@ -91,6 +91,49 @@ class FragmentIngresoBarrial : Fragment() {
     private fun escucharBotonBuscarImagen() {
         binding.fragmentIngresoBarrialFABsubirFoto.setOnClickListener {
             EasyImage.openChooserWithGallery(this@FragmentIngresoBarrial, "Elige una foto", 1)
+        }
+    }
+
+    private fun escucharBotonCategoria(){
+        binding.fragmentIngresoBarrialFABcategoria.setOnClickListener {
+            val builder = AlertDialog.Builder(context!!)
+
+            // Set the alert dialog title
+            builder.setTitle("Seleccione Categoría")
+            val temasNoticias = arrayOf(
+                    "Sociales",
+                    "Policiales",
+                    "Economía",
+                    "Deportes",
+                    "Artes"
+            )
+            builder.setSingleChoiceItems(
+                    temasNoticias,  // Items list
+                    -1  // Index of checked item (-1 = no selection)
+            ) { dialogInterface, i ->  // Item click listener
+                // Get the alert dialog selected item's text
+                val selectedItem = Arrays.asList(*temasNoticias)[i]
+
+                // Display the selected item's text on snack bar
+                binding.fragmentDetalleBarrialCategoriaTextView.text = selectedItem
+                Snackbar.make(
+                        view!!,
+                        "Seleccionó : $selectedItem",
+                        Snackbar.LENGTH_LONG
+                ).show()
+            }
+
+            // Set the a;ert dialog positive button
+            builder.setPositiveButton("OK") { dialogInterface, i -> // Just dismiss the alert dialog after selection
+                // Or do something now
+                dialogInterface.dismiss()
+            }
+
+            // Create the alert dialog
+            val dialog = builder.create()
+
+            // Finally, display the alert dialog
+            dialog.show()
         }
     }
 
