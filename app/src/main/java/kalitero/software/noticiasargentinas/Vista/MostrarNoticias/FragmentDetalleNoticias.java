@@ -3,6 +3,7 @@ package kalitero.software.noticiasargentinas.Vista.MostrarNoticias;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,11 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
+import kalitero.software.noticiasargentinas.R;
 import kalitero.software.noticiasargentinas.databinding.FragmentDetalleNoticiasBinding;
 
 /**
@@ -28,6 +31,7 @@ public class FragmentDetalleNoticias extends Fragment {
     public static final String NOTICIA = "noticia";
 
     private FragmentDetalleNoticiasBinding binding;
+    private FragmentComentarios fragmentComentarios;
 
     //Fabrica el fragment
     public static FragmentDetalleNoticias dameUnFragment(Noticia noticia){
@@ -52,8 +56,17 @@ public class FragmentDetalleNoticias extends Fragment {
         ImageView imageViewNoticia = binding.fragmentDetalleNoticiasImageView;
         TextView textViewNoticia = binding.fragmentDetalleNoticiastextView;
         TextView textViewTitulo = binding.fragmentTituloNoticiastextView;
+        FloatingActionButton botonComentarios = binding.fragmentDetalleNoticiaFABcomentario;
         // TextView textViewSeccion = binding.fragmentDetalleNot;
         // imageViewNoticia.setImageResource(noticia.getUrlImagen());
+
+        fragmentComentarios = new FragmentComentarios();
+        botonComentarios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pegarFragment(fragmentComentarios, R.id.fragmentDetalleNoticiasContenedorComentarios);
+            }
+        });
 
 
         String urlImagenStorage = noticia.getUrlImagenStorage();
@@ -78,5 +91,11 @@ public class FragmentDetalleNoticias extends Fragment {
         }
 
         return binding.getRoot();
+    }
+
+    private void pegarFragment(Fragment fragmentAPegar, int containerViewId) {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(containerViewId, fragmentAPegar).commit();
     }
 }

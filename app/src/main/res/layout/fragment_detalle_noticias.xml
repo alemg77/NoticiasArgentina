@@ -96,15 +96,26 @@
 
     </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_add_comment_24"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginBottom="15dp"
-            app:fabSize="auto"
-            android:id="@+id/fragmentDetalleNoticiaFABcomentario"/>
+            android:id="@+id/fragmentDetalleNoticiasContenedorComentarios">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_add_comment_24"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginBottom="15dp"
+                app:fabSize="auto"
+                android:id="@+id/fragmentDetalleNoticiaFABcomentario"/>
+
+        </FrameLayout>
 
     </LinearLayout>
+
+
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>
