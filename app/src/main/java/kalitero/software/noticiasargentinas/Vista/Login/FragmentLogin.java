@@ -38,6 +38,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import kalitero.software.noticiasargentinas.R;
+import kalitero.software.noticiasargentinas.Vista.Regresar;
 import kalitero.software.noticiasargentinas.Vista.SubirNoticias.FragmentIngresoBarrial;
 import kalitero.software.noticiasargentinas.databinding.FragmentLoginBinding;
 
@@ -47,7 +48,7 @@ public class FragmentLogin extends Fragment {
     private static final int RC_SIGN_IN = 7;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FragmentLoginBinding binding;
-    private FragmentLogin.Aviso listener;
+    private Regresar listener;
     private CallbackManager callbackManager;
     private Animation alphaOn;
     private String email;
@@ -55,6 +56,7 @@ public class FragmentLogin extends Fragment {
     private FragmentLoginMailRegister fragmentLoginMailRegister;
     private LogActivity logActivity;
     private FragmentIngresoBarrial fragmentIngresoBarrial;
+
 
 
     public FragmentLogin() {
@@ -79,14 +81,14 @@ public class FragmentLogin extends Fragment {
 
             Log.d(TAG, "Nos conectamos!!!");
             Snackbar.make(binding.getRoot(), "Nos conectamos!!!", BaseTransientBottomBar.LENGTH_SHORT).show();
-            pegarFragment(fragmentIngresoBarrial, R.id.activityMainContenedorFragment);
+            listener.regresarAFragmentAnterior();
         }
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-//        listener = (FragmentLogin.Aviso) context;
+            listener = (Regresar) context;
     }
 
     @Override
