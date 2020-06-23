@@ -3,6 +3,7 @@ package kalitero.software.noticiasargentinas.Vista.MostrarNoticias;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ public class FragmentComentarios extends Fragment {
     private String TAG = getClass().toString();
     private FragmentComentariosBinding binding;
     private Noticia noticia;
+    private RecyclerView recyclerViewComentarios;
 
     public FragmentComentarios() {
         // Required empty public constructor

@@ -182,39 +182,6 @@ class FragmentIngresoBarrial : Fragment() {
             }
 
 
-
-//                val dialogBuilder = AlertDialog.Builder(context!!)
-//                val inflater = this.layoutInflater
-//                val dialogView = inflater.inflate(R.layout.fragment_imagen_grande, null)
-//                dialogBuilder.setView(dialogView)
-//                dialogBuilder.setPositiveButton("OK") { dialogInterface, i -> // Just dismiss the alert dialog after selection
-//                    // Or do something now
-//                    dialogInterface.dismiss()
-//
-//                }
-//                dialogBuilder.setNegativeButton("Borrar"){ dialogInterface, i ->
-//                    binding.fragmentIngresoBarrialImageViewFoto1.setImageResource(R.drawable.ic_baseline_camera_alt_24)
-//                    imagen1 == null
-//                    dialogInterface.dismiss()
-//
-//                }
-//
-//                val alertDialog = dialogBuilder.create()
-//                alertDialog.show()
-//
-//                   alertDialog.setOnShowListener(){
-//                       alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//                       alertDialog.setContentView(R.layout.fragment_imagen_grande)
-//                       alertDialog.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
-//
-//                       Glide.with(dialogView)
-//                               .load(imagen1)
-//                               .into(alertDialog.binding.imagenIngresadaGrande)
-//                   }
-//
-//
-//
-//            }
         }
 
 
