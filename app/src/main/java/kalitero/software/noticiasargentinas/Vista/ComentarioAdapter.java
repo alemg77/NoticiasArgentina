@@ -21,6 +21,12 @@ import kalitero.software.noticiasargentinas.R;
 public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.ViewHolderComentario> {
 
     private List<Comentario> listaComentarios;
+    private ComentarioAdapterListener comentarioAdapterListener;
+
+    public ComentarioAdapter(List<Comentario> listaComentarios, ComentarioAdapterListener comentarioAdapterListener) {
+        this.listaComentarios = listaComentarios;
+        this.comentarioAdapterListener = comentarioAdapterListener;
+    }
 
     @NonNull
     @Override
@@ -38,6 +44,10 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
     @Override
     public int getItemCount() {
         return listaComentarios.size();
+    }
+
+    public interface ComentarioAdapterListener {
+        void onClickComentario(Comentario comentario);
     }
 
     //La representacion de mi celda.

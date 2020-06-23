@@ -3,6 +3,7 @@ package kalitero.software.noticiasargentinas.Vista.MostrarNoticias;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -19,10 +20,12 @@ import org.jetbrains.annotations.NotNull;
 import java.io.FileReader;
 import java.util.List;
 
+import kalitero.software.noticiasargentinas.Controlador.ComentariosController;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
 import kalitero.software.noticiasargentinas.Modelo.Comentario;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.R;
+import kalitero.software.noticiasargentinas.Vista.ComentarioAdapter;
 import kalitero.software.noticiasargentinas.databinding.FragmentComentariosBinding;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
@@ -46,6 +49,21 @@ public class FragmentComentarios extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentComentariosBinding.inflate(getLayoutInflater());
+        recyclerViewComentarios = binding.FragmentComentariosRecyclerView;
+        ComentariosController comentariosController = new ComentariosController(getContext());
+        comentariosController.getComentarios(new ResultListener<List<Comentario>>() {
+            @Override
+            public void onFinish(List<Comentario> result) {
+                cargarRecycler(result);
+
+            }
+
+            @Override
+            public void onError(@NotNull String message) {
+
+            }
+        });
+
         escucharBotonComentar();
         Bundle bundle = getArguments();
         noticia = (Noticia) bundle.getSerializable(Noticia.class.toString());
@@ -82,4 +100,11 @@ public class FragmentComentarios extends Fragment {
             }
         });
     }
+
+    private void cargarRecycler(List<Comentario> comentarioList) {
+        ComentarioAdapter animalAdapter = new ComentarioAdapter();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+
+        recyclerViewComentarios.setLayoutManager(linearLayoutManager);
+        recyclerViewComentarios.setAdapter(animalAdapter);
 }
