@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista.MostrarNoticias;
+package kalitero.software.noticiasargentinas.Vista.NoticiasGenerales;
 
 import android.os.Bundle;
 
@@ -17,15 +17,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.FileReader;
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.ComentariosController;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
 import kalitero.software.noticiasargentinas.Modelo.Comentario;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
-import kalitero.software.noticiasargentinas.R;
-import kalitero.software.noticiasargentinas.Vista.ComentarioAdapter;
+import kalitero.software.noticiasargentinas.Vista.NoticiasBarriales.ComentarioAdapter;
 import kalitero.software.noticiasargentinas.databinding.FragmentComentariosBinding;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 

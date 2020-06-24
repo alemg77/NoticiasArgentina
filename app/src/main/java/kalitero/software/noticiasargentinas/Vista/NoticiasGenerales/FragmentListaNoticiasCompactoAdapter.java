@@ -1,11 +1,10 @@
-package kalitero.software.noticiasargentinas.Vista.MostrarNoticias;
+package kalitero.software.noticiasargentinas.Vista.NoticiasGenerales;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +14,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Modelo.Noticia;

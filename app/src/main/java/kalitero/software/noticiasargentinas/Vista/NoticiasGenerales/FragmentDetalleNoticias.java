@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista.MostrarNoticias;
+package kalitero.software.noticiasargentinas.Vista.NoticiasGenerales;
 
 import android.os.Bundle;
 
@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 

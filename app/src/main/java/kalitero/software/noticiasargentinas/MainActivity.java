@@ -28,21 +28,19 @@ import com.google.firebase.auth.FirebaseUser;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.Vista.Login.FragmentVerUsuario;
-import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.FragmentListaNoticiasCompacto;
+import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.Vista.Login.FragmentLogin;
 import kalitero.software.noticiasargentinas.Vista.Regresar;
 import kalitero.software.noticiasargentinas.Vista.SubirNoticias.SubirNoticias;
-import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager.ViewPagerListasNoticias;
-import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager.ViewPagerNoticia;
+import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager.ViewPagerListasNoticias;
+import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager.ViewPagerNoticia;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, FragmentListaNoticiasCompacto.Aviso, ViewPagerListasNoticias.SelleccionDos, Regresar {

@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager;
+package kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
