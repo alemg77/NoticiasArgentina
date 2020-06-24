@@ -27,6 +27,7 @@ class NoticiaDaoFirebase {
     private val COMENTARIOS = "Comentarios"
 
     companion object {
+        val FIREBASE = "Firebase"
         private var progreso: MutableLiveData<Int>? = null
         val COLECCION_NOTICIAS = "noticias"
         private var instancia: NoticiaDaoFirebase? = null
@@ -151,7 +152,7 @@ class NoticiaDaoFirebase {
                         noticia.documentoFirebase = document.id
                         listNoticias.add(noticia)
                     }
-                    val listaDeNoticias:ListaNoticias = ListaNoticias(listNoticias, "Firebase")
+                    val listaDeNoticias:ListaNoticias = ListaNoticias(listNoticias, FIREBASE)
                     resultListener.onFinish(listaDeNoticias)
                 }
                 .addOnFailureListener { e ->

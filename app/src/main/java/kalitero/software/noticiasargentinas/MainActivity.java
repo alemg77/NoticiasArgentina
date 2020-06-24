@@ -35,6 +35,7 @@ import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.Vista.Login.FragmentVerUsuario;
+import kalitero.software.noticiasargentinas.Vista.NoticiasBarriales.FragmentNoticiasBarriales;
 import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.Vista.Login.FragmentLogin;
 import kalitero.software.noticiasargentinas.Vista.Regresar;
@@ -278,6 +279,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
+
+        if (listaNoticias.getTema() == NoticiaDaoFirebase.Companion.getFIREBASE()){
+            pegarFragment(new FragmentNoticiasBarriales(), R.id.activityMainContenedorFragment, listaNoticias);
+            return;
+        }
+
         if (listaNoticias.getTema() == null) {
             listaNoticias.setTema("General");
         }

@@ -8,4 +8,7 @@
 
     <color name="colorAntesPrimary">#6200EE</color>
 
+    <color name="negro">#000000</color>
+    <color name="azulOscuro">#042188</color>
+
 </resources>
