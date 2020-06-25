@@ -1,16 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#123456"
+    android:orientation="vertical"
     tools:context=".Vista.Login.FragmentVerUsuario">
 
-    <Button
-        android:id="@+id/botonSalirUsario"
+    <ImageView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_gravity="center"
+        android:id="@+id/fragmentVertUsuarioImageViewFoto"
+        android:layout_marginTop="80dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="320dp"
+        android:layout_height="280dp"
+        app:cardCornerRadius="30dp"
+        android:layout_gravity="center"
+        app:cardElevation="10dp"
+        android:layout_marginTop="30dp">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre:"
+            android:textSize="15dp"
+            android:textColor="@color/colorAntesPrimary"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Leopoldo Cantina"
+            android:textSize="18dp"
+            android:textColor="#000"
+            android:id="@+id/fragmentVertUsuarioTextViewNombre"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email:"
+                android:textSize="15dp"
+                android:textColor="@color/colorAntesPrimary"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="leopoldocantina@gmail.com"
+                android:textSize="18dp"
+                android:textColor="#000"
+                android:id="@+id/fragmentVertUsuarioTextViewEmail"/>
+
+        </LinearLayout>
+
+       </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#fff"
+        app:strokeColor="#fff"
+        android:outlineAmbientShadowColor="#fff"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:text="Salir"
-        />
+        android:id="@+id/botonSalirUsario"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"/>
 
-</FrameLayout>
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragmentVertUsuarioImageViewNA"
+        android:layout_gravity="center"
+        android:src="@drawable/namarca"/>
+
+</LinearLayout>

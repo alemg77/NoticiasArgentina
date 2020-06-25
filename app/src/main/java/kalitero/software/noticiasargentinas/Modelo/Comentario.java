@@ -1,12 +1,30 @@
 package kalitero.software.noticiasargentinas.Modelo;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import java.util.Date;
 
+import kalitero.software.noticiasargentinas.util.Converter;
+
+@Entity
+@TypeConverters(Converter.class)
 public class Comentario {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    @ColumnInfo
     private String usuario;
+    @ColumnInfo
     private String opinion;
+    @ColumnInfo
     private Date fecha;
+    @ColumnInfo
     private Integer positivos;
+    @ColumnInfo
     private Integer negativos;
 
     public Comentario(String usuario, String opinion) {
@@ -22,6 +40,8 @@ public class Comentario {
         positivos = 0;
         negativos = 0;
     }
+
+
 
     public Date getFecha() {
         return fecha;
@@ -61,5 +81,13 @@ public class Comentario {
 
     public void setOpinion(String opinion) {
         this.opinion = opinion;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -1,6 +1,8 @@
 package kalitero.software.noticiasargentinas.Controlador;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,8 +24,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
+import kalitero.software.noticiasargentinas.util.AppDatabase;
 
 public class BuscarNoticiasAPI extends AppCompatActivity {
 
@@ -45,8 +49,14 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
 
     private RecepcionNoticias listener;
 
-    public BuscarNoticiasAPI(RecepcionNoticias listener) {
+    private NoticiaDaoRoom noticiaDaoRoom;
+
+    private Context context;
+
+    public BuscarNoticiasAPI(RecepcionNoticias listener, Context context) {
         this.listener = listener;
+        this.context = context;
+        this.noticiaDaoRoom = AppDatabase.getInstance(context).noticiaDaoRoom();
     }
 
     public void titularesNuevos(String pais) {
@@ -62,100 +72,118 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
     }
 
     public void titularesNuevos(String pais, final String temadelPedido) {
-        String url = "https://newsapi.org/v2/top-headlines?country="+pais+"&category="+temadelPedido;
-        RequestQueue queue = Volley.newRequestQueue((Context)listener);
-        StringRequest getRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        ArrayList<Noticia> listaDeNoticias = new ArrayList<>();
-                        try {
-                            JSONObject jsonNoticias = new JSONObject(response);
-                            JSONArray jsonArticulos = jsonNoticias.getJSONArray("articles");
-                            for (int i = 0; i < jsonArticulos.length(); i++) {
-                                JSONObject jsonNoticia = (JSONObject) jsonArticulos.get(i);
-                                JSONObject jsonFuente = (JSONObject) jsonNoticia.get("source");
-                                String noticiaTitulo = jsonNoticia.getString("title");
-                                String noticiaAutor = jsonNoticia.getString("author");
-                                String noticiaFuente = jsonFuente.getString("name");
-                                String noticiaDescripcion = jsonNoticia.getString("description");
-                                String urlNoticia = jsonNoticia.getString("url");
-                                String urlToImage = jsonNoticia.getString("urlToImage");
-                                String noticiaTema = temadelPedido;
-                                Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema);
-                                listaDeNoticias.add(noticia);
+
+        if (hayInternet()) {
+            String url = "https://newsapi.org/v2/top-headlines?country=" + pais + "&category=" + temadelPedido;
+            RequestQueue queue = Volley.newRequestQueue((Context) listener);
+            StringRequest getRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            ArrayList<Noticia> listaDeNoticias = new ArrayList<>();
+                            try {
+                                JSONObject jsonNoticias = new JSONObject(response);
+                                JSONArray jsonArticulos = jsonNoticias.getJSONArray("articles");
+                                for (int i = 0; i < jsonArticulos.length(); i++) {
+                                    JSONObject jsonNoticia = (JSONObject) jsonArticulos.get(i);
+                                    JSONObject jsonFuente = (JSONObject) jsonNoticia.get("source");
+                                    String noticiaTitulo = jsonNoticia.getString("title");
+                                    String noticiaAutor = jsonNoticia.getString("author");
+                                    String noticiaFuente = jsonFuente.getString("name");
+                                    String noticiaDescripcion = jsonNoticia.getString("description");
+                                    String urlNoticia = jsonNoticia.getString("url");
+                                    String urlToImage = jsonNoticia.getString("urlToImage");
+                                    String noticiaTema = temadelPedido;
+                                    Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema);
+                                    listaDeNoticias.add(noticia);
+                                }
+                                ListaNoticias listaNoticias = new ListaNoticias(listaDeNoticias, temadelPedido);
+                                listener.llegoPaqueteDeNoticias(listaNoticias);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                listener.errorPedidoNoticia();
                             }
-                            ListaNoticias listaNoticias = new ListaNoticias(listaDeNoticias,temadelPedido);
-                            listener.llegoPaqueteDeNoticias(listaNoticias);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            listener.errorPedidoNoticia();
+                        }
+
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d(TAG, "Error!!:" + error.toString());
                         }
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "Error!!:" + error.toString());
-                    }
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("X-Api-Key", KEY_API);
+                    return params;
                 }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("X-Api-Key", KEY_API);
-                return params;
-            }
-        };
-        queue.add(getRequest);
-
+            };
+            noticiaDaoRoom.insertAll();
+            queue.add(getRequest);
+        } else {
+            List<Noticia> roomNoticias = noticiaDaoRoom.getNoticias();
+            ListaNoticias listaNoticias = new ListaNoticias(roomNoticias, temadelPedido);
+            listener.llegoPaqueteDeNoticias(listaNoticias);
+        }
     }
 
     private void getRequest ( String url){
-        RequestQueue queue = Volley.newRequestQueue((Context)listener);
-        StringRequest getRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        ArrayList<Noticia> listaDeNoticias = new ArrayList<>();
-                        try {
-                            JSONObject jsonNoticias = new JSONObject(response);
-                            JSONArray jsonArticulos = jsonNoticias.getJSONArray("articles");
-                            for (int i = 0; i < jsonArticulos.length(); i++) {
-                                JSONObject jsonNoticia = (JSONObject) jsonArticulos.get(i);
-                                JSONObject jsonFuente = (JSONObject) jsonNoticia.get("source");
-                                String noticiaTitulo = jsonNoticia.getString("title");
-                                String noticiaAutor = jsonNoticia.getString("author");
-                                String noticiaFuente = jsonFuente.getString("name");
-                                String noticiaDescripcion = jsonNoticia.getString("description");
-                                String urlNoticia = jsonNoticia.getString("url");
-                                String urlToImage = jsonNoticia.getString("urlToImage");
-                                String noticiaTema = null;
-                                Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema);
-                                listaDeNoticias.add(noticia);
+        if (hayInternet()) {
+            RequestQueue queue = Volley.newRequestQueue((Context) listener);
+            StringRequest getRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            ArrayList<Noticia> listaDeNoticias = new ArrayList<>();
+                            try {
+                                JSONObject jsonNoticias = new JSONObject(response);
+                                JSONArray jsonArticulos = jsonNoticias.getJSONArray("articles");
+                                for (int i = 0; i < jsonArticulos.length(); i++) {
+                                    JSONObject jsonNoticia = (JSONObject) jsonArticulos.get(i);
+                                    JSONObject jsonFuente = (JSONObject) jsonNoticia.get("source");
+                                    String noticiaTitulo = jsonNoticia.getString("title");
+                                    String noticiaAutor = jsonNoticia.getString("author");
+                                    String noticiaFuente = jsonFuente.getString("name");
+                                    String noticiaDescripcion = jsonNoticia.getString("description");
+                                    String urlNoticia = jsonNoticia.getString("url");
+                                    String urlToImage = jsonNoticia.getString("urlToImage");
+                                    String noticiaTema = null;
+                                    Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema);
+                                    listaDeNoticias.add(noticia);
+                                }
+                                listener.llegoPaqueteDeNoticias(new ListaNoticias(listaDeNoticias, "General"));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                listener.errorPedidoNoticia();
                             }
-                            listener.llegoPaqueteDeNoticias(new ListaNoticias(listaDeNoticias, "General"));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            listener.errorPedidoNoticia();
+                            noticiaDaoRoom.insertAll();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d(TAG, "Error!!:" + error.toString());
                         }
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "Error!!:" + error.toString());
-                    }
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("X-Api-Key", KEY_API);
+                    return params;
                 }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("X-Api-Key", KEY_API);
-                return params;
-            }
-        };
-        queue.add(getRequest);
+            };
+            noticiaDaoRoom.insertAll();
+            queue.add(getRequest);
+
+
+        } else {
+            List<Noticia> roomNoticias = noticiaDaoRoom.getNoticias();
+            ListaNoticias listaNoticias = new ListaNoticias(roomNoticias, "General");
+            listener.llegoPaqueteDeNoticias(listaNoticias);
+        }
     }
 
     public static List<String> crearLista() {
@@ -167,5 +195,12 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
         listaTemas.add(KEY_TEMA_SALUD);
         listaTemas.add(KEY_TEMA_TECNOLOGIA);
         return listaTemas;
+    }
+
+    public boolean hayInternet () {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

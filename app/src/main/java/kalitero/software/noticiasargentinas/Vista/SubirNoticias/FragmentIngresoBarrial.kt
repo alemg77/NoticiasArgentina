@@ -77,6 +77,7 @@ class FragmentIngresoBarrial : Fragment() {
             var usuarioFirebase = FirebaseAuth.getInstance().currentUser
             var mailusuario = usuarioFirebase!!.email
             var noticia = Noticia()
+            noticia.tema = binding.fragmentDetalleBarrialCategoriaTextView.text.toString()
             noticia.autor = mailusuario
             noticia.titulo = tituloNoticia
             noticia.descripcion = descripcionNoticia

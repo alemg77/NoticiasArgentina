@@ -1,14 +1,23 @@
 package kalitero.software.noticiasargentinas.Modelo;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
 
+@Entity
 public class ListaNoticias implements Serializable {
 
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    @ColumnInfo
     private int posicionInicial;
+    @ColumnInfo
     private String tema;
 
     public String getTema() {
@@ -63,6 +72,14 @@ public class ListaNoticias implements Serializable {
     public ListaNoticias(String tema) {
         this.arrayListNoticias = new ArrayList<>();
         setTema(tema);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public ListaNoticias() {

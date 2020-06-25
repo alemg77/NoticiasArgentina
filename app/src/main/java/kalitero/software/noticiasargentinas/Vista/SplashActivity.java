@@ -1,6 +1,9 @@
 package kalitero.software.noticiasargentinas.Vista;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,12 +18,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import java.util.List;
+
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
+import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.MainActivity;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.R;
+import kalitero.software.noticiasargentinas.util.AppDatabase;
 
 public class SplashActivity extends AppCompatActivity implements RecepcionNoticias {
 
@@ -34,6 +42,7 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
     private Integer pedidosApi;
     private String TAG = getClass().toString();
     private Boolean fin_presentacion = false;
+    private NoticiaDaoRoom noticiaDaoRoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +52,15 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
         elipse = findViewById(R.id.imageView2);
         grupo = findViewById(R.id.imageView);
         noticiasArgentinas = findViewById(R.id.textViewTitulo);
+        this.noticiaDaoRoom = AppDatabase.getInstance(getApplicationContext()).noticiaDaoRoom();
+
 
         paqueteNoticias = new PaqueteNoticias();
-        buscarNoticias = new BuscarNoticiasAPI(SplashActivity.this);
-        pedidosApi = 0;
-        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA);
+
+            buscarNoticias = new BuscarNoticiasAPI(SplashActivity.this, this);
+            pedidosApi = 0;
+            buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA);
+
 
         rotarAnimacion();
         escalaAnimacion();
@@ -98,7 +111,9 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
     @Override
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
+        noticiaDaoRoom.insertAll((List<ListaNoticias>) listaNoticias);
         paqueteNoticias.agregarListaNoticias(listaNoticias);
+
         pedidosApi++;
         switch (pedidosApi) {
             case 1:
@@ -135,6 +150,13 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
     @Override
     public void errorPedidoNoticia() {
 
+    }
+
+    public boolean hayInternet () {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
 

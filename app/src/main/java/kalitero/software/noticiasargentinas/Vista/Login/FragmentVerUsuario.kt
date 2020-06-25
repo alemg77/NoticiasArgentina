@@ -6,7 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.TransformationUtils.circleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
+import kalitero.software.noticiasargentinas.R
 import kalitero.software.noticiasargentinas.Vista.Regresar
 import kalitero.software.noticiasargentinas.databinding.FragmentVerUsuarioBinding
 
@@ -29,6 +33,10 @@ class FragmentVerUsuario : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentVerUsuarioBinding.inflate(inflater, container, false)
         esucharBotonSalir()
+
+       // Glide.with(context!!).load(R.drawable.yo).circleCrop().into(binding.fragmentVertUsuarioImageViewFoto)
+
+        Glide.with(context!!).load(R.drawable.yo).apply(RequestOptions.circleCropTransform()).into(binding.fragmentVertUsuarioImageViewFoto)
         return binding.root
     }
 

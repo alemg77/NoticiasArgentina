@@ -1,22 +1,47 @@
 package kalitero.software.noticiasargentinas.Modelo;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import kalitero.software.noticiasargentinas.util.Converter;
+
+@Entity
+@TypeConverters(Converter.class)
+
 public class Noticia implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    @ColumnInfo
     private String fuente;
+    @ColumnInfo
     private String autor;
+    @ColumnInfo
     private String titulo;
+    @ColumnInfo
     private String descripcion;
+    @ColumnInfo
     private String urlNoticia;
+    @ColumnInfo
     private String urlImagen;
+    @ColumnInfo()
     private Date fecha;
+    @ColumnInfo
     private String tema;
+    @ColumnInfo
     private String urlImagenStorage;
+    @ColumnInfo
     private String latitud;
+    @ColumnInfo
     private String longitud;
+    @ColumnInfo
     private String documentoFirebase;
 
     public String getDocumentoFirebase() {
@@ -142,5 +167,13 @@ public class Noticia implements Serializable {
 
     public void setLongitud(String longitud) {
         this.longitud = longitud;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
