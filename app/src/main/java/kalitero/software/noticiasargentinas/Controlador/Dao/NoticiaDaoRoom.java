@@ -16,11 +16,11 @@ public interface NoticiaDaoRoom {
     @Insert
     void insertAll(Noticia... noticia);
 
-   // @Insert
-    //void insertAll(List<Noticia>listaNoticias);
-
     @Insert
-    void insertAll(List<ListaNoticias> listaDeListaNoticias);
+    void insertAll(List<Noticia>listaNoticias);
+
+   // @Insert
+    //void insertAll(List<ListaNoticias> listaDeListaNoticias);
 
     @Delete
     void delete(Noticia noticia);

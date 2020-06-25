@@ -181,12 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    public boolean hayInternet () {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
+
 
     /*****************
      * Funcion para pegar un fragment enviandole un objeto serializable

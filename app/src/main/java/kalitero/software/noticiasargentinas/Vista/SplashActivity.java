@@ -111,9 +111,7 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
     @Override
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
-        noticiaDaoRoom.insertAll((List<ListaNoticias>) listaNoticias);
         paqueteNoticias.agregarListaNoticias(listaNoticias);
-
         pedidosApi++;
         switch (pedidosApi) {
             case 1:
@@ -152,12 +150,6 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
 
     }
 
-    public boolean hayInternet () {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
 }
 
 

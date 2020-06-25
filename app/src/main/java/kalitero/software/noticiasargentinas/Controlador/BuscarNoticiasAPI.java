@@ -42,6 +42,7 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
     public final static String KEY_TEMA_SALUD = "health";
     public final static String KEY_TEMA_TECNOLOGIA = "technology";
     public final static String KEY_TEMA_CIENCIA = "science";
+    public final static String KEY_TEMA_GENERAL = "General";
 
     public final static String KEY_API = "958203d2e91b4511936cf0ad0acc25ae";
 
@@ -52,6 +53,8 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
     private NoticiaDaoRoom noticiaDaoRoom;
 
     private Context context;
+
+    private Repositorio repositorio;
 
     public BuscarNoticiasAPI(RecepcionNoticias listener, Context context) {
         this.listener = listener;
@@ -73,7 +76,7 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
 
     public void titularesNuevos(String pais, final String temadelPedido) {
 
-        if (hayInternet()) {
+        if (repositorio.hayInternet()) {
             String url = "https://newsapi.org/v2/top-headlines?country=" + pais + "&category=" + temadelPedido;
             RequestQueue queue = Volley.newRequestQueue((Context) listener);
             StringRequest getRequest = new StringRequest(Request.Method.GET, url,
@@ -97,6 +100,8 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
                                     Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema);
                                     listaDeNoticias.add(noticia);
                                 }
+                                noticiaDaoRoom.insertAll(listaDeNoticias);
+
                                 ListaNoticias listaNoticias = new ListaNoticias(listaDeNoticias, temadelPedido);
                                 listener.llegoPaqueteDeNoticias(listaNoticias);
                             } catch (Exception e) {
@@ -120,17 +125,16 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
                     return params;
                 }
             };
-            noticiaDaoRoom.insertAll();
             queue.add(getRequest);
         } else {
-            List<Noticia> roomNoticias = noticiaDaoRoom.getNoticias();
-            ListaNoticias listaNoticias = new ListaNoticias(roomNoticias, temadelPedido);
+            List<Noticia>listaNoticiasRoom = noticiaDaoRoom.getNoticiasTema(temadelPedido);
+            ListaNoticias listaNoticias = new ListaNoticias(listaNoticiasRoom, temadelPedido);
             listener.llegoPaqueteDeNoticias(listaNoticias);
         }
     }
 
     private void getRequest ( String url){
-        if (hayInternet()) {
+        if (repositorio.hayInternet()) {
             RequestQueue queue = Volley.newRequestQueue((Context) listener);
             StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                     new Response.Listener<String>() {
@@ -149,16 +153,16 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
                                     String noticiaDescripcion = jsonNoticia.getString("description");
                                     String urlNoticia = jsonNoticia.getString("url");
                                     String urlToImage = jsonNoticia.getString("urlToImage");
-                                    String noticiaTema = null;
+                                    String noticiaTema = "General";
                                     Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema);
                                     listaDeNoticias.add(noticia);
                                 }
+                                noticiaDaoRoom.insertAll(listaDeNoticias);
                                 listener.llegoPaqueteDeNoticias(new ListaNoticias(listaDeNoticias, "General"));
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 listener.errorPedidoNoticia();
                             }
-                            noticiaDaoRoom.insertAll();
                         }
                     },
                     new Response.ErrorListener() {
@@ -175,19 +179,19 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
                     return params;
                 }
             };
-            noticiaDaoRoom.insertAll();
             queue.add(getRequest);
 
 
         } else {
-            List<Noticia> roomNoticias = noticiaDaoRoom.getNoticias();
-            ListaNoticias listaNoticias = new ListaNoticias(roomNoticias, "General");
+            List<Noticia>listaNoticiasRoom = noticiaDaoRoom.getNoticiasTema("General");
+            ListaNoticias listaNoticias = new ListaNoticias(listaNoticiasRoom, "General");
             listener.llegoPaqueteDeNoticias(listaNoticias);
         }
     }
 
     public static List<String> crearLista() {
         List<String> listaTemas = new ArrayList<>();
+        listaTemas.add(KEY_TEMA_GENERAL);
         listaTemas.add(KEY_TEMA_CIENCIA);
         listaTemas.add(KEY_TEMA_DEPORTES);
         listaTemas.add(KEY_TEMA_ENTRETENIMIENTO);
@@ -197,10 +201,4 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
         return listaTemas;
     }
 
-    public boolean hayInternet () {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
 }
