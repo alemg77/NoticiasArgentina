@@ -30,6 +30,7 @@ class NoticiaDaoFirebase {
         private var progreso: MutableLiveData<Int>? = null
         val COLECCION_NOTICIAS = "noticias"
         private var instancia: NoticiaDaoFirebase? = null
+        private var noticiaDaoRoom: NoticiaDaoRoom? = null
         private lateinit var storage: FirebaseStorage
         private lateinit var referenciaColeccion: CollectionReference
 
@@ -70,6 +71,7 @@ class NoticiaDaoFirebase {
             val imagenComprimida = comprimir_imagen(imagen, 1024, 70)
             subirArchivo(imagenComprimida,pathImagen )
             noticia.urlImagenStorage = pathImagen
+            noticia.origenFirebase = true
             guardarNoticia(noticia)
         }
     }
@@ -151,6 +153,9 @@ class NoticiaDaoFirebase {
                         noticia.documentoFirebase = document.id
                         listNoticias.add(noticia)
                     }
+
+                    noticiaDaoRoom?.insertAll(listNoticias)
+
                     val listaDeNoticias:ListaNoticias = ListaNoticias(listNoticias, "Firebase")
                     resultListener.onFinish(listaDeNoticias)
                 }

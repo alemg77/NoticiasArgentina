@@ -25,9 +25,15 @@ public interface NoticiaDaoRoom {
     @Delete
     void delete(Noticia noticia);
 
+    @Query("DELETE FROM Noticia")
+    void deleteAll();
+
     @Query("SELECT * FROM Noticia")
     List<Noticia> getNoticias();
 
     @Query("SELECT * FROM Noticia WHERE tema = :tema")
     List<Noticia> getNoticiasTema(String tema);
+
+    @Query("SELECT * FROM Noticia WHERE 1 = :origenFirebase")
+    List<Noticia> getNoticiasTemaFirebase(Boolean origenFirebase);
 }

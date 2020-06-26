@@ -54,6 +54,9 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
         noticiasArgentinas = findViewById(R.id.textViewTitulo);
         this.noticiaDaoRoom = AppDatabase.getInstance(getApplicationContext()).noticiaDaoRoom();
 
+        //TODO traer hilos de room, api y firebase y decidir cuál se usa, si pasa el tiempo
+
+
 
         paqueteNoticias = new PaqueteNoticias();
 

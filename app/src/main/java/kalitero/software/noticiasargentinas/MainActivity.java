@@ -32,11 +32,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
+import kalitero.software.noticiasargentinas.Controlador.Repositorio;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private FragmentLogin fragmentLogin;
     private NoticiaDaoRoom noticiaDaoRoom;
+    private Repositorio repositorio;
 
     // TODO: Faltan estos logos:
 
@@ -156,16 +159,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     case R.id.navigationMenuNoticiasBarriales:
                         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                            NoticiaDaoFirebase.Companion.getIntancia().buscarNoticias(new ResultListener<ListaNoticias>() {
-                                @Override
-                                public void onFinish(@NotNull ListaNoticias result) {
-                                    llegoPaqueteDeNoticias(result);
+                                if (repositorio.hayInternet()){
+                                NoticiaDaoFirebase.Companion.getIntancia().buscarNoticias(new ResultListener<ListaNoticias>() {
+                                    @Override
+                                    public void onFinish(@NotNull ListaNoticias result) {
+                                        llegoPaqueteDeNoticias(result);
+                                    }
+
+                                    @Override
+                                    public void onError(String message) {
+                                    }
+                                });
+                                }else {
+                                    List<Noticia> listaNoticiasRoom = noticiaDaoRoom.getNoticiasTemaFirebase(true);
+                                    ListaNoticias listaNoticiasFirebase = new ListaNoticias(listaNoticiasRoom, "Firebase");
+                                    llegoPaqueteDeNoticias(listaNoticiasFirebase);
+
                                 }
 
-                                @Override
-                                public void onError(String message) {
-                                }
-                            });
                         } else {
                             Toast.makeText(MainActivity.this, "Debes registrarte primero", Toast.LENGTH_LONG).show();
                         }

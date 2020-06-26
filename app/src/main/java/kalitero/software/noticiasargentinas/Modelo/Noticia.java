@@ -43,6 +43,8 @@ public class Noticia implements Serializable {
     private String longitud;
     @ColumnInfo
     private String documentoFirebase;
+    @ColumnInfo
+    private Boolean origenFirebase;
 
     public String getDocumentoFirebase() {
         return documentoFirebase;
@@ -55,7 +57,7 @@ public class Noticia implements Serializable {
     public Noticia() {
     }
 
-    public Noticia(String fuente, String autor, String titulo, String descripcion, String urlNoticia, String urlImagen, Date fecha, String tema) {
+    public Noticia(String fuente, String autor, String titulo, String descripcion, String urlNoticia, String urlImagen, Date fecha, String tema, Boolean origenFirebase) {
         this.fuente = fuente;
         this.autor = autor;
         this.titulo = titulo;
@@ -67,6 +69,7 @@ public class Noticia implements Serializable {
         this.urlImagenStorage = null;
         this.latitud = null;
         this.longitud = null;
+        this.origenFirebase = null;
     }
 
     public Noticia(String fuente, String autor, String titulo, String descripcion, String urlNoticia, String urlImagen, Date fecha, String tema, String urlImagenStorage, String latitud, String longitud) {
@@ -175,5 +178,13 @@ public class Noticia implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Boolean getOrigenFirebase() {
+        return origenFirebase;
+    }
+
+    public void setOrigenFirebase(Boolean origenFirebase) {
+        this.origenFirebase = origenFirebase;
     }
 }

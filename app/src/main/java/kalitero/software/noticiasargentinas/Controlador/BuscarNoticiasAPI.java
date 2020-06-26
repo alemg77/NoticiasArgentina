@@ -56,10 +56,13 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
 
     private Repositorio repositorio;
 
+
+
     public BuscarNoticiasAPI(RecepcionNoticias listener, Context context) {
         this.listener = listener;
         this.context = context;
         this.noticiaDaoRoom = AppDatabase.getInstance(context).noticiaDaoRoom();
+        this.repositorio = new Repositorio(context);
     }
 
     public void titularesNuevos(String pais) {
@@ -75,8 +78,9 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
     }
 
     public void titularesNuevos(String pais, final String temadelPedido) {
+     //   repositorio = new Repositorio(context);
 
-        if (repositorio.hayInternet()) {
+        if (this.repositorio.hayInternet()) {
             String url = "https://newsapi.org/v2/top-headlines?country=" + pais + "&category=" + temadelPedido;
             RequestQueue queue = Volley.newRequestQueue((Context) listener);
             StringRequest getRequest = new StringRequest(Request.Method.GET, url,
@@ -97,7 +101,8 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
                                     String urlNoticia = jsonNoticia.getString("url");
                                     String urlToImage = jsonNoticia.getString("urlToImage");
                                     String noticiaTema = temadelPedido;
-                                    Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema);
+                                    Boolean origenFirebase = false;
+                                    Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema, origenFirebase);
                                     listaDeNoticias.add(noticia);
                                 }
                                 noticiaDaoRoom.insertAll(listaDeNoticias);
@@ -134,6 +139,8 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
     }
 
     private void getRequest ( String url){
+     //   repositorio = new Repositorio(context);
+
         if (repositorio.hayInternet()) {
             RequestQueue queue = Volley.newRequestQueue((Context) listener);
             StringRequest getRequest = new StringRequest(Request.Method.GET, url,
@@ -154,9 +161,11 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
                                     String urlNoticia = jsonNoticia.getString("url");
                                     String urlToImage = jsonNoticia.getString("urlToImage");
                                     String noticiaTema = "General";
-                                    Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema);
+                                    Boolean origenFirebase = false;
+                                    Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema, origenFirebase);
                                     listaDeNoticias.add(noticia);
                                 }
+                                noticiaDaoRoom.deleteAll();
                                 noticiaDaoRoom.insertAll(listaDeNoticias);
                                 listener.llegoPaqueteDeNoticias(new ListaNoticias(listaDeNoticias, "General"));
                             } catch (Exception e) {
