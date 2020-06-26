@@ -9,13 +9,14 @@ import com.google.firebase.storage.FirebaseStorage
 import kalitero.software.noticiasargentinas.Modelo.Noticia
 import kalitero.software.noticiasargentinas.databinding.CeldaNoticiaBarrialBinding
 
-class NoticiasBarrialesAdapter(private val lista: List<Noticia>) :
+class NoticiasBarrialesAdapter(private val lista: List<Noticia>, private val listener:AvisoRecyclerViewkt) :
         RecyclerView.Adapter<NoticiasBarrialesAdapter.NoticiaViewHolder>() {
 
     private var listaDeNoticias: List<Noticia> = lista
 
     companion object {
         private val TAG = javaClass.toString()
+        private lateinit var escuchador: AvisoRecyclerViewkt
     }
 
     override fun onBindViewHolder(holder: NoticiaViewHolder, position: Int) {
@@ -24,6 +25,7 @@ class NoticiasBarrialesAdapter(private val lista: List<Noticia>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticiaViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
+        escuchador = listener
         val celdaNoticiaBinding: CeldaNoticiaBarrialBinding = CeldaNoticiaBarrialBinding.inflate(layoutInflater, parent, false)
         return NoticiaViewHolder(celdaNoticiaBinding)
     }
@@ -41,16 +43,18 @@ class NoticiasBarrialesAdapter(private val lista: List<Noticia>) :
             val urlImagenStorage = unaNoticia.urlImagenStorage
             val child = FirebaseStorage.getInstance().reference.child(urlImagenStorage)
             Glide.with(binding.root).load(child).into(binding.CeldaNoticiaImagen)
+
         }
 
         init {
             binding.CeldaNoticiaImagen.setOnClickListener {
+                escuchador.recyclerViewClick(adapterPosition)
                 Log.d(TAG, "Seleccionaron una celda: $adapterPosition")
             }
         }
     }
 
-    interface AvisoRecyclerView {
+    interface AvisoRecyclerViewkt {
         fun recyclerViewClick(posicion: Int)
     }
 

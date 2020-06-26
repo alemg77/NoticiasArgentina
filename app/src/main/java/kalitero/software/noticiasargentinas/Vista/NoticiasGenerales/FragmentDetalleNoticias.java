@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +18,19 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.Serializable;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
+import java.util.List;
+
+import kalitero.software.noticiasargentinas.Controlador.ComentariosController;
+import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
+import kalitero.software.noticiasargentinas.Modelo.Comentario;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.R;
+import kalitero.software.noticiasargentinas.Vista.NoticiasBarriales.ComentarioAdapter;
 import kalitero.software.noticiasargentinas.databinding.FragmentDetalleNoticiasBinding;
+import kalitero.software.noticiasargentinas.util.ResultListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,17 +39,14 @@ public class FragmentDetalleNoticias extends Fragment {
     private String TAG = getClass().toString();
 
     private FragmentDetalleNoticiasBinding binding;
-    private FragmentComentarios fragmentComentarios;
+ //   private FragmentComentarios fragmentComentarios;
 
     //Fabrica el fragment
     public static FragmentDetalleNoticias dameUnFragment(Noticia noticia){
-        // Crear el fragment
         FragmentDetalleNoticias detalleNoticiasFragment = new FragmentDetalleNoticias();
-        // Pasar el bundle
         Bundle bundle = new Bundle();
         bundle.putSerializable(Noticia.class.toString(),noticia);
         detalleNoticiasFragment.setArguments(bundle);
-        //Hacer el return
         return detalleNoticiasFragment;
     }
 
@@ -55,17 +61,10 @@ public class FragmentDetalleNoticias extends Fragment {
         ImageView imageViewNoticia = binding.fragmentDetalleNoticiasImageView;
         TextView textViewNoticia = binding.fragmentDetalleNoticiastextView;
         TextView textViewTitulo = binding.fragmentTituloNoticiastextView;
-        FloatingActionButton botonComentarios = binding.fragmentDetalleNoticiaFABcomentario;
         // TextView textViewSeccion = binding.fragmentDetalleNot;
         // imageViewNoticia.setImageResource(noticia.getUrlImagen());
 
-        fragmentComentarios = new FragmentComentarios();
-        botonComentarios.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pegarFragment(fragmentComentarios, R.id.fragmentDetalleNoticiasContenedorComentarios,noticia);
-            }
-        });
+  //      fragmentComentarios = new FragmentComentarios();
 
 
         String urlImagenStorage = noticia.getUrlImagenStorage();
@@ -89,16 +88,27 @@ public class FragmentDetalleNoticias extends Fragment {
             textViewTitulo.setText(titulo);
         }
 
+        ComentariosController comentariosController = new ComentariosController(getContext());
+        comentariosController.getComentarios(new ResultListener<List<Comentario>>() {
+            @Override
+            public void onFinish(List<Comentario> result) {
+                cargarRecycler(result);
+            }
+
+            @Override
+            public void onError(@NotNull String message) {
+
+            }
+        }, noticia.getDocumentoFirebase());
+
         return binding.getRoot();
     }
 
-    private void pegarFragment(Fragment fragmentAPegar, int containerViewId, Serializable serializable) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(serializable.getClass().toString(), serializable);
-        fragmentAPegar.setArguments(bundle);
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.add(containerViewId, fragmentAPegar).commit();
+    private void cargarRecycler(List<Comentario> comentarioList) {
+        ComentarioAdapter animalAdapter = new ComentarioAdapter(comentarioList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        binding.FragmentComentariosRecyclerView.setLayoutManager(linearLayoutManager);
+        binding.FragmentComentariosRecyclerView.setAdapter(animalAdapter);
     }
 
 }

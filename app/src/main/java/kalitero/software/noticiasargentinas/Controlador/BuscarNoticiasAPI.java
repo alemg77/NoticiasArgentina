@@ -108,7 +108,6 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
             }
         };
         queue.add(getRequest);
-
     }
 
     private void getRequest ( String url){

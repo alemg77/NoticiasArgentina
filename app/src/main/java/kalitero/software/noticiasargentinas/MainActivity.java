@@ -44,7 +44,7 @@ import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager.Vi
 import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager.ViewPagerNoticia;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, FragmentListaNoticiasCompacto.Aviso, ViewPagerListasNoticias.SelleccionDos, Regresar {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias , ViewPagerListasNoticias.SelleccionDos, Regresar {
 
     // Para ver los logos hay que filtrar con: kalitero.software.noticiasargentinas.Vista
     private String TAG = getClass().toString();
@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "Llego un paquete de noticias");
 
         if (listaNoticias.getTema() == NoticiaDaoFirebase.Companion.getFIREBASE()){
-            pegarFragment(new FragmentNoticiasBarriales(), R.id.activityMainContenedorFragment, listaNoticias);
+            pegarFragment(new FragmentNoticiasBarriales(this), R.id.activityMainContenedorFragment, listaNoticias);
             return;
         }
 
@@ -292,14 +292,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void errorPedidoNoticia() {
-        // TODO: Ver que hacemos cuando hay un problema en la coneccion con la API
+    public void mostrarDetalleDeNoticias(ListaNoticias listaNoticias) {
+        Log.d(TAG, "Selecciono una noticia");
+        pegarFragment(new ViewPagerNoticia(), R.id.activityMainContenedorFragment, listaNoticias);
     }
 
     @Override
-    public void selleccion(ListaNoticias listaNoticias) {
-        Log.d(TAG, "Selecciono una noticia");
-        pegarFragment(new ViewPagerNoticia(), R.id.activityMainContenedorFragment, listaNoticias);
+    public void errorPedidoNoticia() {
+        // TODO: Ver que hacemos cuando hay un problema en la coneccion con la API
     }
 
     @Override

@@ -22,12 +22,11 @@ import kalitero.software.noticiasargentinas.databinding.CeldaNoticiaBinding;
 
 public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
 
-
     private List<Noticia> listaDeNoticias;
-    private AvisoRecyclerView listener;
+    private AvisoRecyclerViewJava listener;
     private String TAG = getClass().toString();
 
-    public FragmentListaNoticiasCompactoAdapter(List<Noticia> listaDeNoticias, AvisoRecyclerView listener) {
+    public FragmentListaNoticiasCompactoAdapter(List<Noticia> listaDeNoticias, AvisoRecyclerViewJava listener) {
         this.listaDeNoticias = listaDeNoticias;
         this.listener = listener;
     }
@@ -52,16 +51,13 @@ public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
     }
 
     private class NoticiaViewHolder extends RecyclerView.ViewHolder {
-
         private CeldaNoticiaBinding binding;
         private ImageView logo;
 
         private NoticiaViewHolder(@NonNull CeldaNoticiaBinding celdaNoticiaBinding) {
             super(celdaNoticiaBinding.getRoot());
             binding = celdaNoticiaBinding;
-
             logo = itemView.findViewById(R.id.CeladaNoticiaimageViewLogo);
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -140,7 +136,7 @@ public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public interface AvisoRecyclerView {
+    public interface AvisoRecyclerViewJava {
         void recyclerViewClick(int posicion);
     }
 }

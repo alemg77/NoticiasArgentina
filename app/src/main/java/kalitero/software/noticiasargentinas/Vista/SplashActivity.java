@@ -133,6 +133,11 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
     }
 
     @Override
+    public void mostrarDetalleDeNoticias(ListaNoticias listaNoticias) {
+
+    }
+
+    @Override
     public void errorPedidoNoticia() {
 
     }

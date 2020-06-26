@@ -11,16 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.R;
 import kalitero.software.noticiasargentinas.databinding.FragmentListaNoticiasCompactoBinding;
 
 
-public class FragmentListaNoticiasCompacto extends Fragment implements FragmentListaNoticiasCompactoAdapter.AvisoRecyclerView{
+public class FragmentListaNoticiasCompacto extends Fragment implements FragmentListaNoticiasCompactoAdapter.AvisoRecyclerViewJava {
 
 
     private FragmentListaNoticiasCompactoBinding binding;
-    private FragmentListaNoticiasCompacto.Aviso listener;
+    private RecepcionNoticias listener;
     private ListaNoticias listaNoticias;
     public static final String CLAVE_TEMA = "claveTema";
     public static final String LISTA_NOTICIAS = ListaNoticias.class.toString();
@@ -30,7 +31,7 @@ public class FragmentListaNoticiasCompacto extends Fragment implements FragmentL
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        this.listener = (Aviso) context;
+        this.listener = (RecepcionNoticias) context;
     }
 
     //Fabrica el fragment
@@ -68,11 +69,7 @@ public class FragmentListaNoticiasCompacto extends Fragment implements FragmentL
     @Override
     public void recyclerViewClick(int posicion) {
         listaNoticias.setPosicionInicial(posicion);
-        listener.selleccion(listaNoticias);                   // Me llego del Recyclerview y se lo paso a la actividad.
-    }
-
-    public interface Aviso {
-        void selleccion (ListaNoticias listaNoticias);
+        listener.mostrarDetalleDeNoticias(listaNoticias);                   // Me llego del Recyclerview y se lo paso a la actividad.
     }
 
 }
