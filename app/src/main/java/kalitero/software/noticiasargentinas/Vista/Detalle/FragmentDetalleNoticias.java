@@ -135,7 +135,7 @@ public class FragmentDetalleNoticias extends Fragment implements  ComentarioAdap
         Comentario comentario = comentarios.get(posicion);
         String usuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Voto voto = new Voto(usuario, true);
-        NoticiaDaoFirebase.Companion.getIntancia().verificarVotoComentario(noticia , comentario, voto);
+        NoticiaDaoFirebase.Companion.getIntancia().votoComentario(noticia , comentario, voto);
     }
 
     @Override
@@ -143,6 +143,6 @@ public class FragmentDetalleNoticias extends Fragment implements  ComentarioAdap
         Comentario comentario = comentarios.get(posicion);
         String usuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Voto voto = new Voto(usuario, false);
-        NoticiaDaoFirebase.Companion.getIntancia().verificarVotoComentario(noticia , comentario, voto);
+        NoticiaDaoFirebase.Companion.getIntancia().votoComentario(noticia , comentario, voto);
     }
 }

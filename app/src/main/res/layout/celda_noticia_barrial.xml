@@ -40,12 +40,12 @@
                 android:gravity="center"
                 android:textColor="@color/negro"
                 android:textSize="20dp"
-                app:layout_constraintEnd_toStartOf="@+id/contadorDownVote"
+                app:layout_constraintEnd_toStartOf="@+id/contadorVotosPositivos"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imagenUpVote"
+                android:id="@+id/votoNegativo"
                 android:layout_height="0dp"
                 android:layout_width="25dp"
                 android:layout_marginRight="5dp"
@@ -56,35 +56,35 @@
                 app:layout_constraintTop_toTopOf="@+id/CeldaNoticiaTitulo" />
 
             <TextView
-                android:id="@+id/contadorUpVote"
+                android:id="@+id/contadorVotosNegativos"
                 android:layout_width="25dp"
                 android:layout_height="0dp"
                 android:text="0"
                 android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="@+id/imagenUpVote"
-                app:layout_constraintEnd_toStartOf="@+id/imagenUpVote"
-                app:layout_constraintTop_toTopOf="@+id/imagenUpVote" />
+                app:layout_constraintBottom_toBottomOf="@+id/votoNegativo"
+                app:layout_constraintEnd_toStartOf="@+id/votoNegativo"
+                app:layout_constraintTop_toTopOf="@+id/votoNegativo" />
 
             <ImageView
-                android:id="@+id/imagenDownVote"
+                android:id="@+id/votoPositivo"
                 android:layout_width="25dp"
                 android:layout_height="0dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/ic_baseline_thumb_up_24"
                 android:backgroundTint="@color/votoPositivo"
-                app:layout_constraintBottom_toBottomOf="@+id/imagenUpVote"
-                app:layout_constraintEnd_toStartOf="@+id/contadorUpVote"
-                app:layout_constraintTop_toTopOf="@+id/contadorUpVote" />
+                app:layout_constraintBottom_toBottomOf="@+id/votoNegativo"
+                app:layout_constraintEnd_toStartOf="@+id/contadorVotosNegativos"
+                app:layout_constraintTop_toTopOf="@+id/contadorVotosNegativos" />
 
             <TextView
-                android:id="@+id/contadorDownVote"
+                android:id="@+id/contadorVotosPositivos"
                 android:layout_width="25dp"
                 android:layout_height="0dp"
                 android:text="0"
                 android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="@+id/imagenDownVote"
-                app:layout_constraintEnd_toStartOf="@+id/imagenDownVote"
-                app:layout_constraintTop_toTopOf="@+id/imagenUpVote" />
+                app:layout_constraintBottom_toBottomOf="@+id/votoPositivo"
+                app:layout_constraintEnd_toStartOf="@+id/votoPositivo"
+                app:layout_constraintTop_toTopOf="@+id/votoNegativo" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

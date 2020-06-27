@@ -174,6 +174,20 @@ class NoticiaDaoFirebase {
                 }
     }
 
+    fun buscarVotosNoticia(noticia: Noticia, resultListener: ResultListener<List<Voto>>) {
+        referenciaColeccion
+                .document(noticia.documentoFirebase)
+                .collection(VOTACION)
+                .get()
+                .addOnSuccessListener { result ->
+                    var lista: ArrayList<Voto> = ArrayList()
+                    for (document in result) {
+                        lista.add(document.toObject(Voto::class.java))
+                    }
+                    resultListener.onFinish(lista)
+                }
+    }
+
 
     fun leerVotos(noticia: Noticia, comentario: Comentario, resultListener: ResultListener<List<Voto>>) {
         referenciaColeccion
@@ -192,7 +206,7 @@ class NoticiaDaoFirebase {
     }
 
 
-    fun verificarVotoNoticia(noticia: Noticia, voto: Voto) {
+    fun votoNoticia(noticia: Noticia, voto: Voto) {
         referenciaColeccion
                 .document(noticia.documentoFirebase)
                 .collection(VOTACION)
@@ -212,7 +226,7 @@ class NoticiaDaoFirebase {
     }
 
 
-    fun verificarVotoComentario(noticia: Noticia, comentario: Comentario, voto: Voto) {
+    fun votoComentario(noticia: Noticia, comentario: Comentario, voto: Voto) {
         referenciaColeccion
                 .document(noticia.documentoFirebase)
                 .collection(COMENTARIOS)
