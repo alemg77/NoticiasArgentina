@@ -52,10 +52,7 @@ class NoticiasBarrialesAdapter(private val listaNoticias: List<Noticia>, private
             val urlImagenStorage = unaNoticia.urlImagenStorage
             val child = FirebaseStorage.getInstance().reference.child(urlImagenStorage)
             Glide.with(binding.root).load(child).into(binding.CeldaNoticiaImagen)
-
             actualizarContadores()
-
-
         }
 
         init {

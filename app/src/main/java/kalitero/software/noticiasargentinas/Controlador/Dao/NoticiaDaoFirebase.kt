@@ -142,6 +142,10 @@ class NoticiaDaoFirebase {
     }
 
     fun buscarComentarios(noticia: Noticia, resultListener: ResultListener<List<Comentario>>) {
+        if (noticia.documentoFirebase == null) {
+            // La noticia no esta en firebase
+            return;
+        }
         referenciaColeccion
                 .document(noticia.documentoFirebase)
                 .collection(COMENTARIOS)

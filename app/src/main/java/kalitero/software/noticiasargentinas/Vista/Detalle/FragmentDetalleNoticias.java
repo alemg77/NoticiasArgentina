@@ -56,33 +56,24 @@ public class FragmentDetalleNoticias extends Fragment implements  ComentarioAdap
         Bundle bundle = getArguments();
         noticia = (Noticia) bundle.getSerializable(Noticia.class.toString());
 
-        ImageView imageViewNoticia = binding.fragmentDetalleNoticiasImageView;
-        TextView textViewNoticia = binding.fragmentDetalleNoticiastextView;
-        TextView textViewTitulo = binding.fragmentTituloNoticiastextView;
-        // TextView textViewSeccion = binding.fragmentDetalleNot;
-        // imageViewNoticia.setImageResource(noticia.getUrlImagen());
-  //      fragmentComentarios = new FragmentComentarios();
-
-
         String urlImagenStorage = noticia.getUrlImagenStorage();
         if (urlImagenStorage != null) {
             StorageReference child = FirebaseStorage.getInstance().getReference().child(urlImagenStorage);
-            Glide.with(binding.getRoot()).load(child).into(binding.fragmentDetalleNoticiasImageView);
+            Glide.with(binding.getRoot()).load(child).into(binding.imagenNoticia);
         } else if (noticia.getUrlImagen() != null) {
             try {
-                Glide.with(binding.getRoot()).load(noticia.getUrlImagen()).into(binding.fragmentDetalleNoticiasImageView);
+                Glide.with(binding.getRoot()).load(noticia.getUrlImagen()).into(binding.imagenNoticia);
             } catch (Exception e) {
                 Log.d(TAG, "Problema al cargar imagen:" + e.toString());
             }
         }
 
-        textViewNoticia.setText(noticia.getDescripcion());
-        // textViewSeccion.setText(noticia.getTema());
+        binding.fragmentDetalleNoticiastextView.setText(noticia.getDescripcion());
         String titulo = noticia.getTitulo();
         if ( titulo.contains("-") ) {
-            textViewTitulo.setText(titulo.substring(0,titulo.indexOf("-")-1));
+            binding.textViewTitulo.setText(titulo.substring(0,titulo.indexOf("-")-1));
         } else {
-            textViewTitulo.setText(titulo);
+            binding.textViewTitulo.setText(titulo);
         }
 
         ComentariosController comentariosController = new ComentariosController(getContext());
@@ -100,7 +91,7 @@ public class FragmentDetalleNoticias extends Fragment implements  ComentarioAdap
         }, noticia);
 
 
-        binding.botonEnviarComentario.setOnClickListener(new View.OnClickListener() {
+        binding.TextoComentarioNuevo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
@@ -108,14 +99,14 @@ public class FragmentDetalleNoticias extends Fragment implements  ComentarioAdap
                     Snackbar.make(binding.getRoot(), "Es necesario registrarse para comentar", Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                String opionion = binding.EditTextComentarioNuevo.getText().toString();
+                String opionion = binding.TextoComentarioNuevo.getText().toString();
                 if ( opionion.length() < 2 ){
                     Snackbar.make(binding.getRoot(), "El comentario debe tener mas de un caracter", Snackbar.LENGTH_LONG).show();
                     return;
                 }
                 Comentario comentario = new Comentario(email, opionion);
                 NoticiaDaoFirebase.Companion.getIntancia().agregarComentario(noticia,comentario);
-                binding.EditTextComentarioNuevo.setText(" ");
+                binding.TextoComentarioNuevo.setText(" ");
                 Snackbar.make(binding.getRoot(), "Gracias por comentar!", Snackbar.LENGTH_LONG).show();
             }
         });

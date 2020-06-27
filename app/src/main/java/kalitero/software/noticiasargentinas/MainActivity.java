@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.d(TAG, "Otra vez YO");
         }
 
-
         FloatingActionButton fab = findViewById(R.id.floating_action_button);
 
         fab.setOnClickListener(new View.OnClickListener() {
