@@ -28,7 +28,7 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
     public ComentarioAdapter(Noticia noticia, List<Comentario> listaComentarios, Votacion listener) {
         this.listaComentarios = listaComentarios;
         this.listener = listener;
-      //  this.comentarioAdapterListener = comentarioAdapterListener;
+        this.noticia = noticia;
     }
 
     @NonNull
@@ -65,13 +65,21 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
 
         public void onBind(Comentario comentario) {
 
-            /*
             NoticiaDaoFirebase.Companion.getIntancia()
                     .buscarVotosComentario(noticia, comentario, new ResultListener<List<Voto>>() {
                         @Override
                         public void onFinish(List<Voto> result) {
-                            // TODO: Contar los votos y mostrarlos!!!!
-                            Log.d(TAG,"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            Integer positivos = 0;
+                            Integer negativos = 0;
+                            for ( Voto voto:  result) {
+                                if (  voto.getPositivo()) {
+                                    positivos++;
+                                } else {
+                                    negativos++;
+                                }
+                                binding.TextViewDislike.setText(negativos.toString());
+                                binding.TextViewLike.setText(positivos.toString());
+                            }
                         }
 
                         @Override
@@ -80,11 +88,7 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
                         }
                     });
 
-             */
-
             binding.celdaComentariosTextViewComentario.setText(comentario.getOpinion());
-            binding.celdaComentariosTextViewLike.setText(comentario.getPositivos().toString());
-            binding.celdaComentariosTextViewDislike.setText(comentario.getNegativos().toString());
             binding.celdaComentariosTextViewEmail.setText(comentario.getUsuario());
             binding.celdaComentariosTextViewFecha.setText(comentario.getFecha().toString());
 
@@ -95,7 +99,7 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
                 }
             });
 
-            binding.celdaComentariosTextViewDislike.setOnClickListener(new View.OnClickListener() {
+            binding.BotonDislike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.votoNegativo(getAdapterPosition());

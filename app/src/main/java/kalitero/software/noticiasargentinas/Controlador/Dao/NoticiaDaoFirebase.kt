@@ -102,11 +102,11 @@ class NoticiaDaoFirebase {
         return byteArrayOutputStream.toByteArray()
     }
 
-    fun agregarComentario(documento: String, comentario: Comentario) {
+    fun agregarComentario(noticia: Noticia, comentario: Comentario) {
         GlobalScope.launch {
             try {
                 val await = referenciaColeccion
-                        .document(documento)
+                        .document(noticia.documentoFirebase)
                         .collection(COMENTARIOS)
                         .add(comentario).await()
             } catch (e: FirebaseFirestoreException) {
@@ -157,9 +157,6 @@ class NoticiaDaoFirebase {
                 }
     }
 
-    fun buscarVotos(noticia: Noticia) {
-
-    }
 
     fun buscarVotosComentario(noticia: Noticia, comentario: Comentario, resultListener: ResultListener<List<Voto>>) {
         referenciaColeccion
@@ -194,24 +191,17 @@ class NoticiaDaoFirebase {
                 }
     }
 
-    fun agregarVotoNoticia(noticia: Noticia, nombreUsario: String, voto: Boolean) {
-    }
 
-    /**
-     *
-     */
-    fun verificarVotoComentario(noticia: Noticia, nombreUsario: String, comentario: Comentario, voto: Voto) {
+    fun verificarVotoNoticia(noticia: Noticia, voto: Voto) {
         referenciaColeccion
                 .document(noticia.documentoFirebase)
-                .collection(COMENTARIOS)
-                .document(comentario.documentoFirebase)
                 .collection(VOTACION)
-                .whereEqualTo("usuario", nombreUsario)
+                .whereEqualTo("usuario", voto.usuario)
                 .get()
                 .addOnSuccessListener { result ->
                     if (result.documents.size == 0) {
                         // Si no hay documento, significa que no voto
-                        guargarVotoNuevo(noticia, nombreUsario, comentario, voto)
+                        guargarVotoNuevo(noticia, voto)
                     } else {
                         Log.d(TAG, "Ya voto")
                     }
@@ -221,7 +211,29 @@ class NoticiaDaoFirebase {
                 }
     }
 
-    fun guargarVotoNuevo(noticia: Noticia, nombreUsario: String, comentario: Comentario, voto: Voto) {
+
+    fun verificarVotoComentario(noticia: Noticia, comentario: Comentario, voto: Voto) {
+        referenciaColeccion
+                .document(noticia.documentoFirebase)
+                .collection(COMENTARIOS)
+                .document(comentario.documentoFirebase)
+                .collection(VOTACION)
+                .whereEqualTo("usuario", voto.usuario)
+                .get()
+                .addOnSuccessListener { result ->
+                    if (result.documents.size == 0) {
+                        // Si no hay documento, significa que no voto
+                        guargarVotoNuevo(noticia, comentario, voto)
+                    } else {
+                        Log.d(TAG, "Ya voto")
+                    }
+                }
+                .addOnFailureListener {
+                    Log.d(TAG, "Error en firebase?")
+                }
+    }
+
+    fun guargarVotoNuevo(noticia: Noticia, comentario: Comentario, voto: Voto) {
         GlobalScope.launch {
             try {
                 val await = referenciaColeccion
@@ -236,5 +248,18 @@ class NoticiaDaoFirebase {
         }
     }
 
+
+    fun guargarVotoNuevo(noticia: Noticia, voto: Voto) {
+        GlobalScope.launch {
+            try {
+                val await = referenciaColeccion
+                        .document(noticia.documentoFirebase)
+                        .collection(VOTACION)
+                        .add(voto).await()
+            } catch (e: FirebaseFirestoreException) {
+                Log.d(TAG, "Error guardando comentario:$e")
+            }
+        }
+    }
 
 }

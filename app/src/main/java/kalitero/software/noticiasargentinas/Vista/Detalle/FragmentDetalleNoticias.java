@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -98,6 +99,27 @@ public class FragmentDetalleNoticias extends Fragment implements  ComentarioAdap
             }
         }, noticia);
 
+
+        binding.botonEnviarComentario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                if ( email == null) {
+                    Snackbar.make(binding.getRoot(), "Es necesario registrarse para comentar", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                String opionion = binding.EditTextComentarioNuevo.getText().toString();
+                if ( opionion.length() < 2 ){
+                    Snackbar.make(binding.getRoot(), "El comentario debe tener mas de un caracter", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                Comentario comentario = new Comentario(email, opionion);
+                NoticiaDaoFirebase.Companion.getIntancia().agregarComentario(noticia,comentario);
+                binding.EditTextComentarioNuevo.setText(" ");
+                Snackbar.make(binding.getRoot(), "Gracias por comentar!", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
         return binding.getRoot();
     }
 
@@ -113,7 +135,7 @@ public class FragmentDetalleNoticias extends Fragment implements  ComentarioAdap
         Comentario comentario = comentarios.get(posicion);
         String usuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Voto voto = new Voto(usuario, true);
-        NoticiaDaoFirebase.Companion.getIntancia().verificarVotoComentario(noticia , usuario, comentario, voto);
+        NoticiaDaoFirebase.Companion.getIntancia().verificarVotoComentario(noticia , comentario, voto);
     }
 
     @Override
@@ -121,6 +143,6 @@ public class FragmentDetalleNoticias extends Fragment implements  ComentarioAdap
         Comentario comentario = comentarios.get(posicion);
         String usuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Voto voto = new Voto(usuario, false);
-        NoticiaDaoFirebase.Companion.getIntancia().verificarVotoComentario(noticia , usuario, comentario, voto);
+        NoticiaDaoFirebase.Companion.getIntancia().verificarVotoComentario(noticia , comentario, voto);
     }
 }

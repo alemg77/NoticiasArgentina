@@ -10,8 +10,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        app:cardCornerRadius="2dp"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="3dp"
         app:cardElevation="2dp"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -49,7 +49,9 @@
                 android:layout_height="0dp"
                 android:layout_width="25dp"
                 android:layout_marginRight="5dp"
+                android:backgroundTint="@color/votoNegativo"
                 app:layout_constraintBottom_toTopOf="@+id/CeldaNoticiaImagen"
+                android:background="@drawable/ic_baseline_thumb_down_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/CeldaNoticiaTitulo" />
 
@@ -57,6 +59,8 @@
                 android:id="@+id/contadorUpVote"
                 android:layout_width="25dp"
                 android:layout_height="0dp"
+                android:text="0"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="@+id/imagenUpVote"
                 app:layout_constraintEnd_toStartOf="@+id/imagenUpVote"
                 app:layout_constraintTop_toTopOf="@+id/imagenUpVote" />
@@ -66,6 +70,8 @@
                 android:layout_width="25dp"
                 android:layout_height="0dp"
                 android:layout_marginRight="10dp"
+                android:background="@drawable/ic_baseline_thumb_up_24"
+                android:backgroundTint="@color/votoPositivo"
                 app:layout_constraintBottom_toBottomOf="@+id/imagenUpVote"
                 app:layout_constraintEnd_toStartOf="@+id/contadorUpVote"
                 app:layout_constraintTop_toTopOf="@+id/contadorUpVote" />
@@ -74,6 +80,8 @@
                 android:id="@+id/contadorDownVote"
                 android:layout_width="25dp"
                 android:layout_height="0dp"
+                android:text="0"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="@+id/imagenDownVote"
                 app:layout_constraintEnd_toStartOf="@+id/imagenDownVote"
                 app:layout_constraintTop_toTopOf="@+id/imagenUpVote" />
