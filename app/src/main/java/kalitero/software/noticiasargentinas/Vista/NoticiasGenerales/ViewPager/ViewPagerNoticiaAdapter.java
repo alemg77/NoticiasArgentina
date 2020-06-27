@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
-import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.FragmentDetalleNoticias;
+import kalitero.software.noticiasargentinas.Vista.Detalle.FragmentDetalleNoticias;
 
 public class ViewPagerNoticiaAdapter extends FragmentStatePagerAdapter {
 

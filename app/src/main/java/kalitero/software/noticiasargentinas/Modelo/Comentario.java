@@ -8,6 +8,7 @@ public class Comentario {
     private Date fecha;
     private Integer positivos;
     private Integer negativos;
+    private String documentoFirebase;
 
     public Comentario(String usuario, String opinion) {
         this.usuario = usuario;
@@ -29,6 +30,14 @@ public class Comentario {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public String getDocumentoFirebase() {
+        return documentoFirebase;
+    }
+
+    public void setDocumentoFirebase(String documentoFirebase) {
+        this.documentoFirebase = documentoFirebase;
     }
 
     public Integer getPositivos() {

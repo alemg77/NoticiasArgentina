@@ -11,6 +11,8 @@ import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
 import kalitero.software.noticiasargentinas.Modelo.Comentario;
+import kalitero.software.noticiasargentinas.Modelo.Noticia;
+import kalitero.software.noticiasargentinas.Modelo.Voto;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
 public class ComentariosController {
@@ -23,12 +25,11 @@ public class ComentariosController {
         this.context = context;
     }
 
-    public void getComentarios(ResultListener<List<Comentario>> resultListenerDeLaView, String documentoFirebase) {
-
+    public void getComentarios(ResultListener<List<Comentario>> resultListenerDeLaView, Noticia noticia) {
         if (hayInternet()) {
-            NoticiaDaoFirebase.Companion.getIntancia().buscarComentarios(documentoFirebase, new ResultListener<List<Comentario>>() {
+            NoticiaDaoFirebase.Companion.getIntancia().buscarComentarios(noticia, new ResultListener<List<Comentario>>() {
                 @Override
-                public void onFinish(List<Comentario> result) {
+                public void onFinish(@NotNull List<Comentario> result) {
                     resultListenerDeLaView.onFinish(result);
                 }
 
@@ -38,9 +39,8 @@ public class ComentariosController {
                 }
             });
         }
-
-
     }
+
     public boolean hayInternet () {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -28,12 +28,14 @@ import com.google.firebase.auth.FirebaseUser;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
+import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
+import kalitero.software.noticiasargentinas.Modelo.Voto;
 import kalitero.software.noticiasargentinas.Vista.Login.FragmentVerUsuario;
 import kalitero.software.noticiasargentinas.Vista.NoticiasBarriales.FragmentNoticiasBarriales;
 import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.FragmentListaNoticiasCompacto;
@@ -152,8 +154,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                             NoticiaDaoFirebase.Companion.getIntancia().buscarNoticias(new ResultListener<ListaNoticias>() {
                                 @Override
-                                public void onFinish(@NotNull ListaNoticias result) {
-                                    llegoPaqueteDeNoticias(result);
+                                public void onFinish(@NotNull ListaNoticias listaNoticias) {
+                                    llegoPaqueteDeNoticias(listaNoticias);
                                 }
 
                                 @Override
@@ -245,8 +247,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     NoticiaDaoFirebase.Companion.getIntancia().buscarNoticias(new ResultListener<ListaNoticias>() {
                         @Override
-                        public void onFinish(@NotNull ListaNoticias result) {
-                            llegoPaqueteDeNoticias(result);
+                        public void onFinish(@NotNull ListaNoticias listaNoticias) {
+                            llegoPaqueteDeNoticias(listaNoticias);
                         }
 
                         @Override

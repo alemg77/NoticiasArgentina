@@ -1,9 +1,8 @@
-package kalitero.software.noticiasargentinas.Vista.NoticiasGenerales;
+package kalitero.software.noticiasargentinas.Vista.Detalle;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
@@ -14,32 +13,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.Serializable;
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.ComentariosController;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
 import kalitero.software.noticiasargentinas.Modelo.Comentario;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
-import kalitero.software.noticiasargentinas.R;
-import kalitero.software.noticiasargentinas.Vista.NoticiasBarriales.ComentarioAdapter;
+import kalitero.software.noticiasargentinas.Modelo.Voto;
 import kalitero.software.noticiasargentinas.databinding.FragmentDetalleNoticiasBinding;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentDetalleNoticias extends Fragment {
+public class FragmentDetalleNoticias extends Fragment implements  ComentarioAdapter.Votacion {
     private String TAG = getClass().toString();
 
     private FragmentDetalleNoticiasBinding binding;
- //   private FragmentComentarios fragmentComentarios;
+    private List<Comentario> comentarios;
+    private Noticia noticia;
 
     //Fabrica el fragment
     public static FragmentDetalleNoticias dameUnFragment(Noticia noticia){
@@ -50,20 +48,18 @@ public class FragmentDetalleNoticias extends Fragment {
         return detalleNoticiasFragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDetalleNoticiasBinding.inflate(getLayoutInflater());
 
         Bundle bundle = getArguments();
-        Noticia noticia = (Noticia) bundle.getSerializable(Noticia.class.toString());
+        noticia = (Noticia) bundle.getSerializable(Noticia.class.toString());
 
         ImageView imageViewNoticia = binding.fragmentDetalleNoticiasImageView;
         TextView textViewNoticia = binding.fragmentDetalleNoticiastextView;
         TextView textViewTitulo = binding.fragmentTituloNoticiastextView;
         // TextView textViewSeccion = binding.fragmentDetalleNot;
         // imageViewNoticia.setImageResource(noticia.getUrlImagen());
-
   //      fragmentComentarios = new FragmentComentarios();
 
 
@@ -91,24 +87,40 @@ public class FragmentDetalleNoticias extends Fragment {
         ComentariosController comentariosController = new ComentariosController(getContext());
         comentariosController.getComentarios(new ResultListener<List<Comentario>>() {
             @Override
-            public void onFinish(List<Comentario> result) {
-                cargarRecycler(result);
+            public void onFinish(@NotNull List<Comentario> result) {
+                comentarios = result;
+                cargarRecycler(comentarios);
             }
 
             @Override
             public void onError(@NotNull String message) {
 
             }
-        }, noticia.getDocumentoFirebase());
+        }, noticia);
 
         return binding.getRoot();
     }
 
     private void cargarRecycler(List<Comentario> comentarioList) {
-        ComentarioAdapter animalAdapter = new ComentarioAdapter(comentarioList);
+        ComentarioAdapter animalAdapter = new ComentarioAdapter(noticia, comentarioList, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         binding.FragmentComentariosRecyclerView.setLayoutManager(linearLayoutManager);
         binding.FragmentComentariosRecyclerView.setAdapter(animalAdapter);
     }
 
+    @Override
+    public void votoPositivo(int posicion) {
+        Comentario comentario = comentarios.get(posicion);
+        String usuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Voto voto = new Voto(usuario, true);
+        NoticiaDaoFirebase.Companion.getIntancia().verificarVotoComentario(noticia , usuario, comentario, voto);
+    }
+
+    @Override
+    public void votoNegativo(int posicion) {
+        Comentario comentario = comentarios.get(posicion);
+        String usuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Voto voto = new Voto(usuario, false);
+        NoticiaDaoFirebase.Companion.getIntancia().verificarVotoComentario(noticia , usuario, comentario, voto);
+    }
 }
