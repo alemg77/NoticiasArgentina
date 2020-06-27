@@ -33,18 +33,19 @@ import kalitero.software.noticiasargentinas.util.ResultListener;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentDetalleNoticias extends Fragment implements  ComentarioAdapter.Votacion {
+public class FragmentDetalleNoticias extends Fragment implements ComentarioAdapter.Votacion {
     private String TAG = getClass().toString();
 
     private FragmentDetalleNoticiasBinding binding;
     private List<Comentario> comentarios;
     private Noticia noticia;
+    private ComentarioAdapter animalAdapter;
 
     //Fabrica el fragment
-    public static FragmentDetalleNoticias dameUnFragment(Noticia noticia){
+    public static FragmentDetalleNoticias dameUnFragment(Noticia noticia) {
         FragmentDetalleNoticias detalleNoticiasFragment = new FragmentDetalleNoticias();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Noticia.class.toString(),noticia);
+        bundle.putSerializable(Noticia.class.toString(), noticia);
         detalleNoticiasFragment.setArguments(bundle);
         return detalleNoticiasFragment;
     }
@@ -70,55 +71,70 @@ public class FragmentDetalleNoticias extends Fragment implements  ComentarioAdap
 
         binding.fragmentDetalleNoticiastextView.setText(noticia.getDescripcion());
         String titulo = noticia.getTitulo();
-        if ( titulo.contains("-") ) {
-            binding.textViewTitulo.setText(titulo.substring(0,titulo.indexOf("-")-1));
+        if (titulo.contains("-")) {
+            binding.textViewTitulo.setText(titulo.substring(0, titulo.indexOf("-") - 1));
         } else {
             binding.textViewTitulo.setText(titulo);
         }
 
-        ComentariosController comentariosController = new ComentariosController(getContext());
-        comentariosController.getComentarios(new ResultListener<List<Comentario>>() {
-            @Override
-            public void onFinish(@NotNull List<Comentario> result) {
-                comentarios = result;
-                cargarRecycler(comentarios);
-            }
+        cargarRecycler();
 
-            @Override
-            public void onError(@NotNull String message) {
-
-            }
-        }, noticia);
-
-
-        binding.TextoComentarioNuevo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                if ( email == null) {
-                    Snackbar.make(binding.getRoot(), "Es necesario registrarse para comentar", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                String opionion = binding.TextoComentarioNuevo.getText().toString();
-                if ( opionion.length() < 2 ){
-                    Snackbar.make(binding.getRoot(), "El comentario debe tener mas de un caracter", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                Comentario comentario = new Comentario(email, opionion);
-                NoticiaDaoFirebase.Companion.getIntancia().agregarComentario(noticia,comentario);
-                binding.TextoComentarioNuevo.setText(" ");
-                Snackbar.make(binding.getRoot(), "Gracias por comentar!", Snackbar.LENGTH_LONG).show();
-            }
-        });
+        escucharComentariosNuevos();
 
         return binding.getRoot();
     }
 
-    private void cargarRecycler(List<Comentario> comentarioList) {
-        ComentarioAdapter animalAdapter = new ComentarioAdapter(noticia, comentarioList, this);
+    private void escucharComentariosNuevos() {
+        binding.TextoComentarioNuevo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                if (email == null) {
+                    Snackbar.make(binding.getRoot(), "Es necesario registrarse para comentar", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                String opionion = binding.TextoComentarioNuevo.getText().toString();
+                if (opionion.length() < 2) {
+                    Snackbar.make(binding.getRoot(), "El comentario debe tener mas de un caracter", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                Comentario comentario = new Comentario(email, opionion);
+                NoticiaDaoFirebase.Companion.getIntancia().agregarComentario(noticia, comentario, new ResultListener<String>() {
+                    @Override
+                    public void onFinish(String result) {
+                        actualizarRecycler();
+                    }
+
+                    @Override
+                    public void onError(@NotNull String message) {
+
+                    }
+                });
+                binding.TextoComentarioNuevo.setText(" ");
+                Snackbar.make(binding.getRoot(), "Gracias por comentar!", Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void cargarRecycler() {
+        animalAdapter = new ComentarioAdapter(noticia, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         binding.FragmentComentariosRecyclerView.setLayoutManager(linearLayoutManager);
         binding.FragmentComentariosRecyclerView.setAdapter(animalAdapter);
+        actualizarRecycler();
+    }
+
+    private void actualizarRecycler() {
+        ComentariosController.getInstancia(getContext()).getComentarios(noticia,
+                new ResultListener<List<Comentario>>() {
+                    @Override
+                    public void onFinish(@NotNull List<Comentario> result) {
+                        animalAdapter.Actualizar(result);
+                    }
+
+                    @Override
+                    public void onError(@NotNull String message) {  }
+                });
     }
 
     @Override
@@ -126,7 +142,7 @@ public class FragmentDetalleNoticias extends Fragment implements  ComentarioAdap
         Comentario comentario = comentarios.get(posicion);
         String usuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Voto voto = new Voto(usuario, true);
-        NoticiaDaoFirebase.Companion.getIntancia().votoComentario(noticia , comentario, voto);
+        NoticiaDaoFirebase.Companion.getIntancia().votoComentario(noticia, comentario, voto);
     }
 
     @Override
@@ -134,6 +150,6 @@ public class FragmentDetalleNoticias extends Fragment implements  ComentarioAdap
         Comentario comentario = comentarios.get(posicion);
         String usuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Voto voto = new Voto(usuario, false);
-        NoticiaDaoFirebase.Companion.getIntancia().votoComentario(noticia , comentario, voto);
+        NoticiaDaoFirebase.Companion.getIntancia().votoComentario(noticia, comentario, voto);
     }
 }

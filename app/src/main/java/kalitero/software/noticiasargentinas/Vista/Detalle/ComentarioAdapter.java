@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
@@ -25,10 +26,15 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
     private Votacion listener;
     private Noticia noticia;
 
-    public ComentarioAdapter(Noticia noticia, List<Comentario> listaComentarios, Votacion listener) {
-        this.listaComentarios = listaComentarios;
+    public ComentarioAdapter(Noticia noticia, Votacion listener) {
+        this.listaComentarios = new ArrayList<>();
         this.listener = listener;
         this.noticia = noticia;
+    }
+
+    public void Actualizar( List<Comentario> listaComentarios){
+        this.listaComentarios = listaComentarios;
+        notifyDataSetChanged();
     }
 
     @NonNull

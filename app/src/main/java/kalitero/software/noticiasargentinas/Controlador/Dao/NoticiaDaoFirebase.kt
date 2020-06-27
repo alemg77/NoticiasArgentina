@@ -102,6 +102,16 @@ class NoticiaDaoFirebase {
         return byteArrayOutputStream.toByteArray()
     }
 
+    fun agregarComentario(noticia: Noticia, comentario: Comentario, resultListener: ResultListener<String>) {
+        referenciaColeccion
+                .document(noticia.documentoFirebase)
+                .collection(COMENTARIOS)
+                .add(comentario)
+                .addOnCompleteListener {
+                    resultListener.onFinish("Termino")
+                }
+    }
+    
     fun agregarComentario(noticia: Noticia, comentario: Comentario) {
         GlobalScope.launch {
             try {

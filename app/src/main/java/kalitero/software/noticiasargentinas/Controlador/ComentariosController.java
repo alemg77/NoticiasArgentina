@@ -17,15 +17,23 @@ import kalitero.software.noticiasargentinas.util.ResultListener;
 
 public class ComentariosController {
 
-    private NoticiaDaoFirebase noticiaDaoFirebase;
-    private Context context;
+    private static ComentariosController instancia;
+    private static NoticiaDaoFirebase noticiaDaoFirebase;
+    private static Context context;
 
-    public ComentariosController(Context context) {
-        this.noticiaDaoFirebase = new NoticiaDaoFirebase();
-        this.context = context;
+    public ComentariosController() {
     }
 
-    public void getComentarios(ResultListener<List<Comentario>> resultListenerDeLaView, Noticia noticia) {
+    public static ComentariosController getInstancia (Context contexto){
+        if ( instancia == null ){
+            context = contexto;
+            instancia = new ComentariosController();
+            noticiaDaoFirebase = NoticiaDaoFirebase.Companion.getIntancia();
+        }
+        return instancia;
+    }
+
+    public void getComentarios(Noticia noticia, ResultListener<List<Comentario>> resultListenerDeLaView) {
         if (hayInternet()) {
             NoticiaDaoFirebase.Companion.getIntancia().buscarComentarios(noticia, new ResultListener<List<Comentario>>() {
                 @Override
