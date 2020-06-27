@@ -129,7 +129,8 @@ public class FragmentDetalleNoticias extends Fragment implements ComentarioAdapt
                 new ResultListener<List<Comentario>>() {
                     @Override
                     public void onFinish(@NotNull List<Comentario> result) {
-                        animalAdapter.Actualizar(result);
+                        comentarios = result;
+                        animalAdapter.Actualizar(comentarios);
                     }
 
                     @Override
@@ -143,6 +144,7 @@ public class FragmentDetalleNoticias extends Fragment implements ComentarioAdapt
         String usuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Voto voto = new Voto(usuario, true);
         NoticiaDaoFirebase.Companion.getIntancia().votoComentario(noticia, comentario, voto);
+        actualizarRecycler();
     }
 
     @Override
@@ -151,5 +153,6 @@ public class FragmentDetalleNoticias extends Fragment implements ComentarioAdapt
         String usuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Voto voto = new Voto(usuario, false);
         NoticiaDaoFirebase.Companion.getIntancia().votoComentario(noticia, comentario, voto);
+        actualizarRecycler();
     }
 }
