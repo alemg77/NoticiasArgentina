@@ -28,6 +28,16 @@ public interface NoticiaDaoRoom {
     @Query("DELETE FROM Noticia")
     void deleteAll();
 
+    @Query("DELETE FROM Noticia WHERE documentoFirebase != null")
+    void deleteFirebase();
+
+    /*
+    @Query("DELETE FROM Noticia WHERE null != :documentoFirebase")
+    void deleteAll(String documentoFirebase);
+
+     */
+
+
     @Query("SELECT * FROM Noticia")
     List<Noticia> getNoticias();
 

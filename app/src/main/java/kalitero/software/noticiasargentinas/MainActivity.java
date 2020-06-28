@@ -41,6 +41,7 @@ import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Controlador.Repositorio;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.Modelo.Voto;
 import kalitero.software.noticiasargentinas.Vista.Login.FragmentVerUsuario;
@@ -51,6 +52,7 @@ import kalitero.software.noticiasargentinas.Vista.Regresar;
 import kalitero.software.noticiasargentinas.Vista.SubirNoticias.SubirNoticias;
 import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager.ViewPagerListasNoticias;
 import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager.ViewPagerNoticia;
+import kalitero.software.noticiasargentinas.util.AppDatabase;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias , ViewPagerListasNoticias.SelleccionDos, Regresar {
@@ -63,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private BuscarNoticiasAPI buscarNoticias;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private FragmentLogin fragmentLogin;
-    private NoticiaDaoRoom noticiaDaoRoom;
     private Repositorio repositorio;
 
     // TODO: Faltan estos logos:
@@ -99,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         buscarNoticias = new BuscarNoticiasAPI(MainActivity.this, this);
         fragmentLogin = new FragmentLogin();
+
+
 
         if (savedInstanceState == null) {
             // Si llega aca, es la primera vez que se carga la actividad
@@ -157,28 +160,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
 
                     case R.id.navigationMenuNoticiasBarriales:
-                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                                if (repositorio.hayInternet()){
-                                NoticiaDaoFirebase.Companion.getIntancia().buscarNoticias(new ResultListener<ListaNoticias>() {
-                                    @Override
-                                    public void onFinish(@NotNull ListaNoticias result) {
-                                        llegoPaqueteDeNoticias(result);
-                                    }
 
-                                    @Override
-                                    public void onError(String message) {
-                                    }
-                                });
-                                }else {
-                                    List<Noticia> listaNoticiasRoom = noticiaDaoRoom.getNoticiasTemaFirebase(true);
-                                    ListaNoticias listaNoticiasFirebase = new ListaNoticias(listaNoticiasRoom, "Firebase");
-                                    llegoPaqueteDeNoticias(listaNoticiasFirebase);
+                        Repositorio repositorio = Repositorio.getInstancia(MainActivity.this);
+                        repositorio.noticiasDeRoom(new ResultListener<ListaNoticias>() {
+                            @Override
+                            public void onFinish(ListaNoticias result) {
+                                Log.d(TAG, "??");
+                            }
 
-                                }
+                            @Override
+                            public void onError(@NotNull String message) {
 
+                            }
+                        });
+
+                        /*
+                        repositorio.dameNoticias(new ResultListener<ListaNoticias>() {
+                            @Override
+                            public void onFinish(ListaNoticias result) {
+                                llegoPaqueteDeNoticias(result);
+                            }
+
+                            @Override
+                            public void onError(@NotNull String message) {
+
+                            }
+                        });
+
+                         */
+
+                        /*
                         } else {
                             Toast.makeText(MainActivity.this, "Debes registrarte primero", Toast.LENGTH_LONG).show();
                         }
+                         */
                         break;
 
                     default:

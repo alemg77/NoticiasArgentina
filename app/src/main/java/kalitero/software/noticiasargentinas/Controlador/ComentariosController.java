@@ -24,6 +24,7 @@ public class ComentariosController {
     private static ComentariosController instancia;
     private static NoticiaDaoFirebase noticiaDaoFirebase;
     private static Context context;
+    private static ComentarioDaoRoom comentarioDaoRoom;
 
     public ComentariosController() {
     }
@@ -33,6 +34,7 @@ public class ComentariosController {
             context = contexto;
             instancia = new ComentariosController();
             noticiaDaoFirebase = NoticiaDaoFirebase.Companion.getIntancia();
+            comentarioDaoRoom = AppDatabase.getInstance(contexto).comentarioDaoRoom();
         }
         return instancia;
     }

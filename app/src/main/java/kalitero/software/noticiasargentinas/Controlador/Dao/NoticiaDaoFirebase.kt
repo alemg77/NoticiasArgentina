@@ -12,6 +12,7 @@ import kalitero.software.noticiasargentinas.Modelo.Comentario
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias
 import kalitero.software.noticiasargentinas.Modelo.Noticia
 import kalitero.software.noticiasargentinas.Modelo.Voto
+import kalitero.software.noticiasargentinas.util.AppDatabase
 import kalitero.software.noticiasargentinas.util.ResultListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -33,7 +34,6 @@ class NoticiaDaoFirebase {
         private var progreso: MutableLiveData<Int>? = null
         val COLECCION_NOTICIAS = "noticias"
         private var instancia: NoticiaDaoFirebase? = null
-        private var noticiaDaoRoom: NoticiaDaoRoom? = null
         private lateinit var storage: FirebaseStorage
         private lateinit var referenciaColeccion: CollectionReference
 
@@ -145,9 +145,6 @@ class NoticiaDaoFirebase {
                         noticia.documentoFirebase = document.id
                         listNoticias.add(noticia)
                     }
-                    // TODO: Revisar
-                    noticiaDaoRoom?.insertAll(listNoticias)
-
                     val listaDeNoticias: ListaNoticias = ListaNoticias(listNoticias, FIREBASE)
                     resultListener.onFinish(listaDeNoticias)
                 }

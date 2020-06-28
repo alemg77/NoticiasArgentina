@@ -16,6 +16,7 @@ import kalitero.software.noticiasargentinas.Controlador.Repositorio;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.R;
+import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager.ViewPagerListasNoticiasAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

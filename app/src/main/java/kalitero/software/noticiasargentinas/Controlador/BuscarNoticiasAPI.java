@@ -54,148 +54,128 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
 
     private Context context;
 
-    private Repositorio repositorio;
-
-
-
     public BuscarNoticiasAPI(RecepcionNoticias listener, Context context) {
         this.listener = listener;
         this.context = context;
         this.noticiaDaoRoom = AppDatabase.getInstance(context).noticiaDaoRoom();
-        this.repositorio = new Repositorio(context);
     }
 
     public void titularesNuevos(String pais) {
-        getRequest("https://newsapi.org/v2/top-headlines?country="+pais);
+        getRequest("https://newsapi.org/v2/top-headlines?country=" + pais);
     }
 
     public void porTema(String tema) {
         getRequest("https://newsapi.org/v2/everything?q=" + tema);
     }
 
-    public void porTemaEnEsp (String tema ){
-        getRequest("https://newsapi.org/v2/everything?domains=cnnespanol.cnn.com,elmundo.es,news.google.com,lagaceta.com.ar,lanacion.com.ar,marca.com&q="+tema);
+    public void porTemaEnEsp(String tema) {
+        getRequest("https://newsapi.org/v2/everything?domains=cnnespanol.cnn.com,elmundo.es,news.google.com,lagaceta.com.ar,lanacion.com.ar,marca.com&q=" + tema);
     }
 
     public void titularesNuevos(String pais, final String temadelPedido) {
-     //   repositorio = new Repositorio(context);
-
-        if (this.repositorio.hayInternet()) {
-            String url = "https://newsapi.org/v2/top-headlines?country=" + pais + "&category=" + temadelPedido;
-            RequestQueue queue = Volley.newRequestQueue((Context) listener);
-            StringRequest getRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            ArrayList<Noticia> listaDeNoticias = new ArrayList<>();
-                            try {
-                                JSONObject jsonNoticias = new JSONObject(response);
-                                JSONArray jsonArticulos = jsonNoticias.getJSONArray("articles");
-                                for (int i = 0; i < jsonArticulos.length(); i++) {
-                                    JSONObject jsonNoticia = (JSONObject) jsonArticulos.get(i);
-                                    JSONObject jsonFuente = (JSONObject) jsonNoticia.get("source");
-                                    String noticiaTitulo = jsonNoticia.getString("title");
-                                    String noticiaAutor = jsonNoticia.getString("author");
-                                    String noticiaFuente = jsonFuente.getString("name");
-                                    String noticiaDescripcion = jsonNoticia.getString("description");
-                                    String urlNoticia = jsonNoticia.getString("url");
-                                    String urlToImage = jsonNoticia.getString("urlToImage");
-                                    String noticiaTema = temadelPedido;
-                                    Boolean origenFirebase = false;
-                                    Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema, origenFirebase);
-                                    listaDeNoticias.add(noticia);
-                                }
-                                noticiaDaoRoom.insertAll(listaDeNoticias);
-
-                                ListaNoticias listaNoticias = new ListaNoticias(listaDeNoticias, temadelPedido);
-                                listener.llegoPaqueteDeNoticias(listaNoticias);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                listener.errorPedidoNoticia();
+        String url = "https://newsapi.org/v2/top-headlines?country=" + pais + "&category=" + temadelPedido;
+        RequestQueue queue = Volley.newRequestQueue((Context) listener);
+        StringRequest getRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ArrayList<Noticia> listaDeNoticias = new ArrayList<>();
+                        try {
+                            JSONObject jsonNoticias = new JSONObject(response);
+                            JSONArray jsonArticulos = jsonNoticias.getJSONArray("articles");
+                            for (int i = 0; i < jsonArticulos.length(); i++) {
+                                JSONObject jsonNoticia = (JSONObject) jsonArticulos.get(i);
+                                JSONObject jsonFuente = (JSONObject) jsonNoticia.get("source");
+                                String noticiaTitulo = jsonNoticia.getString("title");
+                                String noticiaAutor = jsonNoticia.getString("author");
+                                String noticiaFuente = jsonFuente.getString("name");
+                                String noticiaDescripcion = jsonNoticia.getString("description");
+                                String urlNoticia = jsonNoticia.getString("url");
+                                String urlToImage = jsonNoticia.getString("urlToImage");
+                                String noticiaTema = temadelPedido;
+                                Boolean origenFirebase = false;
+                                Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema, origenFirebase);
+                                listaDeNoticias.add(noticia);
                             }
-                        }
+                            // TODO: ESTO DEBERIA HACERLO EL REPOSITORIO!!!!!!!!
+                            //noticiaDaoRoom.insertAll(listaDeNoticias);
 
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d(TAG, "Error!!:" + error.toString());
+                            ListaNoticias listaNoticias = new ListaNoticias(listaDeNoticias, temadelPedido);
+                            listener.llegoPaqueteDeNoticias(listaNoticias);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            listener.errorPedidoNoticia();
                         }
                     }
-            ) {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("X-Api-Key", KEY_API);
-                    return params;
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Error!!:" + error.toString());
+                    }
                 }
-            };
-            queue.add(getRequest);
-        } else {
-            List<Noticia>listaNoticiasRoom = noticiaDaoRoom.getNoticiasTema(temadelPedido);
-            ListaNoticias listaNoticias = new ListaNoticias(listaNoticiasRoom, temadelPedido);
-            listener.llegoPaqueteDeNoticias(listaNoticias);
-        }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-Api-Key", KEY_API);
+                return params;
+            }
+        };
+        queue.add(getRequest);
     }
 
-    private void getRequest ( String url){
-     //   repositorio = new Repositorio(context);
-
-        if (repositorio.hayInternet()) {
-            RequestQueue queue = Volley.newRequestQueue((Context) listener);
-            StringRequest getRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            ArrayList<Noticia> listaDeNoticias = new ArrayList<>();
-                            try {
-                                JSONObject jsonNoticias = new JSONObject(response);
-                                JSONArray jsonArticulos = jsonNoticias.getJSONArray("articles");
-                                for (int i = 0; i < jsonArticulos.length(); i++) {
-                                    JSONObject jsonNoticia = (JSONObject) jsonArticulos.get(i);
-                                    JSONObject jsonFuente = (JSONObject) jsonNoticia.get("source");
-                                    String noticiaTitulo = jsonNoticia.getString("title");
-                                    String noticiaAutor = jsonNoticia.getString("author");
-                                    String noticiaFuente = jsonFuente.getString("name");
-                                    String noticiaDescripcion = jsonNoticia.getString("description");
-                                    String urlNoticia = jsonNoticia.getString("url");
-                                    String urlToImage = jsonNoticia.getString("urlToImage");
-                                    String noticiaTema = "General";
-                                    Boolean origenFirebase = false;
-                                    Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema, origenFirebase);
-                                    listaDeNoticias.add(noticia);
-                                }
-                                noticiaDaoRoom.deleteAll();
-                                noticiaDaoRoom.insertAll(listaDeNoticias);
-                                listener.llegoPaqueteDeNoticias(new ListaNoticias(listaDeNoticias, "General"));
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                listener.errorPedidoNoticia();
+    private void getRequest(String url) {
+        RequestQueue queue = Volley.newRequestQueue((Context) listener);
+        StringRequest getRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ArrayList<Noticia> listaDeNoticias = new ArrayList<>();
+                        try {
+                            JSONObject jsonNoticias = new JSONObject(response);
+                            JSONArray jsonArticulos = jsonNoticias.getJSONArray("articles");
+                            for (int i = 0; i < jsonArticulos.length(); i++) {
+                                JSONObject jsonNoticia = (JSONObject) jsonArticulos.get(i);
+                                JSONObject jsonFuente = (JSONObject) jsonNoticia.get("source");
+                                String noticiaTitulo = jsonNoticia.getString("title");
+                                String noticiaAutor = jsonNoticia.getString("author");
+                                String noticiaFuente = jsonFuente.getString("name");
+                                String noticiaDescripcion = jsonNoticia.getString("description");
+                                String urlNoticia = jsonNoticia.getString("url");
+                                String urlToImage = jsonNoticia.getString("urlToImage");
+                                String noticiaTema = "General";
+                                Boolean origenFirebase = false;
+                                Noticia noticia = new Noticia(noticiaFuente, noticiaAutor, noticiaTitulo, noticiaDescripcion, urlNoticia, urlToImage, new Date(), noticiaTema, origenFirebase);
+                                listaDeNoticias.add(noticia);
                             }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d(TAG, "Error!!:" + error.toString());
+
+                            // TODO: ESTO DEBERIA HACERLO EL REPOSITORIO!!!!!!!!
+                            //noticiaDaoRoom.deleteAll();
+                            //noticiaDaoRoom.insertAll(listaDeNoticias);
+                            listener.llegoPaqueteDeNoticias(new ListaNoticias(listaDeNoticias, "General"));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            listener.errorPedidoNoticia();
                         }
                     }
-            ) {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("X-Api-Key", KEY_API);
-                    return params;
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Error!!:" + error.toString());
+                    }
                 }
-            };
-            queue.add(getRequest);
-
-
-        } else {
-            List<Noticia>listaNoticiasRoom = noticiaDaoRoom.getNoticiasTema("General");
-            ListaNoticias listaNoticias = new ListaNoticias(listaNoticiasRoom, "General");
-            listener.llegoPaqueteDeNoticias(listaNoticias);
-        }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("X-Api-Key", KEY_API);
+                return params;
+            }
+        };
+        queue.add(getRequest);
     }
 
     public static List<String> crearLista() {

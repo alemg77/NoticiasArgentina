@@ -9,5 +9,10 @@
     <color name="tituloActionBar">#FFFF00</color>
     <color name="fontoTextoTituloActionBar">#123456</color>
     <color name="LupaActionBar">#FFFFFF</color>
+    <color name="negro">#000000</color>
+    <color name="azulOscuro">#042188</color>
+    <color name="votoPositivo">#0428D8</color>
+    <color name="votoNegativo">#AF0808</color>
+
 
 </resources>

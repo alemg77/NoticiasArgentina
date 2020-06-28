@@ -13,8 +13,7 @@ import java.util.List;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
-import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
-import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.FragmentListaNoticiasCompacto;
+import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.util.AppDatabase;
 
 public class ViewPagerListasNoticiasAdapterRoom extends FragmentStatePagerAdapter {
