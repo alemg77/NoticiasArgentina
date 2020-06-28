@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="65dp"
+    android:layout_height="55dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:elevation="4dp"
-    android:background="@drawable/nafondobarra"
+    android:background="@color/colorPrimaryDark"
     android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
     app:menu="@menu/actionbar_menu"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        app:cardCornerRadius="10dp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/fontoTextoTituloActionBar"
+            android:gravity="center"
+            android:text="Noticias Argentinas"
+            android:textColor="@color/tituloActionBar"
+            android:textSize="20dp" />
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.appcompat.widget.Toolbar>

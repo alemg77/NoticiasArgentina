@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#C0F8F2</color>
-    <color name="colorAccent">#03DAC5</color>
-    <color name="RecyclerviewFondoNoticias">#C0F8F2</color>
+    <color name="colorPrimaryDark">#3232B3</color>
+    <color name="colorAccent">#C8C8FF</color>
+    <color name="RecyclerviewFondoNoticias">#C8C8FF</color>
     <color name="celesteFondo">#00aae4</color>
-
     <color name="colorAntesPrimary">#6200EE</color>
+    <color name="tituloActionBar">#FFFF00</color>
+    <color name="fontoTextoTituloActionBar">#123456</color>
+    <color name="LupaActionBar">#FFFFFF</color>
 
 </resources>

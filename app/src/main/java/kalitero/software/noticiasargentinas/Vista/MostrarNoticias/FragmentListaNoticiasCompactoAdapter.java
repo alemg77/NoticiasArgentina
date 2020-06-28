@@ -134,6 +134,35 @@ public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
                     Picasso.get().load(R.drawable.logo_elmundo).into(logo);
                     break;
 
+                case "Clarín":
+                    Picasso.get().load(R.drawable.clarin).into(logo);
+                    break;
+
+                case "ámbito.com":
+                    Picasso.get().load(R.drawable.ambito).into(logo);
+                    break;
+
+                case "Computerhoy.com":
+                    Picasso.get().load(R.drawable.logo_computerhoy).into(logo);
+                    break;
+
+                case "La Voz del Interior":
+                    Picasso.get().load(R.drawable.logo_la_voz).into(logo);
+                    break;
+
+                case "Página 12":
+                    Picasso.get().load(R.drawable.logo_pagina12).into(logo);
+                    break;
+
+                case "RT":
+                    Picasso.get().load(R.drawable.logo_rt).into(logo);
+                    break;
+
+                case "Diario El Dia. www.eldia.com":
+                    Picasso.get().load(R.drawable.logo_el_dia).into(logo);
+                    break;
+
+
                 default:
                     Log.d(TAG, "****** FALTA AGREGAR EL LOGO DE:" + fuente + "*****************");
                     break;

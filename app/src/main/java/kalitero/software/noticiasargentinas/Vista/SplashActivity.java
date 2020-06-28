@@ -57,12 +57,11 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
         //TODO traer hilos de room, api y firebase y decidir cuál se usa, si pasa el tiempo
 
 
-
         paqueteNoticias = new PaqueteNoticias();
 
-            buscarNoticias = new BuscarNoticiasAPI(SplashActivity.this, this);
-            pedidosApi = 0;
-            buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA);
+        buscarNoticias = new BuscarNoticiasAPI(SplashActivity.this, this);
+        pedidosApi = 0;
+        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA);
 
 
         rotarAnimacion();
@@ -83,7 +82,7 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
             @Override
             public void run() {
                 // This method will be executed once the timer is over
-                if ( pedidosApi <= 3) {
+                if (pedidosApi <= 3) {
                     Toast.makeText(SplashActivity.this, "Esperando datos... ", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -99,14 +98,14 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
         finish();
     }
 
-    private void rotarAnimacion(){
+    private void rotarAnimacion() {
         animationGrupo = AnimationUtils.loadAnimation(this, R.anim.rotate);
         animationGrupo.setDuration(2500);
         grupo.startAnimation(animationGrupo);
     }
 
-    private  void escalaAnimacion(){
-        animarionElipse= AnimationUtils.loadAnimation(this, R.anim.scale);
+    private void escalaAnimacion() {
+        animarionElipse = AnimationUtils.loadAnimation(this, R.anim.scale);
         animarionElipse.setDuration(1500);
         elipse.startAnimation(animarionElipse);
     }

@@ -6,6 +6,7 @@
         android:id="@+id/app_bar_search"
         android:icon="@drawable/ic_search_black_24dp"
         android:title="Search"
+        android:iconTint="@color/LupaActionBar"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always"/>
 
@@ -15,14 +16,8 @@
         />
 
     <item
-        android:id="@+id/actionbar_contacto"
-        android:title="@string/stringContactenos"
-        app:showAsAction="never"
-        />
-
-    <item
         android:id="@+id/action_firebaseLeer"
-        android:title="Ensayo Leer Firebase"
+        android:title="Noticia Barriales"
         app:showAsAction="never"
         />
 
