@@ -11,6 +11,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kalitero.software.noticiasargentinas.Modelo.Comentario
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias
 import kalitero.software.noticiasargentinas.Modelo.Noticia
+import kalitero.software.noticiasargentinas.Modelo.Voto
 import kalitero.software.noticiasargentinas.util.ResultListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -25,8 +26,10 @@ class NoticiaDaoFirebase {
 
     private val TAG = javaClass.toString()
     private val COMENTARIOS = "Comentarios"
+    private val VOTACION = "Votacion"
 
     companion object {
+        val FIREBASE = "Firebase"
         private var progreso: MutableLiveData<Int>? = null
         val COLECCION_NOTICIAS = "noticias"
         private var instancia: NoticiaDaoFirebase? = null
@@ -69,14 +72,14 @@ class NoticiaDaoFirebase {
             val fechaHora = Calendar.getInstance().time.toString()
             val pathImagen = usuarioFirebase + fechaHora
             val imagenComprimida = comprimir_imagen(imagen, 1024, 70)
-            subirArchivo(imagenComprimida,pathImagen )
+            subirArchivo(imagenComprimida, pathImagen)
             noticia.urlImagenStorage = pathImagen
             noticia.origenFirebase = true
             guardarNoticia(noticia)
         }
     }
 
-    fun subirArchivo(archivo: ByteArray, pathArchivo:String) {
+    fun subirArchivo(archivo: ByteArray, pathArchivo: String) {
         GlobalScope.launch {
             val riversRef = storage.reference.child(pathArchivo)
             try {
@@ -101,22 +104,21 @@ class NoticiaDaoFirebase {
         return byteArrayOutputStream.toByteArray()
     }
 
-    /*
-    fun buscarNoticias() {
-        GlobalScope.launch {
-            val resultado = referenciaColeccion.get().await()
-            val toObjects = resultado.toObjects(Noticia::class.java)
-            val documents = resultado.documents
-            Log.d(TAG, "Que paso?")
-        }
+    fun agregarComentario(noticia: Noticia, comentario: Comentario, resultListener: ResultListener<String>) {
+        referenciaColeccion
+                .document(noticia.documentoFirebase)
+                .collection(COMENTARIOS)
+                .add(comentario)
+                .addOnCompleteListener {
+                    resultListener.onFinish("Termino")
+                }
     }
-     */
-
-    fun agregarComentario(documento: String, comentario: Comentario){
+    
+    fun agregarComentario(noticia: Noticia, comentario: Comentario) {
         GlobalScope.launch {
             try {
                 val await = referenciaColeccion
-                        .document(documento)
+                        .document(noticia.documentoFirebase)
                         .collection(COMENTARIOS)
                         .add(comentario).await()
             } catch (e: FirebaseFirestoreException) {
@@ -125,24 +127,14 @@ class NoticiaDaoFirebase {
         }
     }
 
-    fun buscarComentarios ( documento: String, resultListener: ResultListener<List<Comentario>>) {
-        referenciaColeccion
-                .document(documento)
-                .collection(COMENTARIOS)
-                .get()
-                .addOnSuccessListener { result ->
-                    var listaComentarios: ArrayList<Comentario> = ArrayList()
-                    for ( document in result ) {
-                        var comentario: Comentario = document.toObject(Comentario::class.java)
-                        listaComentarios.add(comentario)
-                    }
-                    resultListener.onFinish(listaComentarios)
-                }
-                .addOnFailureListener{ e->
-                    resultListener.onError("Error en la lectura de los comentarios"+e.message)
-                }
+    fun buscarNoticias() {
+        GlobalScope.launch {
+            val resultado = referenciaColeccion.get().await()
+            val toObjects = resultado.toObjects(Noticia::class.java)
+            val documents = resultado.documents
+            Log.d(TAG, "Que paso?")
+        }
     }
-
 
     fun buscarNoticias(resultListener: ResultListener<ListaNoticias>) {
         referenciaColeccion.get()
@@ -153,17 +145,154 @@ class NoticiaDaoFirebase {
                         noticia.documentoFirebase = document.id
                         listNoticias.add(noticia)
                     }
-
+                    // TODO: Revisar
                     noticiaDaoRoom?.insertAll(listNoticias)
 
-                    val listaDeNoticias:ListaNoticias = ListaNoticias(listNoticias, "Firebase")
+                    val listaDeNoticias: ListaNoticias = ListaNoticias(listNoticias, FIREBASE)
                     resultListener.onFinish(listaDeNoticias)
                 }
                 .addOnFailureListener { e ->
                     resultListener.onError("Error en la lectura de noticias " + e.message)
                 }
-
     }
 
+    fun buscarComentarios(noticia: Noticia, resultListener: ResultListener<List<Comentario>>) {
+        if (noticia.documentoFirebase == null) {
+            // La noticia no esta en firebase
+            return;
+        }
+        referenciaColeccion
+                .document(noticia.documentoFirebase)
+                .collection(COMENTARIOS)
+                .get()
+                .addOnSuccessListener { result ->
+                    var lista: ArrayList<Comentario> = ArrayList()
+                    for (documento in result) {
+                        val comentario = documento.toObject(Comentario::class.java)
+                        comentario.documentoFirebase = documento.id
+                        lista.add(comentario)
+                    }
+                    resultListener.onFinish(lista)
+                }
+    }
+
+
+    fun buscarVotosComentario(noticia: Noticia, comentario: Comentario, resultListener: ResultListener<List<Voto>>) {
+        referenciaColeccion
+                .document(noticia.documentoFirebase)
+                .collection(COMENTARIOS)
+                .document(comentario.documentoFirebase)
+                .collection(VOTACION)
+                .get()
+                .addOnSuccessListener { result ->
+                    var lista: ArrayList<Voto> = ArrayList()
+                    for (document in result) {
+                        lista.add(document.toObject(Voto::class.java))
+                    }
+                    resultListener.onFinish(lista)
+                }
+    }
+
+    fun buscarVotosNoticia(noticia: Noticia, resultListener: ResultListener<List<Voto>>) {
+        referenciaColeccion
+                .document(noticia.documentoFirebase)
+                .collection(VOTACION)
+                .get()
+                .addOnSuccessListener { result ->
+                    var lista: ArrayList<Voto> = ArrayList()
+                    for (document in result) {
+                        lista.add(document.toObject(Voto::class.java))
+                    }
+                    resultListener.onFinish(lista)
+                }
+    }
+
+
+    fun leerVotos(noticia: Noticia, comentario: Comentario, resultListener: ResultListener<List<Voto>>) {
+        referenciaColeccion
+                .document(noticia.documentoFirebase)
+                .collection(VOTACION)
+                .get()
+                .addOnSuccessListener { result ->
+                    var listaVotos: List<Voto> = ArrayList()
+                    for (document in result) {
+                        var voto: Voto = document.toObject(Voto::class.java)
+                    }
+                }
+                .addOnFailureListener { e ->
+                    resultListener.onError("Error en la lectura de votos " + e.message)
+                }
+    }
+
+
+    fun votoNoticia(noticia: Noticia, voto: Voto) {
+        referenciaColeccion
+                .document(noticia.documentoFirebase)
+                .collection(VOTACION)
+                .whereEqualTo("usuario", voto.usuario)
+                .get()
+                .addOnSuccessListener { result ->
+                    if (result.documents.size == 0) {
+                        // Si no hay documento, significa que no voto
+                        guargarVotoNuevo(noticia, voto)
+                    } else {
+                        Log.d(TAG, "Ya voto")
+                    }
+                }
+                .addOnFailureListener {
+                    Log.d(TAG, "Error en firebase?")
+                }
+    }
+
+
+    fun votoComentario(noticia: Noticia, comentario: Comentario, voto: Voto) {
+        referenciaColeccion
+                .document(noticia.documentoFirebase)
+                .collection(COMENTARIOS)
+                .document(comentario.documentoFirebase)
+                .collection(VOTACION)
+                .whereEqualTo("usuario", voto.usuario)
+                .get()
+                .addOnSuccessListener { result ->
+                    if (result.documents.size == 0) {
+                        // Si no hay documento, significa que no voto
+                        guargarVotoNuevo(noticia, comentario, voto)
+                    } else {
+                        Log.d(TAG, "Ya voto")
+                    }
+                }
+                .addOnFailureListener {
+                    Log.d(TAG, "Error en firebase?")
+                }
+    }
+
+    fun guargarVotoNuevo(noticia: Noticia, comentario: Comentario, voto: Voto) {
+        GlobalScope.launch {
+            try {
+                val await = referenciaColeccion
+                        .document(noticia.documentoFirebase)
+                        .collection(COMENTARIOS)
+                        .document(comentario.documentoFirebase)
+                        .collection(VOTACION)
+                        .add(voto).await()
+            } catch (e: FirebaseFirestoreException) {
+                Log.d(TAG, "Error guardando comentario:$e")
+            }
+        }
+    }
+
+
+    fun guargarVotoNuevo(noticia: Noticia, voto: Voto) {
+        GlobalScope.launch {
+            try {
+                val await = referenciaColeccion
+                        .document(noticia.documentoFirebase)
+                        .collection(VOTACION)
+                        .add(voto).await()
+            } catch (e: FirebaseFirestoreException) {
+                Log.d(TAG, "Error guardando comentario:$e")
+            }
+        }
+    }
 
 }

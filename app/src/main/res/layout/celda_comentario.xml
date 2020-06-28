@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/celdaComentariosCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="10dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="10dp"
-        android:id="@+id/celdaComentariosCardView">
+        android:layout_marginHorizontal="7dp"
+        android:layout_marginVertical="7dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,86 +20,91 @@
             android:orientation="vertical">
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:id="@+id/celdaComentariosTextViewComentario"
-            android:text="Este es un comentario muy interesante que todos van a querer leer y likear porque lo escribí yo que soy un capo total."
-            android:textSize="15dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:layout_marginHorizontal="10dp">
-
-            <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="leopoldo.cantina@gmail.com"
-            android:textSize="12dp"
-            android:textColor="@color/colorAntesPrimary"
-                android:layout_weight="1"
-            android:id="@+id/celdaComentariosTextViewEmail"/>
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="25-12-2020"
-                android:textSize="12dp"
-                android:textColor="#000"
-                android:layout_weight="1"
-                android:id="@+id/celdaComentariosTextViewFecha"/>
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/celdaComentariosTextViewEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="leopoldo.cantina@gmail.com"
+                    android:textColor="@color/colorAntesPrimary"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:id="@+id/celdaComentariosTextViewFecha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="25-12-2020"
+                    android:textColor="#000"
+                    android:textSize="10dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/celdaComentariosTextViewComentario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textColor="@color/negro"
+                android:text="Este es un comentario muy interesante que todos van a querer leer y likear porque lo escribí yo que soy un capo total."
+                android:textSize="18dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginHorizontal="10dp">
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="10dp">
+
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    app:icon="@drawable/ic_baseline_thumb_up_24"
+                    android:id="@+id/celdaComentariosBotonLike"
                     style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="1dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
                     android:backgroundTint="#fff"
-
-                    android:id="@+id/celdaComentariosBotonLike"/>
-
+                    app:icon="@drawable/ic_baseline_thumb_up_24"
+                    app:iconGravity="textEnd"
+                    app:iconTint="@color/votoPositivo" />
 
                 <TextView
+                    android:id="@+id/TextViewLike"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="55"
-                    android:textSize="12dp"
-                    android:gravity="center"
-                    android:textColor="#000"
                     android:layout_weight="1"
-                    android:id="@+id/celdaComentariosTextViewLike"/>
+                    android:gravity="left"
+                    android:text="0"
+                    android:textColor="#000"
+                    android:textSize="12dp" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/BotonDislike"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     android:backgroundTint="#fff"
                     android:textAlignment="viewEnd"
                     app:icon="@drawable/ic_baseline_thumb_down_24"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                    android:id="@+id/celdaComentariosBotonDislike"/>
+                    app:iconGravity="end"
+                    app:iconTint="@color/votoNegativo"
+                    />
 
                 <TextView
+                    android:id="@+id/TextViewDislike"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textSize="12dp"
-                    android:gravity="center"
-                    android:textColor="#000"
                     android:layout_weight="1"
-                    android:id="@+id/celdaComentariosTextViewDislike"/>
+                    android:gravity="left"
+                    android:text="0"
+                    android:textColor="#000"
+                    android:textSize="12dp" />
 
             </LinearLayout>
 

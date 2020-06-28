@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager;
+package kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,18 +25,13 @@ public class ViewPagerNoticia extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View inflate = inflater.inflate(R.layout.fragment_view_pager_noticia, container, false);
-
         viewPager = inflate.findViewById(R.id.viewPagerDetalleNoticia);
-
         Bundle bundle = getArguments();
         ListaNoticias listaNoticias = (ListaNoticias) bundle.getSerializable(ListaNoticias.class.toString());
         ViewPagerNoticiaAdapter adapter = new ViewPagerNoticiaAdapter(getActivity().getSupportFragmentManager(),listaNoticias.getArrayListNoticias());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(listaNoticias.getPosicionInicial());
-
         return inflate;
-
     }
 }

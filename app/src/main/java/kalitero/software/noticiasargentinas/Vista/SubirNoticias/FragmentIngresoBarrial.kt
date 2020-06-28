@@ -89,7 +89,6 @@ class FragmentIngresoBarrial : Fragment() {
             // TODO: Al terminar de subir deberia agradecer y salir.
             binding.editTextTextoNoticia.text = null
             binding.editTextTituloNoticia.text = null
-
         }
     }
 
@@ -109,13 +108,10 @@ class FragmentIngresoBarrial : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         EasyImage.handleActivityResult(requestCode, resultCode, data, activity, object : DefaultCallback() {
             override fun onImagesPicked(imageFiles: List<File>, source: ImageSource, type: Int) {
-
                 imagen1 = BitmapFactory.decodeFile(imageFiles[0].absolutePath)
                 binding.fragmentIngresoBarrialImageViewFoto1.setImageBitmap(imagen1)
                 escucharImagenIngresada(imagen1!!)
-
             }
-
             override fun onCanceled(source: ImageSource, type: Int) {
                 super.onCanceled(source, type)
                 Log.d(TAG, "Cancelo el usuario")

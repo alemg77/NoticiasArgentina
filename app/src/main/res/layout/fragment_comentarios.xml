@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
-    tools:context=".Vista.MostrarNoticias.FragmentComentarios">
+    tools:context=".Vista.NoticiasGenerales.FragmentComentarios">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -16,71 +16,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/fragmentCometariosTextViewTitulo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="6dp"
-                android:text="Comentarios"
-                android:textAlignment="center"
-                android:textColor="#fff"
-                android:textSize="14dp"
-                />
 
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/FragmentComentariosRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="340dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:outlineSpotShadowColor="@color/colorPrimaryDark"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="10dp">
-
-                <TextView
-                    android:id="@+id/fragmentComentariosTextViewEscriba"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="6dp"
-                    android:text="Escriba su comentario"
-                    android:textAlignment="center"
-                    android:textColor="#9BA0BC"
-                    android:textSize="14dp"
-                    />
-
-                <EditText
-                    android:id="@+id/fragmentComentarioEditTextComentarioNuevo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"/>
-
-
-            </androidx.cardview.widget.CardView>
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#fff"
-                app:strokeColor="#fff"
-                android:outlineAmbientShadowColor="#fff"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:text="ENVIAR"
-                android:id="@+id/fragmentComentariosBotonEnviar"
-                android:layout_gravity="center"/>
 
         </LinearLayout>
 

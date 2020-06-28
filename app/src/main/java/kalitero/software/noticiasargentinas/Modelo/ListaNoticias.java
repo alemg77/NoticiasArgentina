@@ -19,13 +19,23 @@ public class ListaNoticias implements Serializable {
     private int posicionInicial;
     @ColumnInfo
     private String tema;
+    private String origen;
 
     public String getTema() {
         return tema;
     }
 
+    public String getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(String origen) {
+        this.origen = origen;
+    }
+
     public void setTema(String tema) {
         switch ( tema ) {
+
             case BuscarNoticiasAPI.KEY_TEMA_DEPORTES:
                 this.tema = "Deportes";
                 break;

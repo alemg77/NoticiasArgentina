@@ -41,18 +41,19 @@ import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Controlador.Repositorio;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
+import kalitero.software.noticiasargentinas.Modelo.Voto;
 import kalitero.software.noticiasargentinas.Vista.Login.FragmentVerUsuario;
-import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.FragmentListaNoticiasCompacto;
+import kalitero.software.noticiasargentinas.Vista.NoticiasBarriales.FragmentNoticiasBarriales;
+import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.Vista.Login.FragmentLogin;
 import kalitero.software.noticiasargentinas.Vista.Regresar;
 import kalitero.software.noticiasargentinas.Vista.SubirNoticias.SubirNoticias;
-import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager.ViewPagerListasNoticias;
-import kalitero.software.noticiasargentinas.Vista.MostrarNoticias.ViewPager.ViewPagerNoticia;
+import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager.ViewPagerListasNoticias;
+import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager.ViewPagerNoticia;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, FragmentListaNoticiasCompacto.Aviso, ViewPagerListasNoticias.SelleccionDos, Regresar {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias , ViewPagerListasNoticias.SelleccionDos, Regresar {
 
     // Para ver los logos hay que filtrar con: kalitero.software.noticiasargentinas.Vista
     private String TAG = getClass().toString();
@@ -107,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             Log.d(TAG, "Otra vez YO");
         }
-
 
         FloatingActionButton fab = findViewById(R.id.floating_action_button);
 
@@ -263,8 +263,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     NoticiaDaoFirebase.Companion.getIntancia().buscarNoticias(new ResultListener<ListaNoticias>() {
                         @Override
-                        public void onFinish(@NotNull ListaNoticias result) {
-                            llegoPaqueteDeNoticias(result);
+                        public void onFinish(@NotNull ListaNoticias listaNoticias) {
+                            llegoPaqueteDeNoticias(listaNoticias);
                         }
 
                         @Override
@@ -297,6 +297,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
+
+        if (listaNoticias.getTema() == NoticiaDaoFirebase.Companion.getFIREBASE()){
+            pegarFragment(new FragmentNoticiasBarriales(this), R.id.activityMainContenedorFragment, listaNoticias);
+            return;
+        }
+
         if (listaNoticias.getTema() == null) {
             listaNoticias.setTema("General");
         }
@@ -304,14 +310,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void errorPedidoNoticia() {
-        // TODO: Ver que hacemos cuando hay un problema en la coneccion con la API
+    public void mostrarDetalleDeNoticias(ListaNoticias listaNoticias) {
+        Log.d(TAG, "Selecciono una noticia");
+        pegarFragment(new ViewPagerNoticia(), R.id.activityMainContenedorFragment, listaNoticias);
     }
 
     @Override
-    public void selleccion(ListaNoticias listaNoticias) {
-        Log.d(TAG, "Selecciono una noticia");
-        pegarFragment(new ViewPagerNoticia(), R.id.activityMainContenedorFragment, listaNoticias);
+    public void errorPedidoNoticia() {
+        // TODO: Ver que hacemos cuando hay un problema en la coneccion con la API
     }
 
     @Override

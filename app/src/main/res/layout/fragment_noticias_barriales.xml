@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Vista.NoticiasBarrialesFragment">
+    tools:context=".Vista.NoticiasBarriales.FragmentNoticiasBarriales">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerNoticiasBarriales"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

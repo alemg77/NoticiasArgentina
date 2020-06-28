@@ -1,11 +1,10 @@
-package kalitero.software.noticiasargentinas.Vista.MostrarNoticias;
+package kalitero.software.noticiasargentinas.Vista.NoticiasGenerales;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +14,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
@@ -24,12 +22,11 @@ import kalitero.software.noticiasargentinas.databinding.CeldaNoticiaBinding;
 
 public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
 
-
     private List<Noticia> listaDeNoticias;
-    private AvisoRecyclerView listener;
+    private AvisoRecyclerViewJava listener;
     private String TAG = getClass().toString();
 
-    public FragmentListaNoticiasCompactoAdapter(List<Noticia> listaDeNoticias, AvisoRecyclerView listener) {
+    public FragmentListaNoticiasCompactoAdapter(List<Noticia> listaDeNoticias, AvisoRecyclerViewJava listener) {
         this.listaDeNoticias = listaDeNoticias;
         this.listener = listener;
     }
@@ -54,16 +51,13 @@ public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
     }
 
     private class NoticiaViewHolder extends RecyclerView.ViewHolder {
-
         private CeldaNoticiaBinding binding;
         private ImageView logo;
 
         private NoticiaViewHolder(@NonNull CeldaNoticiaBinding celdaNoticiaBinding) {
             super(celdaNoticiaBinding.getRoot());
             binding = celdaNoticiaBinding;
-
             logo = itemView.findViewById(R.id.CeladaNoticiaimageViewLogo);
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -171,7 +165,7 @@ public class FragmentListaNoticiasCompactoAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public interface AvisoRecyclerView {
+    public interface AvisoRecyclerViewJava {
         void recyclerViewClick(int posicion);
     }
 }

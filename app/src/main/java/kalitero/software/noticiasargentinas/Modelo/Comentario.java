@@ -23,22 +23,16 @@ public class Comentario {
     @ColumnInfo
     private Date fecha;
     @ColumnInfo
-    private Integer positivos;
-    @ColumnInfo
-    private Integer negativos;
+    private String documentoFirebase;
 
     public Comentario(String usuario, String opinion) {
         this.usuario = usuario;
         this.opinion = opinion;
         fecha = new Date();
-        positivos = 0;
-        negativos = 0;
     }
 
     public Comentario() {
         fecha = new Date();
-        positivos = 0;
-        negativos = 0;
     }
 
 
@@ -51,20 +45,12 @@ public class Comentario {
         this.fecha = fecha;
     }
 
-    public Integer getPositivos() {
-        return positivos;
+    public String getDocumentoFirebase() {
+        return documentoFirebase;
     }
 
-    public void setPositivos(Integer positivos) {
-        this.positivos = positivos;
-    }
-
-    public Integer getNegativos() {
-        return negativos;
-    }
-
-    public void setNegativos(Integer negativos) {
-        this.negativos = negativos;
+    public void setDocumentoFirebase(String documentoFirebase) {
+        this.documentoFirebase = documentoFirebase;
     }
 
     public String getUsuario() {

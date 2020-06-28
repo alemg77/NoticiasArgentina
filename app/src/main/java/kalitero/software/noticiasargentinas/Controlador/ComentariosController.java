@@ -14,27 +14,35 @@ import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
 import kalitero.software.noticiasargentinas.Modelo.Comentario;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
+import kalitero.software.noticiasargentinas.Modelo.Voto;
+import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.util.AppDatabase;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
 public class ComentariosController {
 
-    private NoticiaDaoFirebase noticiaDaoFirebase;
-    private ComentarioDaoRoom comentarioDaoRoom;
-    private Context context;
+    private static ComentariosController instancia;
+    private static NoticiaDaoFirebase noticiaDaoFirebase;
+    private static Context context;
 
-    public ComentariosController(Context context) {
-        this.noticiaDaoFirebase = new NoticiaDaoFirebase();
-        this.context = context;
-        this.comentarioDaoRoom = AppDatabase.getInstance(context).comentarioDaoRoom();
+    public ComentariosController() {
     }
 
-    public void getComentarios(ResultListener<List<Comentario>> resultListenerDeLaView, String documentoFirebase) {
+    public static ComentariosController getInstancia (Context contexto){
+        if ( instancia == null ){
+            context = contexto;
+            instancia = new ComentariosController();
+            noticiaDaoFirebase = NoticiaDaoFirebase.Companion.getIntancia();
+        }
+        return instancia;
+    }
 
+    public void getComentarios(Noticia noticia, ResultListener<List<Comentario>> resultListenerDeLaView) {
         if (hayInternet()) {
-            NoticiaDaoFirebase.Companion.getIntancia().buscarComentarios(documentoFirebase, new ResultListener<List<Comentario>>() {
+            NoticiaDaoFirebase.Companion.getIntancia().buscarComentarios(noticia, new ResultListener<List<Comentario>>() {
                 @Override
                 public void onFinish(List<Comentario> result) {
+                    // TODO: Ver de pasarle la noticia para saber de quien es el comentario al recuperarlos
                     comentarioDaoRoom.deleteAll(); // los borro todos porque van a cambiar los likes aunque el resto de los datos no
                     comentarioDaoRoom.insertAll(result);
                     resultListenerDeLaView.onFinish(result);
@@ -49,9 +57,8 @@ public class ComentariosController {
             List<Comentario> listaComentarios = comentarioDaoRoom.getComentarios();
             resultListenerDeLaView.onFinish(listaComentarios);
         }
-
-
     }
+
     public boolean hayInternet () {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
