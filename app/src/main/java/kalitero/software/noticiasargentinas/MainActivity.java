@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         buscarNoticias = new BuscarNoticiasAPI(MainActivity.this, this);
         fragmentLogin = new FragmentLogin();
 
+        /*
         Repositorio.getInstancia(this).traerTodo(new ResultListener<ListaNoticias>() {
             @Override
             public void onFinish(ListaNoticias result) {
@@ -112,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+
+         */
+
 
 
         if (savedInstanceState == null) {
@@ -171,24 +175,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         break;
 
                     case R.id.navigationMenuNoticiasBarriales:
-
                         Repositorio repositorio = Repositorio.getInstancia(MainActivity.this);
-                        repositorio.noticiasDeRoom(new ResultListener<ListaNoticias>() {
+                        repositorio.dameNoticiasBarriales(new ResultListener<ListaNoticias>() {
                             @Override
                             public void onFinish(ListaNoticias result) {
-                                Log.d(TAG, "??");
-                            }
-
-                            @Override
-                            public void onError(@NotNull String message) {
-
-                            }
-                        });
-
-                        /*
-                        repositorio.dameNoticias(new ResultListener<ListaNoticias>() {
-                            @Override
-                            public void onFinish(ListaNoticias result) {
+                                // TODO: Si la lista llega vacia habria que notificar algo al usuario
                                 llegoPaqueteDeNoticias(result);
                             }
 
@@ -197,14 +188,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                             }
                         });
-
-                         */
-
-                        /*
-                        } else {
-                            Toast.makeText(MainActivity.this, "Debes registrarte primero", Toast.LENGTH_LONG).show();
-                        }
-                         */
                         break;
 
                     default:

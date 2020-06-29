@@ -39,6 +39,70 @@ public class Repositorio {
     public Repositorio() {
     }
 
+    public ListaNoticias getGeneral() {
+        return general;
+    }
+
+    public void setGeneral(ListaNoticias general) {
+        this.general = general;
+    }
+
+    public ListaNoticias getCiencia() {
+        return ciencia;
+    }
+
+    public void setCiencia(ListaNoticias ciencia) {
+        this.ciencia = ciencia;
+    }
+
+    public ListaNoticias getDeportes() {
+        return deportes;
+    }
+
+    public void setDeportes(ListaNoticias deportes) {
+        this.deportes = deportes;
+    }
+
+    public ListaNoticias getNegocios() {
+        return negocios;
+    }
+
+    public void setNegocios(ListaNoticias negocios) {
+        this.negocios = negocios;
+    }
+
+    public ListaNoticias getEntretenimiento() {
+        return entretenimiento;
+    }
+
+    public void setEntretenimiento(ListaNoticias entretenimiento) {
+        this.entretenimiento = entretenimiento;
+    }
+
+    public ListaNoticias getSalud() {
+        return salud;
+    }
+
+    public void setSalud(ListaNoticias salud) {
+        this.salud = salud;
+    }
+
+    public ListaNoticias getTecnologia() {
+        return tecnologia;
+    }
+
+    public void setTecnologia(ListaNoticias tecnologia) {
+        this.tecnologia = tecnologia;
+    }
+
+    public ListaNoticias getBarriales() {
+        return barriales;
+    }
+
+    public void setBarriales(ListaNoticias barriales) {
+        this.barriales = barriales;
+    }
+
     public static Repositorio getInstancia(Context context) {
         if (instancia == null) {
             instancia = new Repositorio();
@@ -49,30 +113,23 @@ public class Repositorio {
         return instancia;
     }
 
-    public boolean hayInternet() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) contexto.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    public void dameNoticiasBarriales(ResultListener<ListaNoticias> resultListener){
+        if (hayInternet()) {
+            noticiasDeFirebase(resultListener);
+            // TODO: Actualizar ROOM
+        } else {
+            noticiasBarrialesRoom(resultListener);
+        }
     }
 
-
-    public void dameNoticias(ResultListener<ListaNoticias> resultListener){
-        if (hayInternet()) {
-                // todo: traer API y Firebase
-        } else {
-                // todo: traer room
-        }
+    public void noticiasBarrialesRoom(ResultListener<ListaNoticias> resultListener){
+        // TODO: HAcer esta funcion
     }
 
     public void noticiasDeFirebase(ResultListener<ListaNoticias> resultListener) {
         intanciaFirebase.buscarNoticias(new ResultListener<ListaNoticias>() {
             @Override
             public void onFinish(ListaNoticias result) {
-                NoticiaDaoRoom noticiaDaoRoom = AppDatabase.getInstance(contexto).noticiaDaoRoom();
-                // FIXME: Esta funcion no borra nada
-                noticiaDaoRoom.deleteFirebase();
-                noticiaDaoRoom.insertAll(result.getArrayListNoticias());
                 resultListener.onFinish(result);
             }
 
@@ -84,16 +141,13 @@ public class Repositorio {
     }
 
     public void noticiasDeRoom(ResultListener<ListaNoticias> resultListener) {
-        // TODO: Hacer que se ejecute en otro thread
         NoticiaDaoRoom noticiaDaoRoom = AppDatabase.getInstance(contexto).noticiaDaoRoom();
         List<Noticia> listNoticiasRoom = noticiaDaoRoom.getNoticias();
-//        List<Noticia> listNoticiasDeportes = noticiaDaoRoom.getNoticiasTema(BuscarNoticiasAPI.KEY_TEMA_DEPORTES);
         ListaNoticias listaNoticiasRoom = new ListaNoticias(listNoticiasRoom, "Room");
         resultListener.onFinish(listaNoticiasRoom);
     }
 
     public void noticiasDeRoom(String tema, ResultListener<ListaNoticias> resultListener) {
-        // TODO: Hacer que se ejecute en otro thread
         NoticiaDaoRoom noticiaDaoRoom = AppDatabase.getInstance(contexto).noticiaDaoRoom();
         List<Noticia> listNoticiasRoom = noticiaDaoRoom.getNoticiasTema(tema);
         ListaNoticias listaNoticiasRoom = new ListaNoticias(listNoticiasRoom, tema);
@@ -115,6 +169,18 @@ public class Repositorio {
     }
 
     public void traerTodo(ResultListener<ListaNoticias> resultListener){
+        if ( hayInternet() ){
+            traerTodoInternet(resultListener);
+        } else {
+            traerTodoRoom(resultListener);
+        }
+    }
+
+    private void traerTodoRoom(ResultListener<ListaNoticias> resultListener) {
+        // TODO
+    }
+
+    public void traerTodoInternet(ResultListener<ListaNoticias> resultListener){
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_NEGOCIOS,
                 new ResultListener<ListaNoticias>() {
                     @Override
@@ -167,7 +233,7 @@ public class Repositorio {
                 new ResultListener<ListaNoticias>() {
                     @Override
                     public void onFinish(ListaNoticias result) {
-                        deportes = result;
+                        entretenimiento = result;
                         traerTodoApi5(resultListener);
                     }
 
@@ -232,6 +298,9 @@ public class Repositorio {
             public void onFinish(ListaNoticias result) {
                 barriales = result;
                 resultListener.onFinish(result);
+
+                // TODO!!!!!!!!!!!
+                // TODO: Actualizar ROOM
             }
 
             @Override
@@ -239,6 +308,13 @@ public class Repositorio {
 
             }
         });
+    }
+
+    public boolean hayInternet() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) contexto.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }

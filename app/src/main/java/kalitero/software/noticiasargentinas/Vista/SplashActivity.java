@@ -18,17 +18,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
+import kalitero.software.noticiasargentinas.Controlador.Repositorio;
 import kalitero.software.noticiasargentinas.MainActivity;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.R;
 import kalitero.software.noticiasargentinas.util.AppDatabase;
+import kalitero.software.noticiasargentinas.util.ResultListener;
 
 public class SplashActivity extends AppCompatActivity implements RecepcionNoticias {
 
@@ -48,6 +52,10 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        // TODO: Borrar esta linea!!
+        paqueteNoticias = new PaqueteNoticias();
+        pasarAMainActivity();
 
         elipse = findViewById(R.id.imageView2);
         grupo = findViewById(R.id.imageView);
