@@ -52,11 +52,11 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
 
     private NoticiaDaoRoom noticiaDaoRoom;
 
-    private Context context;
+    private Context contexto;
 
     public BuscarNoticiasAPI(RecepcionNoticias listener, Context context) {
         this.listener = listener;
-        this.context = context;
+        this.contexto = context;
         this.noticiaDaoRoom = AppDatabase.getInstance(context).noticiaDaoRoom();
     }
 
@@ -177,6 +177,7 @@ public class BuscarNoticiasAPI extends AppCompatActivity {
         };
         queue.add(getRequest);
     }
+
 
     public static List<String> crearLista() {
         List<String> listaTemas = new ArrayList<>();

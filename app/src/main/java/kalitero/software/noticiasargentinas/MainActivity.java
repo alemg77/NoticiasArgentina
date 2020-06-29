@@ -101,6 +101,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         buscarNoticias = new BuscarNoticiasAPI(MainActivity.this, this);
         fragmentLogin = new FragmentLogin();
 
+        Repositorio.getInstancia(this).traerTodo(new ResultListener<ListaNoticias>() {
+            @Override
+            public void onFinish(ListaNoticias result) {
+                Log.d(TAG, "??");
+            }
+
+            @Override
+            public void onError(@NotNull String message) {
+
+            }
+        });
 
 
         if (savedInstanceState == null) {
