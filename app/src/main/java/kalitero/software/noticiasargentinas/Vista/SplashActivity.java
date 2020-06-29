@@ -53,10 +53,6 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // TODO: Borrar esta linea!!
-        paqueteNoticias = new PaqueteNoticias();
-        pasarAMainActivity();
-
         elipse = findViewById(R.id.imageView2);
         grupo = findViewById(R.id.imageView);
         noticiasArgentinas = findViewById(R.id.textViewTitulo);

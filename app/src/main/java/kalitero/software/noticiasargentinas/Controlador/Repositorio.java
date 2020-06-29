@@ -23,6 +23,13 @@ public class Repositorio {
     private static Context contexto;
     private static Repositorio instancia;
     private String TAG = getClass().toString();
+    public final static String KEY_TEMA_DEPORTES = "sports";
+    public final static String KEY_TEMA_NEGOCIOS = "business";
+    public final static String KEY_TEMA_ENTRETENIMIENTO = "entertainment";
+    public final static String KEY_TEMA_SALUD = "health";
+    public final static String KEY_TEMA_TECNOLOGIA = "technology";
+    public final static String KEY_TEMA_CIENCIA = "science";
+    public final static String KEY_TEMA_GENERAL = "General";
 
     private ListaNoticias general;
     private ListaNoticias ciencia;
@@ -113,31 +120,21 @@ public class Repositorio {
         return instancia;
     }
 
-    public void dameNoticiasBarriales(ResultListener<ListaNoticias> resultListener){
+    public void dameNoticiasBarriales(ResultListener<ListaNoticias> resultListener) {
         if (hayInternet()) {
-            noticiasDeFirebase(resultListener);
+            intanciaFirebase.buscarNoticias(resultListener);
             // TODO: Actualizar ROOM
         } else {
             noticiasBarrialesRoom(resultListener);
         }
     }
 
-    public void noticiasBarrialesRoom(ResultListener<ListaNoticias> resultListener){
+    private void noticiasBarrialesRoom(ResultListener<ListaNoticias> resultListener) {
         // TODO: HAcer esta funcion
     }
 
-    public void noticiasDeFirebase(ResultListener<ListaNoticias> resultListener) {
-        intanciaFirebase.buscarNoticias(new ResultListener<ListaNoticias>() {
-            @Override
-            public void onFinish(ListaNoticias result) {
-                resultListener.onFinish(result);
-            }
+    private void noticiasDeFirebase(ResultListener<ListaNoticias> resultListener) {
 
-            @Override
-            public void onError(@NotNull String message) {
-
-            }
-        });
     }
 
     public void noticiasDeRoom(ResultListener<ListaNoticias> resultListener) {
@@ -154,22 +151,25 @@ public class Repositorio {
         resultListener.onFinish(listaNoticiasRoom);
     }
 
-    public void titularesAPI(ResultListener<ListaNoticias> resultListener){
-        instanciaAPI.titularesNuevos(new ResultListener<ListaNoticias>() {
-            @Override
-            public void onFinish(ListaNoticias result) {
-                resultListener.onFinish(result);
-            }
-
-            @Override
-            public void onError(@NotNull String message) {
-
-            }
-        });
+    public void titulares(ResultListener<ListaNoticias> resultListener) {
+        if (hayInternet()) {
+            instanciaAPI.titularesNuevos(resultListener);
+        } else {
+            // TODO: Si no hay interner traer de room
+        }
     }
 
-    public void traerTodo(ResultListener<ListaNoticias> resultListener){
-        if ( hayInternet() ){
+    public void titulares(String tema, ResultListener<ListaNoticias> resultListener) {
+        if (hayInternet()) {
+            instanciaAPI.titularesNuevos(tema, resultListener);
+        } else {
+            // TODO: Si no hay interner traer de room
+        }
+    }
+
+
+    public void traerTodo(ResultListener<ListaNoticias> resultListener) {
+        if (hayInternet()) {
             traerTodoInternet(resultListener);
         } else {
             traerTodoRoom(resultListener);
@@ -180,7 +180,7 @@ public class Repositorio {
         // TODO
     }
 
-    public void traerTodoInternet(ResultListener<ListaNoticias> resultListener){
+    public void traerTodoInternet(ResultListener<ListaNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_NEGOCIOS,
                 new ResultListener<ListaNoticias>() {
                     @Override
@@ -196,7 +196,7 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi2(ResultListener<ListaNoticias> resultListener){
+    public void traerTodoApi2(ResultListener<ListaNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_DEPORTES,
                 new ResultListener<ListaNoticias>() {
                     @Override
@@ -212,7 +212,7 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi3(ResultListener<ListaNoticias> resultListener){
+    public void traerTodoApi3(ResultListener<ListaNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_SALUD,
                 new ResultListener<ListaNoticias>() {
                     @Override
@@ -228,7 +228,7 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi4(ResultListener<ListaNoticias> resultListener){
+    public void traerTodoApi4(ResultListener<ListaNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_ENTRETENIMIENTO,
                 new ResultListener<ListaNoticias>() {
                     @Override
@@ -244,7 +244,7 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi5(ResultListener<ListaNoticias> resultListener){
+    public void traerTodoApi5(ResultListener<ListaNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_TECNOLOGIA,
                 new ResultListener<ListaNoticias>() {
                     @Override
@@ -260,7 +260,7 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi6(ResultListener<ListaNoticias> resultListener){
+    public void traerTodoApi6(ResultListener<ListaNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_CIENCIA,
                 new ResultListener<ListaNoticias>() {
                     @Override
@@ -276,7 +276,7 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi7(ResultListener<ListaNoticias> resultListener){
+    public void traerTodoApi7(ResultListener<ListaNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_GENERAL,
                 new ResultListener<ListaNoticias>() {
                     @Override
@@ -292,7 +292,7 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi8(ResultListener<ListaNoticias> resultListener){
+    public void traerTodoApi8(ResultListener<ListaNoticias> resultListener) {
         intanciaFirebase.buscarNoticias(new ResultListener<ListaNoticias>() {
             @Override
             public void onFinish(ListaNoticias result) {

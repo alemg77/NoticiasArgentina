@@ -55,7 +55,7 @@ import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager.Vi
 import kalitero.software.noticiasargentinas.util.AppDatabase;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias , ViewPagerListasNoticias.SelleccionDos, Regresar {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, ViewPagerListasNoticias.SelleccionDos, Regresar {
 
     // Para ver los logos hay que filtrar con: kalitero.software.noticiasargentinas.Vista
     private String TAG = getClass().toString();
@@ -94,29 +94,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.activityMainNavigationView);
         drawerLayout = findViewById(R.id.activityMainDrawerLayout);
 
+        repositorio = Repositorio.getInstancia(MainActivity.this);
+
         Toolbar toolbar = findViewById(R.id.MainActivityToolbar);
         setSupportActionBar(toolbar);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.abrir_menu, R.string.cerrar_menu);
 
         buscarNoticias = new BuscarNoticiasAPI(MainActivity.this, this);
         fragmentLogin = new FragmentLogin();
-
-        /*
-        Repositorio.getInstancia(this).traerTodo(new ResultListener<ListaNoticias>() {
-            @Override
-            public void onFinish(ListaNoticias result) {
-                Log.d(TAG, "??");
-            }
-
-            @Override
-            public void onError(@NotNull String message) {
-
-            }
-        });
-
-         */
-
-
 
         if (savedInstanceState == null) {
             // Si llega aca, es la primera vez que se carga la actividad
@@ -127,67 +112,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.d(TAG, "Otra vez YO");
         }
 
-        FloatingActionButton fab = findViewById(R.id.floating_action_button);
+        escucharBotonFlotante();
+        escucharNavigationMenu();
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                if (currentUser != null) {
-                    startActivity(new Intent(MainActivity.this, SubirNoticias.class));
-                } else {
-                    pegarFragment(fragmentLogin, R.id.activityMainContenedorFragment);
-                }
-            }
-        });
+    }
 
+    private void escucharNavigationMenu() {
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigationMenuUltimasNoticias:
-                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA);
+                        repositorio.titulares(Repositorio.KEY_TEMA_GENERAL, receptorRepocitorio);
                         break;
 
                     case R.id.navigationMenuCiencia:
-                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_CIENCIA);
+                        repositorio.titulares(Repositorio.KEY_TEMA_CIENCIA, receptorRepocitorio);
                         break;
 
                     case R.id.navigationMenuEntretenimiento:
-                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_ENTRETENIMIENTO);
+                        repositorio.titulares(Repositorio.KEY_TEMA_ENTRETENIMIENTO, receptorRepocitorio);
                         break;
 
                     case R.id.navigationMenuSalud:
-                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_SALUD);
+                        repositorio.titulares(Repositorio.KEY_TEMA_SALUD, receptorRepocitorio);
                         break;
 
                     case R.id.navigationMenuNegocios:
-                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_NEGOCIOS);
+                        repositorio.titulares(Repositorio.KEY_TEMA_NEGOCIOS, receptorRepocitorio);
                         break;
 
                     case R.id.navigationMenuDeportes:
-                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_DEPORTES);
+                        repositorio.titulares(Repositorio.KEY_TEMA_DEPORTES, receptorRepocitorio);
                         break;
 
                     case R.id.navigationMenuTecnologia:
-                        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_TECNOLOGIA);
+                        repositorio.titulares(Repositorio.KEY_TEMA_TECNOLOGIA, receptorRepocitorio);
                         break;
 
                     case R.id.navigationMenuNoticiasBarriales:
-                        Repositorio repositorio = Repositorio.getInstancia(MainActivity.this);
-                        repositorio.dameNoticiasBarriales(new ResultListener<ListaNoticias>() {
-                            @Override
-                            public void onFinish(ListaNoticias result) {
-                                // TODO: Si la lista llega vacia habria que notificar algo al usuario
-                                llegoPaqueteDeNoticias(result);
-                            }
-
-                            @Override
-                            public void onError(@NotNull String message) {
-
-                            }
-                        });
+                        repositorio.dameNoticiasBarriales(receptorRepocitorio);
                         break;
 
                     default:
@@ -200,30 +165,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-
-
-    /*****************
-     * Funcion para pegar un fragment enviandole un objeto serializable
-     *
-     * @param fragmentAPegar  :Fragment a pegar
-     * @param containerViewId :Donde lo queres pegar
-     * @param serializable    :Que objeto le vas a pasar
-     **********/
-    private void pegarFragment(Fragment fragmentAPegar, int containerViewId, Serializable serializable) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(serializable.getClass().toString(), serializable);
-        fragmentAPegar.setArguments(bundle);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.add(containerViewId, fragmentAPegar).commit();
+    private void escucharBotonFlotante() {
+        FloatingActionButton fab = findViewById(R.id.floating_action_button);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser != null) {
+                    startActivity(new Intent(MainActivity.this, SubirNoticias.class));
+                } else {
+                    pegarFragment(fragmentLogin, R.id.activityMainContenedorFragment);
+                }
+            }
+        });
     }
 
-    private void pegarFragment(Fragment fragmentAPegar, int containerViewId) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.add(containerViewId, fragmentAPegar).commit();
-    }
-
+    /**************
+     *    Crea la opcion de buscar en accion bar
+     *************/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -250,43 +209,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        actionBarDrawerToggle.syncState();
-    }
-
+    /******************
+     *   Actiones de la barra superior
+     *****************/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionbar_usuario:
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     pegarFragment(new FragmentVerUsuario(), R.id.activityMainContenedorFragment);
-
                 } else {
                     pegarFragment(new FragmentLogin(), R.id.activityMainContenedorFragment);
                 }
                 break;
 
             case R.id.action_firebaseLeer:
-                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                    NoticiaDaoFirebase.Companion.getIntancia().buscarNoticias(new ResultListener<ListaNoticias>() {
-                        @Override
-                        public void onFinish(@NotNull ListaNoticias listaNoticias) {
-                            llegoPaqueteDeNoticias(listaNoticias);
-                        }
-
-                        @Override
-                        public void onError(String message) {
-                        }
-                    });
-                } else {
-                    Toast.makeText(this, "Debes registrarte primero", Toast.LENGTH_LONG).show();
-                }
+                repositorio.dameNoticiasBarriales(receptorRepocitorio);
                 break;
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /*****************
+     * Funcion para pegar un fragment enviandole un objeto serializable
+     **********/
+    private void pegarFragment(Fragment fragmentAPegar, int containerViewId, Serializable serializable) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(serializable.getClass().toString(), serializable);
+        fragmentAPegar.setArguments(bundle);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.add(containerViewId, fragmentAPegar).commit();
+    }
+
+    private void pegarFragment(Fragment fragmentAPegar, int containerViewId) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.add(containerViewId, fragmentAPegar).commit();
     }
 
     @Override
@@ -299,15 +259,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        actionBarDrawerToggle.syncState();
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
 
+    private ResultListener<ListaNoticias> receptorRepocitorio = new ResultListener<ListaNoticias>() {
+        @Override
+        public void onFinish(ListaNoticias result) {
+            llegoPaqueteDeNoticias(result);
+        }
+
+        @Override
+        public void onError(@NotNull String message) {
+
+        }
+    };
+
     @Override
     public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
         Log.d(TAG, "Llego un paquete de noticias");
-
-        if (listaNoticias.getTema() == NoticiaDaoFirebase.Companion.getFIREBASE()){
+        if (listaNoticias.getTema() == NoticiaDaoFirebase.Companion.getFIREBASE()) {
             pegarFragment(new FragmentNoticiasBarriales(this), R.id.activityMainContenedorFragment, listaNoticias);
             return;
         }
