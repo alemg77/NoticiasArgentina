@@ -2,7 +2,6 @@ package kalitero.software.noticiasargentinas.Modelo;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -34,8 +33,6 @@ public class Comentario {
     public Comentario() {
         fecha = new Date();
     }
-
-
 
     public Date getFecha() {
         return fecha;

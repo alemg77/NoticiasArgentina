@@ -25,7 +25,7 @@
             android:background="@color/fontoTextoTituloActionBar"
             android:gravity="center"
             android:text="Noticias Argentinas"
-            android:textColor="@color/tituloActionBar"
+            android:textColor="@color/blanco"
             android:textSize="20dp" />
 
     </androidx.cardview.widget.CardView>

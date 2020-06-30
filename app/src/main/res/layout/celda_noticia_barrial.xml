@@ -25,10 +25,11 @@
                 android:id="@+id/CeldaNoticiaImagen"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="5dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/CeldaNoticiaTitulo" />
 
             <TextView
@@ -39,14 +40,14 @@
                 android:hint="Titulo"
                 android:gravity="center"
                 android:textColor="@color/negro"
-                android:textSize="20dp"
+                android:textSize="22dp"
                 app:layout_constraintEnd_toStartOf="@+id/contadorVotosPositivos"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/votoNegativo"
-                android:layout_height="0dp"
+                android:layout_height="35dp"
                 android:layout_width="25dp"
                 android:layout_marginRight="5dp"
                 android:backgroundTint="@color/votoNegativo"

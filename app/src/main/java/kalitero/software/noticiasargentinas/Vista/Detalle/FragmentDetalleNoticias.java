@@ -62,6 +62,7 @@ public class FragmentDetalleNoticias extends Fragment implements ComentarioAdapt
             StorageReference child = FirebaseStorage.getInstance().getReference().child(urlImagenStorage);
             Glide.with(binding.getRoot()).load(child).into(binding.imagenNoticia);
         } else if (noticia.getUrlImagen() != null) {
+            binding.CardAgregarComentario.setVisibility(View.INVISIBLE);
             try {
                 Glide.with(binding.getRoot()).load(noticia.getUrlImagen()).into(binding.imagenNoticia);
             } catch (Exception e) {

@@ -3,7 +3,7 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3232B3</color>
     <color name="colorAccent">#C8C8FF</color>
-    <color name="RecyclerviewFondoNoticias">#C8C8FF</color>
+    <color name="RecyclerviewFondoNoticias">#DCDCFF</color>
     <color name="celesteFondo">#00aae4</color>
     <color name="colorAntesPrimary">#6200EE</color>
     <color name="tituloActionBar">#FFFF00</color>
@@ -13,6 +13,7 @@
     <color name="azulOscuro">#042188</color>
     <color name="votoPositivo">#0428D8</color>
     <color name="votoNegativo">#AF0808</color>
+    <color name="blanco">#FFFFFF</color>
 
 
 </resources>

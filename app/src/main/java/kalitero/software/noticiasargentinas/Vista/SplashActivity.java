@@ -46,7 +46,6 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
     private Integer pedidosApi;
     private String TAG = getClass().toString();
     private Boolean fin_presentacion = false;
-    private NoticiaDaoRoom noticiaDaoRoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,17 +55,13 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
         elipse = findViewById(R.id.imageView2);
         grupo = findViewById(R.id.imageView);
         noticiasArgentinas = findViewById(R.id.textViewTitulo);
-        this.noticiaDaoRoom = AppDatabase.getInstance(getApplicationContext()).noticiaDaoRoom();
 
         //TODO traer hilos de room, api y firebase y decidir cuál se usa, si pasa el tiempo
 
-
         paqueteNoticias = new PaqueteNoticias();
-
         buscarNoticias = new BuscarNoticiasAPI(SplashActivity.this, this);
         pedidosApi = 0;
         buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA);
-
 
         rotarAnimacion();
         escalaAnimacion();
