@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -89,7 +90,12 @@ public class FragmentDetalleNoticias extends Fragment implements ComentarioAdapt
         binding.TextoComentarioNuevo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if ( currentUser == null ){
+                    Snackbar.make(binding.getRoot(), "Es necesario registrarse para comentar", Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                String email = currentUser.getEmail();
                 if (email == null) {
                     Snackbar.make(binding.getRoot(), "Es necesario registrarse para comentar", Snackbar.LENGTH_LONG).show();
                     return;
