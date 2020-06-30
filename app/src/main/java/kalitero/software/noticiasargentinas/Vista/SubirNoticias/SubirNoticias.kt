@@ -2,6 +2,7 @@ package kalitero.software.noticiasargentinas.Vista.SubirNoticias
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
@@ -57,6 +58,13 @@ class SubirNoticias : AppCompatActivity(), FragmentIngresoBarrial.Aviso {
             //putExtra(EXTRA_MESSAGE, message)
         }
         startActivity(intent)
+    }
+
+    override fun regresarActividadAnterior() {
+        Handler().postDelayed({ // This method will be executed once the timer is over
+            finish()
+        }, 1500)
+
     }
 
 }

@@ -2,7 +2,6 @@ package kalitero.software.noticiasargentinas.Vista.SubirNoticias
 
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -27,8 +26,6 @@ import pl.aprilapps.easyphotopicker.EasyImage
 import pl.aprilapps.easyphotopicker.EasyImage.ImageSource
 import java.io.File
 import java.util.*
-import kotlin.math.sign
-import com.bumptech.glide.util.Util as Util
 
 
 class FragmentIngresoBarrial : Fragment() {
@@ -89,6 +86,8 @@ class FragmentIngresoBarrial : Fragment() {
             // TODO: Al terminar de subir deberia agradecer y salir.
             binding.editTextTextoNoticia.text = null
             binding.editTextTituloNoticia.text = null
+            Snackbar.make(binding.root, "Gracias por participar!", Snackbar.LENGTH_LONG).show()
+            callback.regresarActividadAnterior()
         }
     }
 
@@ -163,12 +162,8 @@ class FragmentIngresoBarrial : Fragment() {
     }
 
     private fun escucharImagenIngresada(imagen1: Bitmap) {
-
         val signDialog = dialogSignature(context)
-
-
         binding.fragmentIngresoBarrialImageViewFoto1.setOnClickListener {
-
             signDialog.show()
             if (imagen1 != null) {
                // signDialog.imagenIngresadaGrande.addView(imagen1)
@@ -177,11 +172,7 @@ class FragmentIngresoBarrial : Fragment() {
                         .load(imagen1)
                         .into(imgSignature)
             }
-
-
         }
-
-
     }
 
 
@@ -203,5 +194,6 @@ class FragmentIngresoBarrial : Fragment() {
 
     interface Aviso {
         fun mostrarMapa()
+        fun regresarActividadAnterior()
     }
 }
