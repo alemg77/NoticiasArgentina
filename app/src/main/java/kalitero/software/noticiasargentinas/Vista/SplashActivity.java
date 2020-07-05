@@ -34,7 +34,7 @@ import kalitero.software.noticiasargentinas.R;
 import kalitero.software.noticiasargentinas.util.AppDatabase;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
-public class SplashActivity extends AppCompatActivity implements RecepcionNoticias {
+public class SplashActivity extends AppCompatActivity {
 
     private Animation animationGrupo;
     private Animation animarionElipse;
@@ -43,9 +43,10 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
     private TextView noticiasArgentinas;
     private BuscarNoticiasAPI buscarNoticias;
     private PaqueteNoticias paqueteNoticias;
-    private Integer pedidosApi;
+    private Boolean datosListos = false;
     private String TAG = getClass().toString();
-    private Boolean fin_presentacion = false;
+    private Boolean finPresentacion = false;
+    private Repositorio repositorio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +56,24 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
         elipse = findViewById(R.id.imageView2);
         grupo = findViewById(R.id.imageView);
         noticiasArgentinas = findViewById(R.id.textViewTitulo);
-
-        //TODO traer hilos de room, api y firebase y decidir cuál se usa, si pasa el tiempo
+        repositorio = Repositorio.getInstancia(this);
 
         paqueteNoticias = new PaqueteNoticias();
-        buscarNoticias = new BuscarNoticiasAPI(SplashActivity.this, this);
-        pedidosApi = 0;
-        buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA);
+        repositorio.traerTodo(new ResultListener<PaqueteNoticias>() {
+            @Override
+            public void onFinish(PaqueteNoticias result) {
+                paqueteNoticias = result;
+                datosListos = true;
+                if (finPresentacion) {
+                    pasarAMainActivity();
+                }
+            }
+            @Override
+            public void onError(@NotNull String message) {
+
+            }
+        });
+
 
         rotarAnimacion();
         escalaAnimacion();
@@ -70,22 +82,14 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
             @Override
             public void run() {
                 // This method will be executed once the timer is over
-                fin_presentacion = true;
-                if (pedidosApi > 6) {
+                finPresentacion = true;
+                if (datosListos) {
                     pasarAMainActivity();
+                } else {
+                    Toast.makeText(SplashActivity.this, "Esperando datos... ", Toast.LENGTH_LONG).show();
                 }
             }
         }, 2500);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // This method will be executed once the timer is over
-                if (pedidosApi <= 3) {
-                    Toast.makeText(SplashActivity.this, "Esperando datos... ", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, 3000);
     }
 
     private void pasarAMainActivity() {
@@ -107,53 +111,6 @@ public class SplashActivity extends AppCompatActivity implements RecepcionNotici
         animarionElipse = AnimationUtils.loadAnimation(this, R.anim.scale);
         animarionElipse.setDuration(1500);
         elipse.startAnimation(animarionElipse);
-    }
-
-    @Override
-    public void llegoPaqueteDeNoticias(ListaNoticias listaNoticias) {
-        Log.d(TAG, "Llego un paquete de noticias");
-        paqueteNoticias.agregarListaNoticias(listaNoticias);
-        pedidosApi++;
-        switch (pedidosApi) {
-            case 1:
-                buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_CIENCIA);
-                break;
-
-            case 2:
-                buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_ENTRETENIMIENTO);
-                break;
-
-            case 3:
-                buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_SALUD);
-                break;
-
-            case 4:
-                buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_NEGOCIOS);
-                break;
-
-            case 5:
-                buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_DEPORTES);
-                break;
-
-            case 6:
-                buscarNoticias.titularesNuevos(BuscarNoticiasAPI.KEY_PAIS_ARGENTINA, BuscarNoticiasAPI.KEY_TEMA_TECNOLOGIA);
-                break;
-
-            case 7:
-                if (fin_presentacion) {
-                    pasarAMainActivity();
-                }
-        }
-    }
-
-    @Override
-    public void mostrarDetalleDeNoticias(ListaNoticias listaNoticias) {
-
-    }
-
-    @Override
-    public void errorPedidoNoticia() {
-
     }
 
 }

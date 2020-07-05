@@ -3,7 +3,6 @@ package kalitero.software.noticiasargentinas.Controlador;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -15,6 +14,7 @@ import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.Modelo.Noticia;
+import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.util.AppDatabase;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
@@ -30,6 +30,7 @@ public class Repositorio {
     public final static String KEY_TEMA_TECNOLOGIA = "technology";
     public final static String KEY_TEMA_CIENCIA = "science";
     public final static String KEY_TEMA_GENERAL = "General";
+    public final static String KEY_TEMA_BARRIALES = "Firebase";
 
     private ListaNoticias general;
     private ListaNoticias ciencia;
@@ -40,8 +41,11 @@ public class Repositorio {
     private ListaNoticias tecnologia;
     private ListaNoticias barriales;
 
+    private PaqueteNoticias paqueteNoticias;
+
     private static NoticiaDaoAPI instanciaAPI;
-    private static NoticiaDaoFirebase intanciaFirebase;
+    private static NoticiaDaoFirebase instanciaFirebase;
+    private static NoticiaDaoRoom instanciaRoom;
 
     public Repositorio() {
     }
@@ -115,14 +119,15 @@ public class Repositorio {
             instancia = new Repositorio();
             contexto = context;
             instanciaAPI = NoticiaDaoAPI.getInstancia(contexto);
-            intanciaFirebase = NoticiaDaoFirebase.Companion.getIntancia();
+            instanciaFirebase = NoticiaDaoFirebase.Companion.getIntancia();
+            instanciaRoom = AppDatabase.getInstance(contexto).noticiaDaoRoom();
         }
         return instancia;
     }
 
     public void dameNoticiasBarriales(ResultListener<ListaNoticias> resultListener) {
         if (hayInternet()) {
-            intanciaFirebase.buscarNoticias(resultListener);
+            instanciaFirebase.buscarNoticias(resultListener);
             // TODO: Actualizar ROOM
         } else {
             noticiasBarrialesRoom(resultListener);
@@ -130,45 +135,59 @@ public class Repositorio {
     }
 
     private void noticiasBarrialesRoom(ResultListener<ListaNoticias> resultListener) {
-        // TODO: HAcer esta funcion
+        instanciaRoom.getNoticiasTema(KEY_TEMA_BARRIALES);
     }
 
-    private void noticiasDeFirebase(ResultListener<ListaNoticias> resultListener) {
+    /*
+    public void titulares(ResultListener<ListaNoticias> resultListener) {
+        if (hayInternet()) {
+            instanciaAPI.titularesNuevos(resultListener);
+        } else {
+            traerTodoRoom(resultListener);
+        }
+    }
 
+     */
+
+    private void traerTodoRoom(ResultListener<PaqueteNoticias> resultListener) {
+        paqueteNoticias = new PaqueteNoticias();
+        paqueteNoticias.agregarListaNoticias(new ListaNoticias(noticiasDeRoom(KEY_TEMA_GENERAL), KEY_TEMA_GENERAL));
+        paqueteNoticias.agregarListaNoticias( new ListaNoticias(noticiasDeRoom(KEY_TEMA_CIENCIA), KEY_TEMA_CIENCIA));
+        paqueteNoticias.agregarListaNoticias(new ListaNoticias(noticiasDeRoom(KEY_TEMA_DEPORTES), KEY_TEMA_DEPORTES));
+        paqueteNoticias.agregarListaNoticias(new ListaNoticias(noticiasDeRoom(KEY_TEMA_NEGOCIOS), KEY_TEMA_NEGOCIOS));
+        paqueteNoticias.agregarListaNoticias(new ListaNoticias(noticiasDeRoom(KEY_TEMA_ENTRETENIMIENTO), KEY_TEMA_ENTRETENIMIENTO));
+        paqueteNoticias.agregarListaNoticias(new ListaNoticias(noticiasDeRoom(KEY_TEMA_ENTRETENIMIENTO), KEY_TEMA_SALUD));
+        paqueteNoticias.agregarListaNoticias(new ListaNoticias(noticiasDeRoom(KEY_TEMA_ENTRETENIMIENTO), KEY_TEMA_TECNOLOGIA));
+        paqueteNoticias.agregarListaNoticias(new ListaNoticias(noticiasDeRoom(KEY_TEMA_BARRIALES), KEY_TEMA_BARRIALES));
+        resultListener.onFinish(paqueteNoticias);
     }
 
     public void noticiasDeRoom(ResultListener<ListaNoticias> resultListener) {
-        NoticiaDaoRoom noticiaDaoRoom = AppDatabase.getInstance(contexto).noticiaDaoRoom();
-        List<Noticia> listNoticiasRoom = noticiaDaoRoom.getNoticias();
+        List<Noticia> listNoticiasRoom = instanciaRoom.getNoticias();
         ListaNoticias listaNoticiasRoom = new ListaNoticias(listNoticiasRoom, "Room");
         resultListener.onFinish(listaNoticiasRoom);
     }
 
     public void noticiasDeRoom(String tema, ResultListener<ListaNoticias> resultListener) {
-        NoticiaDaoRoom noticiaDaoRoom = AppDatabase.getInstance(contexto).noticiaDaoRoom();
-        List<Noticia> listNoticiasRoom = noticiaDaoRoom.getNoticiasTema(tema);
+        List<Noticia> listNoticiasRoom =instanciaRoom.getNoticiasTema(tema);
         ListaNoticias listaNoticiasRoom = new ListaNoticias(listNoticiasRoom, tema);
         resultListener.onFinish(listaNoticiasRoom);
-    }
-
-    public void titulares(ResultListener<ListaNoticias> resultListener) {
-        if (hayInternet()) {
-            instanciaAPI.titularesNuevos(resultListener);
-        } else {
-            // TODO: Si no hay interner traer de room
-        }
     }
 
     public void titulares(String tema, ResultListener<ListaNoticias> resultListener) {
         if (hayInternet()) {
             instanciaAPI.titularesNuevos(tema, resultListener);
         } else {
-            // TODO: Si no hay interner traer de room
+            noticiasDeRoom(tema, resultListener);
         }
     }
 
+    public void buscarEnApi(String tema, ResultListener<ListaNoticias> resultListener){
+        instanciaAPI.porTema(tema, resultListener);
+    }
 
-    public void traerTodo(ResultListener<ListaNoticias> resultListener) {
+
+    public void traerTodo(ResultListener<PaqueteNoticias> resultListener) {
         if (hayInternet()) {
             traerTodoInternet(resultListener);
         } else {
@@ -176,16 +195,17 @@ public class Repositorio {
         }
     }
 
-    private void traerTodoRoom(ResultListener<ListaNoticias> resultListener) {
-        // TODO
+    public List<Noticia> noticiasDeRoom(String tema) {
+        return (instanciaRoom.getNoticiasTema(tema));
     }
 
-    public void traerTodoInternet(ResultListener<ListaNoticias> resultListener) {
+    public void traerTodoInternet(ResultListener<PaqueteNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_NEGOCIOS,
                 new ResultListener<ListaNoticias>() {
                     @Override
                     public void onFinish(ListaNoticias result) {
-                        negocios = result;
+                        paqueteNoticias = new PaqueteNoticias();
+                        paqueteNoticias.agregarListaNoticias(result);
                         traerTodoApi2(resultListener);
                     }
 
@@ -196,12 +216,12 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi2(ResultListener<ListaNoticias> resultListener) {
+    public void traerTodoApi2(ResultListener<PaqueteNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_DEPORTES,
                 new ResultListener<ListaNoticias>() {
                     @Override
                     public void onFinish(ListaNoticias result) {
-                        deportes = result;
+                        paqueteNoticias.agregarListaNoticias(result);
                         traerTodoApi3(resultListener);
                     }
 
@@ -212,12 +232,12 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi3(ResultListener<ListaNoticias> resultListener) {
+    public void traerTodoApi3(ResultListener<PaqueteNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_SALUD,
                 new ResultListener<ListaNoticias>() {
                     @Override
                     public void onFinish(ListaNoticias result) {
-                        salud = result;
+                        paqueteNoticias.agregarListaNoticias(result);
                         traerTodoApi4(resultListener);
                     }
 
@@ -228,12 +248,12 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi4(ResultListener<ListaNoticias> resultListener) {
+    public void traerTodoApi4(ResultListener<PaqueteNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_ENTRETENIMIENTO,
                 new ResultListener<ListaNoticias>() {
                     @Override
                     public void onFinish(ListaNoticias result) {
-                        entretenimiento = result;
+                        paqueteNoticias.agregarListaNoticias(result);
                         traerTodoApi5(resultListener);
                     }
 
@@ -244,12 +264,12 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi5(ResultListener<ListaNoticias> resultListener) {
+    public void traerTodoApi5(ResultListener<PaqueteNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_TECNOLOGIA,
                 new ResultListener<ListaNoticias>() {
                     @Override
                     public void onFinish(ListaNoticias result) {
-                        tecnologia = result;
+                        paqueteNoticias.agregarListaNoticias(result);
                         traerTodoApi6(resultListener);
                     }
 
@@ -260,12 +280,12 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi6(ResultListener<ListaNoticias> resultListener) {
+    public void traerTodoApi6(ResultListener<PaqueteNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_CIENCIA,
                 new ResultListener<ListaNoticias>() {
                     @Override
                     public void onFinish(ListaNoticias result) {
-                        ciencia = result;
+                        paqueteNoticias.agregarListaNoticias(result);
                         traerTodoApi7(resultListener);
                     }
 
@@ -276,12 +296,12 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi7(ResultListener<ListaNoticias> resultListener) {
+    public void traerTodoApi7(ResultListener<PaqueteNoticias> resultListener) {
         instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_GENERAL,
                 new ResultListener<ListaNoticias>() {
                     @Override
                     public void onFinish(ListaNoticias result) {
-                        general = result;
+                        paqueteNoticias.agregarListaNoticias(result);
                         traerTodoApi8(resultListener);
                     }
 
@@ -292,15 +312,13 @@ public class Repositorio {
                 });
     }
 
-    public void traerTodoApi8(ResultListener<ListaNoticias> resultListener) {
-        intanciaFirebase.buscarNoticias(new ResultListener<ListaNoticias>() {
+    public void traerTodoApi8(ResultListener<PaqueteNoticias> resultListener) {
+        instanciaFirebase.buscarNoticias(new ResultListener<ListaNoticias>() {
             @Override
             public void onFinish(ListaNoticias result) {
+                paqueteNoticias.agregarListaNoticias(result);
                 barriales = result;
-                resultListener.onFinish(result);
-
-                // TODO!!!!!!!!!!!
-                // TODO: Actualizar ROOM
+                resultListener.onFinish(paqueteNoticias);
             }
 
             @Override
@@ -315,6 +333,18 @@ public class Repositorio {
                 = (ConnectivityManager) contexto.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static List<String> crearLista() {
+        List<String> listaTemas = new ArrayList<>();
+        listaTemas.add(KEY_TEMA_GENERAL);
+        listaTemas.add(KEY_TEMA_CIENCIA);
+        listaTemas.add(KEY_TEMA_DEPORTES);
+        listaTemas.add(KEY_TEMA_ENTRETENIMIENTO);
+        listaTemas.add(KEY_TEMA_NEGOCIOS);
+        listaTemas.add(KEY_TEMA_SALUD);
+        listaTemas.add(KEY_TEMA_TECNOLOGIA);
+        return listaTemas;
     }
 
 }
