@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
+import kalitero.software.noticiasargentinas.Controlador.Repositorio;
 
 @Entity
 public class ListaNoticias implements Serializable {
@@ -36,27 +36,27 @@ public class ListaNoticias implements Serializable {
     public void setTema(String tema) {
         switch ( tema ) {
 
-            case BuscarNoticiasAPI.KEY_TEMA_DEPORTES:
+            case Repositorio.KEY_TEMA_DEPORTES:
                 this.tema = "Deportes";
                 break;
 
-            case BuscarNoticiasAPI.KEY_TEMA_CIENCIA:
+            case Repositorio.KEY_TEMA_CIENCIA:
                 this.tema = "Ciencia";
                 break;
 
-            case BuscarNoticiasAPI.KEY_TEMA_ENTRETENIMIENTO:
+            case Repositorio.KEY_TEMA_ENTRETENIMIENTO:
                 this.tema = "Espectaculos";
                 break;
 
-            case BuscarNoticiasAPI.KEY_TEMA_NEGOCIOS:
+            case Repositorio.KEY_TEMA_NEGOCIOS:
                 this.tema = "Negocios";
                 break;
 
-            case BuscarNoticiasAPI.KEY_TEMA_SALUD:
+            case Repositorio.KEY_TEMA_SALUD:
                 this.tema = "Salud";
                 break;
 
-            case BuscarNoticiasAPI.KEY_TEMA_TECNOLOGIA:
+            case Repositorio.KEY_TEMA_TECNOLOGIA:
                 this.tema = "Tecnologia";
                 break;
 

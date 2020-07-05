@@ -35,7 +35,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private PaqueteNoticias paqueteNoticias;
-    private BuscarNoticiasAPI buscarNoticias;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private FragmentLogin fragmentLogin;
     private Repositorio repositorio;
@@ -100,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.abrir_menu, R.string.cerrar_menu);
 
-        buscarNoticias = new BuscarNoticiasAPI(MainActivity.this, this);
         fragmentLogin = new FragmentLogin();
 
         if (savedInstanceState == null) {
@@ -195,14 +192,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onQueryTextSubmit(String query) {
                 paqueteNoticias = new PaqueteNoticias();
-                buscarNoticias.porTema(query);
+                repositorio.buscarEnApi(query,receptorRepocitorio);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                paqueteNoticias = new PaqueteNoticias();
-                buscarNoticias.porTema(newText);
                 return false;
             }
         });

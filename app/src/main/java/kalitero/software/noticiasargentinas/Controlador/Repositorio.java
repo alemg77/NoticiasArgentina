@@ -32,13 +32,6 @@ public class Repositorio {
     public final static String KEY_TEMA_GENERAL = "General";
     public final static String KEY_TEMA_BARRIALES = "Firebase";
 
-    private ListaNoticias general;
-    private ListaNoticias ciencia;
-    private ListaNoticias deportes;
-    private ListaNoticias negocios;
-    private ListaNoticias entretenimiento;
-    private ListaNoticias salud;
-    private ListaNoticias tecnologia;
     private ListaNoticias barriales;
 
     private PaqueteNoticias paqueteNoticias;
@@ -48,62 +41,6 @@ public class Repositorio {
     private static NoticiaDaoRoom instanciaRoom;
 
     public Repositorio() {
-    }
-
-    public ListaNoticias getGeneral() {
-        return general;
-    }
-
-    public void setGeneral(ListaNoticias general) {
-        this.general = general;
-    }
-
-    public ListaNoticias getCiencia() {
-        return ciencia;
-    }
-
-    public void setCiencia(ListaNoticias ciencia) {
-        this.ciencia = ciencia;
-    }
-
-    public ListaNoticias getDeportes() {
-        return deportes;
-    }
-
-    public void setDeportes(ListaNoticias deportes) {
-        this.deportes = deportes;
-    }
-
-    public ListaNoticias getNegocios() {
-        return negocios;
-    }
-
-    public void setNegocios(ListaNoticias negocios) {
-        this.negocios = negocios;
-    }
-
-    public ListaNoticias getEntretenimiento() {
-        return entretenimiento;
-    }
-
-    public void setEntretenimiento(ListaNoticias entretenimiento) {
-        this.entretenimiento = entretenimiento;
-    }
-
-    public ListaNoticias getSalud() {
-        return salud;
-    }
-
-    public void setSalud(ListaNoticias salud) {
-        this.salud = salud;
-    }
-
-    public ListaNoticias getTecnologia() {
-        return tecnologia;
-    }
-
-    public void setTecnologia(ListaNoticias tecnologia) {
-        this.tecnologia = tecnologia;
     }
 
     public ListaNoticias getBarriales() {
@@ -183,7 +120,9 @@ public class Repositorio {
     }
 
     public void buscarEnApi(String tema, ResultListener<ListaNoticias> resultListener){
-        instanciaAPI.porTema(tema, resultListener);
+        if (hayInternet()) {
+            instanciaAPI.porTema(tema, resultListener);
+        }
     }
 
 
@@ -200,7 +139,7 @@ public class Repositorio {
     }
 
     public void traerTodoInternet(ResultListener<PaqueteNoticias> resultListener) {
-        instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_NEGOCIOS,
+        instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_GENERAL,
                 new ResultListener<ListaNoticias>() {
                     @Override
                     public void onFinish(ListaNoticias result) {
@@ -297,7 +236,7 @@ public class Repositorio {
     }
 
     public void traerTodoApi7(ResultListener<PaqueteNoticias> resultListener) {
-        instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_GENERAL,
+        instanciaAPI.titularesNuevos(NoticiaDaoAPI.KEY_TEMA_NEGOCIOS,
                 new ResultListener<ListaNoticias>() {
                     @Override
                     public void onFinish(ListaNoticias result) {

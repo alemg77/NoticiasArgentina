@@ -22,7 +22,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import kalitero.software.noticiasargentinas.Controlador.BuscarNoticiasAPI;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Controlador.Repositorio;
@@ -41,7 +40,6 @@ public class SplashActivity extends AppCompatActivity {
     private ImageView elipse;
     private ImageView grupo;
     private TextView noticiasArgentinas;
-    private BuscarNoticiasAPI buscarNoticias;
     private PaqueteNoticias paqueteNoticias;
     private Boolean datosListos = false;
     private String TAG = getClass().toString();
