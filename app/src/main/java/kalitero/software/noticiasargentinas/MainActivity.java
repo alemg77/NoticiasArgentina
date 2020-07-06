@@ -32,17 +32,12 @@ import com.google.firebase.auth.FirebaseUser;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
-import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Controlador.Repositorio;
 import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
-import kalitero.software.noticiasargentinas.Modelo.Voto;
 import kalitero.software.noticiasargentinas.Vista.Login.FragmentVerUsuario;
 import kalitero.software.noticiasargentinas.Vista.NoticiasBarriales.FragmentNoticiasBarriales;
 import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.FragmentListaNoticiasCompacto;
@@ -51,7 +46,6 @@ import kalitero.software.noticiasargentinas.Vista.Regresar;
 import kalitero.software.noticiasargentinas.Vista.SubirNoticias.SubirNoticias;
 import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager.ViewPagerListasNoticias;
 import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.ViewPager.ViewPagerNoticia;
-import kalitero.software.noticiasargentinas.util.AppDatabase;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RecepcionNoticias, ViewPagerListasNoticias.SelleccionDos, Regresar {
@@ -91,9 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "*************** Inicio del Main programa Noticias Argentinas ********************************");
         navigationView = findViewById(R.id.activityMainNavigationView);
         drawerLayout = findViewById(R.id.activityMainDrawerLayout);
-
         repositorio = Repositorio.getInstancia(MainActivity.this);
-
         Toolbar toolbar = findViewById(R.id.MainActivityToolbar);
         setSupportActionBar(toolbar);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.abrir_menu, R.string.cerrar_menu);
@@ -108,10 +100,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             Log.d(TAG, "Otra vez YO");
         }
-
         escucharBotonFlotante();
         escucharNavigationMenu();
-
     }
 
     private void escucharNavigationMenu() {
@@ -204,9 +194,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onCreateOptionsMenu(menu);
     }
 
-    /******************
+    /**************************************
      *   Actiones de la barra superior
-     *****************/
+     *************************************/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -226,9 +216,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    /*****************
+    /**********************************************************************
      * Funcion para pegar un fragment enviandole un objeto serializable
-     **********/
+     *********************************************************************/
     private void pegarFragment(Fragment fragmentAPegar, int containerViewId, Serializable serializable) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(serializable.getClass().toString(), serializable);
