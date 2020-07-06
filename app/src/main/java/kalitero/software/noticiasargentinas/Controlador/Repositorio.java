@@ -47,7 +47,6 @@ public class Repositorio {
     public ListaNoticias getBarriales() {
         return barriales;
     }
-
     public void setBarriales(ListaNoticias barriales) {
         this.barriales = barriales;
     }
@@ -66,7 +65,6 @@ public class Repositorio {
     public void dameNoticiasBarriales(ResultListener<ListaNoticias> resultListener) {
         if (hayInternet()) {
             instanciaFirebase.buscarNoticias(resultListener);
-
         } else {
             noticiasBarrialesRoom(resultListener);
         }
@@ -75,16 +73,6 @@ public class Repositorio {
     private void noticiasBarrialesRoom(ResultListener<ListaNoticias> resultListener) {
         instanciaRoom.getNoticiasTema(KEY_TEMA_BARRIALES);
     }
-
-    /*
-    public void titulares(ResultListener<ListaNoticias> resultListener) {
-        if (hayInternet()) {
-            instanciaAPI.titularesNuevos(resultListener);
-        } else {
-            traerTodoRoom(resultListener);
-        }
-    }
-     */
 
     public PaqueteNoticias traerTodoRoom() {
         paqueteNoticias = new PaqueteNoticias();
@@ -97,7 +85,6 @@ public class Repositorio {
         paqueteNoticias.agregarListaNoticias(new ListaNoticias(noticiasDeRoom(KEY_TEMA_ENTRETENIMIENTO), KEY_TEMA_TECNOLOGIA));
         return paqueteNoticias;
     }
-
 
     private void traerTodoRoom(ResultListener<PaqueteNoticias> resultListener) {
         paqueteNoticias = new PaqueteNoticias();
@@ -137,7 +124,6 @@ public class Repositorio {
             instanciaAPI.porTema(tema, resultListener);
         }
     }
-
 
     public void traerTodo(ResultListener<PaqueteNoticias> resultListener) {
         if (hayInternet()) {
@@ -286,7 +272,6 @@ public class Repositorio {
 
             @Override
             public void onError(@NotNull String message) {
-
             }
         });
     }
@@ -309,5 +294,4 @@ public class Repositorio {
         listaTemas.add(KEY_TEMA_TECNOLOGIA);
         return listaTemas;
     }
-
 }

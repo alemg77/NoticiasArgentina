@@ -20,7 +20,10 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.action.ViewActions.swipeUp;
+import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.junit.Assert.*;
 
 
@@ -42,14 +45,16 @@ public class MainActivityTest {
         bundle.putSerializable(PaqueteNoticias.class.toString(), paqueteNoticias);
         intent.putExtras(bundle);
         activityRule.launchActivity(intent);
+
+        onView(allOf(withId(R.id.FragmentRecyclerViewNoticiasCompactas), isDisplayed()))
+                .perform(scrollToPosition(10));
+
+        onView(allOf(withId(R.id.FragmentRecyclerViewNoticiasCompactas), isDisplayed()))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
+
+        onView(withId(R.id.activityMainContenedorFragment)).perform(swipeLeft());
+        onView(withId(R.id.activityMainContenedorFragment)).perform(swipeLeft());
+        onView(withId(R.id.activityMainContenedorFragment)).perform(swipeLeft());
         onView(withId(R.id.activityMainContenedorFragment)).perform(swipeUp());
-        onView(withId(R.id.activityMainContenedorFragment)).perform(swipeLeft());
-        onView(withId(R.id.activityMainContenedorFragment)).perform(swipeLeft());
-        onView(withId(R.id.activityMainContenedorFragment)).perform(swipeLeft());
-        onView(withId(R.id.activityMainContenedorFragment)).perform(swipeLeft());
- //       onView(withId(R.id.FragmentRecyclerViewNoticiasCompactas)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
- //       onView(withId(R.id.FragmentRecyclerViewNoticiasCompactas)).perform(swipeLeft());
-        onView(withId(R.id.activityMainContenedorFragment)).perform(swipeLeft());
-        onView(withId(R.id.activityMainContenedorFragment)).perform(swipeLeft());
     }
 }
