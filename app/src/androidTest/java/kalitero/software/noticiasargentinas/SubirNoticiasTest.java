@@ -15,11 +15,14 @@ import org.junit.runner.RunWith;
 
 import kalitero.software.noticiasargentinas.Controlador.Repositorio;
 import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
+import kalitero.software.noticiasargentinas.Vista.SubirNoticias.SubirNoticias;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.action.ViewActions.swipeUp;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -28,37 +31,36 @@ import static org.junit.Assert.*;
 
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
-
-    @Rule
-    public ActivityTestRule<MainActivity> activityRule
-            = new ActivityTestRule<>(MainActivity.class,
-            true,     // initialTouchMode
-            false);   // launchActivity. False to customize the intent
-
-
-    @Rule
-    public EspressoIdlingResourceRule espressoIdlingResoureRule;
+public class SubirNoticiasTest {
 
     @Test
-    public void Test1() {
+    public void TestSubirNoticias() {
+
+        // Declaro que actividad voy a iniciar
+        ActivityTestRule<SubirNoticias> activityRule = new ActivityTestRule<>(
+                SubirNoticias.class,
+                true,     // initialTouchMode
+                false);   // launchActivity. False to customize the intent
+
+        // Inicio la actividad
         Intent intent = new Intent();
-        Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        PaqueteNoticias paqueteNoticias = Repositorio.getInstancia(targetContext).traerTodoRoom();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(PaqueteNoticias.class.toString(), paqueteNoticias);
         intent.putExtras(bundle);
         activityRule.launchActivity(intent);
 
-        onView(allOf(withId(R.id.FragmentRecyclerViewNoticiasCompactas), isDisplayed()))
-                .perform(scrollToPosition(10));
 
-        onView(allOf(withId(R.id.FragmentRecyclerViewNoticiasCompactas), isDisplayed()))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
+        // Verificacion que se ve un objeto
+        onView(withId(R.id.fragmentLayoutSubirNoticia)).check(matches(isDisplayed()));
 
-        onView(withId(R.id.activityMainContenedorFragment)).perform(swipeLeft());
-        onView(withId(R.id.activityMainContenedorFragment)).perform(swipeLeft());
-        onView(withId(R.id.activityMainContenedorFragment)).perform(swipeLeft());
-        onView(withId(R.id.activityMainContenedorFragment)).perform(swipeUp());
+        // Ve
+        onView(withId(R.id.fragmentDetalleBarrialtextView)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.editTextTextoNoticia)).
+                perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+
+        onView(withId(R.id.editTextTituloNoticia)).
+                perform(typeText("123456789q"));
+
+
     }
 }
