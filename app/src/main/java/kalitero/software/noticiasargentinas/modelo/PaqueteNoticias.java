@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Modelo;
+package kalitero.software.noticiasargentinas.modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;

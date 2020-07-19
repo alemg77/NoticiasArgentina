@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias
-import kalitero.software.noticiasargentinas.Modelo.ListaNoticias
+import kalitero.software.noticiasargentinas.modelo.ListaNoticias
 import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.FragmentListaNoticiasCompacto
 import kalitero.software.noticiasargentinas.databinding.FragmentNoticiasBarrialesBinding
 

@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas;
+package kalitero.software.noticiasargentinas.Vista;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,9 @@ import com.daimajia.androidanimations.library.YoYo;
 
 import org.jetbrains.annotations.NotNull;
 import kalitero.software.noticiasargentinas.Controlador.Repositorio;
-import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
+import kalitero.software.noticiasargentinas.MainActivity;
+import kalitero.software.noticiasargentinas.modelo.PaqueteNoticias;
+import kalitero.software.noticiasargentinas.R;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
 public class SplashActivity extends AppCompatActivity {

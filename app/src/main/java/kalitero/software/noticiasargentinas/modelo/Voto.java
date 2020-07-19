@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Modelo;
+package kalitero.software.noticiasargentinas.modelo;
 
 public class Voto {
     private String usuario;

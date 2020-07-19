@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase
-import kalitero.software.noticiasargentinas.Modelo.Noticia
+import kalitero.software.noticiasargentinas.modelo.Noticia
 import kalitero.software.noticiasargentinas.R
 import kalitero.software.noticiasargentinas.databinding.FragmentIngresoBarrialBinding
 import pl.aprilapps.easyphotopicker.DefaultCallback

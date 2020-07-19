@@ -1,6 +1,5 @@
 package kalitero.software.noticiasargentinas.Vista.Detalle;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
-import kalitero.software.noticiasargentinas.Modelo.Comentario;
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
-import kalitero.software.noticiasargentinas.Modelo.Voto;
+import kalitero.software.noticiasargentinas.modelo.Comentario;
+import kalitero.software.noticiasargentinas.modelo.Noticia;
+import kalitero.software.noticiasargentinas.modelo.Voto;
 import kalitero.software.noticiasargentinas.databinding.CeldaComentarioBinding;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 

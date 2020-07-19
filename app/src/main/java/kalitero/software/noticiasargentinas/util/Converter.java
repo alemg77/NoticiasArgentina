@@ -4,8 +4,6 @@ import androidx.room.TypeConverter;
 
 import java.util.Date;
 
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
-
 public class Converter {
 
         @TypeConverter

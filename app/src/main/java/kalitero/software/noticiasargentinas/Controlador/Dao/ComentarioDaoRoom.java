@@ -8,7 +8,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import kalitero.software.noticiasargentinas.Modelo.Comentario;
+import kalitero.software.noticiasargentinas.modelo.Comentario;
 
 @Dao
 public interface ComentarioDaoRoom {

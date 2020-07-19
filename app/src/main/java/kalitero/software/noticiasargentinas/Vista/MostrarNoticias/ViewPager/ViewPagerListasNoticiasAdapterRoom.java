@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
-import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
+import kalitero.software.noticiasargentinas.modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.modelo.Noticia;
 import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.FragmentListaNoticiasCompacto;
 import kalitero.software.noticiasargentinas.util.AppDatabase;
 

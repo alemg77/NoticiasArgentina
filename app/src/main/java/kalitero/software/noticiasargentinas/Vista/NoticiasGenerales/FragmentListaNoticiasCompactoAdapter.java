@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
+import kalitero.software.noticiasargentinas.modelo.Noticia;
 import kalitero.software.noticiasargentinas.R;
 import kalitero.software.noticiasargentinas.databinding.CeldaNoticiaBinding;
 

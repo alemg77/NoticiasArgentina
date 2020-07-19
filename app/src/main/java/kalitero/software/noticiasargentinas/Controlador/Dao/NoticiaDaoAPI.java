@@ -10,20 +10,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.snackbar.Snackbar;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
+import kalitero.software.noticiasargentinas.modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.modelo.Noticia;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
 public class NoticiaDaoAPI {

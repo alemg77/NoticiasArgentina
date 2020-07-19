@@ -8,8 +8,8 @@ import androidx.room.RoomDatabase;
 
 import kalitero.software.noticiasargentinas.Controlador.Dao.ComentarioDaoRoom;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
-import kalitero.software.noticiasargentinas.Modelo.Comentario;
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
+import kalitero.software.noticiasargentinas.modelo.Comentario;
+import kalitero.software.noticiasargentinas.modelo.Noticia;
 
 @Database(entities = {Noticia.class, Comentario.class}, version=1)
 public abstract class AppDatabase extends RoomDatabase {

@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
-import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.R;
 import kalitero.software.noticiasargentinas.databinding.FragmentListaNoticiasCompactoBinding;
 

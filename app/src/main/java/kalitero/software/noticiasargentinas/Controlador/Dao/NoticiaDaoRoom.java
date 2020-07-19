@@ -7,8 +7,7 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
+import kalitero.software.noticiasargentinas.modelo.Noticia;
 
 @Dao
 public interface NoticiaDaoRoom {

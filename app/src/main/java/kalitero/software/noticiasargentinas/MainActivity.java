@@ -1,10 +1,6 @@
 package kalitero.software.noticiasargentinas;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -36,8 +32,8 @@ import java.io.Serializable;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
 import kalitero.software.noticiasargentinas.Controlador.RecepcionNoticias;
 import kalitero.software.noticiasargentinas.Controlador.Repositorio;
-import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
-import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
+import kalitero.software.noticiasargentinas.modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.Vista.Login.FragmentVerUsuario;
 import kalitero.software.noticiasargentinas.Vista.NoticiasBarriales.FragmentNoticiasBarriales;
 import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.FragmentListaNoticiasCompacto;
@@ -59,19 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentLogin fragmentLogin;
     private Repositorio repositorio;
 
-    // TODO: Faltan estos logos:
-
-    /**********************
-     Perfil.com
-     Cienradios.com
-     ElTerritorio.com.ar
-     Depo.com.ar
-     Motorsport.com
-     Rosario3.com
-     Tn.com.ar
-     Cadena3.com-
-     Elintransigente.com
-     */
 
     @Override
     protected void onStart() {

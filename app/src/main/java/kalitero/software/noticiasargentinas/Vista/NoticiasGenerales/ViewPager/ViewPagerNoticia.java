@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.modelo.ListaNoticias;
 import kalitero.software.noticiasargentinas.R;
 
 /**

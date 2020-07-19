@@ -3,7 +3,6 @@ package kalitero.software.noticiasargentinas.Controlador;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -11,11 +10,8 @@ import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.Dao.ComentarioDaoRoom;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
-import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoRoom;
-import kalitero.software.noticiasargentinas.Modelo.Comentario;
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
-import kalitero.software.noticiasargentinas.Modelo.Voto;
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
+import kalitero.software.noticiasargentinas.modelo.Comentario;
+import kalitero.software.noticiasargentinas.modelo.Noticia;
 import kalitero.software.noticiasargentinas.util.AppDatabase;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 

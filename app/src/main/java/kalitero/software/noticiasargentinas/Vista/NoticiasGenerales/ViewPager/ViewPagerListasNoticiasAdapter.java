@@ -8,8 +8,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
-import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
+import kalitero.software.noticiasargentinas.modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.Vista.NoticiasGenerales.FragmentListaNoticiasCompacto;
 
 public class ViewPagerListasNoticiasAdapter extends FragmentStatePagerAdapter {

@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import kalitero.software.noticiasargentinas.Controlador.Repositorio;
-import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
-import kalitero.software.noticiasargentinas.Modelo.PaqueteNoticias;
+import kalitero.software.noticiasargentinas.modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.modelo.PaqueteNoticias;
 import kalitero.software.noticiasargentinas.R;
 
 /**

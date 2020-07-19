@@ -1,8 +1,6 @@
 package kalitero.software.noticiasargentinas.Controlador;
 
-import org.json.JSONObject;
-
-import kalitero.software.noticiasargentinas.Modelo.ListaNoticias;
+import kalitero.software.noticiasargentinas.modelo.ListaNoticias;
 
 public interface RecepcionNoticias {
     void llegoPaqueteDeNoticias(ListaNoticias listaNoticias);

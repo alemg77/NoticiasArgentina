@@ -1,4 +1,4 @@
-package kalitero.software.noticiasargentinas.Modelo;
+package kalitero.software.noticiasargentinas.modelo;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -6,9 +6,7 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import kalitero.software.noticiasargentinas.util.Converter;
 

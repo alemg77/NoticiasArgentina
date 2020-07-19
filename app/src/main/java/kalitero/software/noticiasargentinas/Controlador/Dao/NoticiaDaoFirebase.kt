@@ -8,11 +8,10 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.storage.FirebaseStorage
-import kalitero.software.noticiasargentinas.Modelo.Comentario
-import kalitero.software.noticiasargentinas.Modelo.ListaNoticias
-import kalitero.software.noticiasargentinas.Modelo.Noticia
-import kalitero.software.noticiasargentinas.Modelo.Voto
-import kalitero.software.noticiasargentinas.util.AppDatabase
+import kalitero.software.noticiasargentinas.modelo.Comentario
+import kalitero.software.noticiasargentinas.modelo.ListaNoticias
+import kalitero.software.noticiasargentinas.modelo.Noticia
+import kalitero.software.noticiasargentinas.modelo.Voto
 import kalitero.software.noticiasargentinas.util.ResultListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

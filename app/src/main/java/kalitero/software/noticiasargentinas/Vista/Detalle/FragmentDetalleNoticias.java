@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
@@ -25,9 +23,9 @@ import java.util.List;
 
 import kalitero.software.noticiasargentinas.Controlador.ComentariosController;
 import kalitero.software.noticiasargentinas.Controlador.Dao.NoticiaDaoFirebase;
-import kalitero.software.noticiasargentinas.Modelo.Comentario;
-import kalitero.software.noticiasargentinas.Modelo.Noticia;
-import kalitero.software.noticiasargentinas.Modelo.Voto;
+import kalitero.software.noticiasargentinas.modelo.Comentario;
+import kalitero.software.noticiasargentinas.modelo.Noticia;
+import kalitero.software.noticiasargentinas.modelo.Voto;
 import kalitero.software.noticiasargentinas.databinding.FragmentDetalleNoticiasBinding;
 import kalitero.software.noticiasargentinas.util.ResultListener;
 
